@@ -5,6 +5,6 @@ module StripComment
   autoload :Scanner, 'strip_comment/scanner'
   autoload :Parser, 'strip_comment/parser'
   autoload :FileObject, 'strip_comment/file_object'
-  # [todo] - Initializes code_object for comment, code and as so on
+  autoload :CodeObject, 'strip_comment/code_object'
   # [todo] - Defines method to parses file
 end
