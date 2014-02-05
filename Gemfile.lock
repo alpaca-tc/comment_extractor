@@ -1,6 +1,9 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    active_support (3.0.0)
+      activesupport (= 3.0.0)
+    activesupport (3.0.0)
     celluloid (0.15.2)
       timers (~> 1.1.0)
     coderay (1.1.0)
@@ -45,5 +48,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_support
   guard-rspec
   rspec
