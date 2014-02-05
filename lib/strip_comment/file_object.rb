@@ -8,7 +8,7 @@ class StripComment::FileObject < File
   def binary?
     header = File.read(self.path, File.stat(self.path).blksize) || nil
 
-    if header.empty?
+    if header.nil? || header.empty?
       return false
     else
       chars = header.chars

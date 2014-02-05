@@ -1,6 +1,10 @@
 require 'rdoc'
 
 class StripComment::Scanner::Ruby < StripComment::Scanner
+  definition = { filename: /\.rb$/, filetype: 'ruby', shebang: /.*ruby$/, }
+  # [review] - Should not implements here?
+  ::StripComment::Parser.register_scanner(self, definition)
+
   # [todo] - Uses original implementation for scanning comments
   class Options < Hash
     def tab_width
@@ -13,11 +17,11 @@ class StripComment::Scanner::Ruby < StripComment::Scanner
 
     tokens.each_with_object([]) do |token, comments|
       if token.is_a?(RDoc::RubyToken::TkCOMMENT)
-        c = StripComment::CodeObject::Comment
-        c.file = @file_object
-        c.line = token.line_no
-        c.value = token.value
-        comments << c
+        comments << StripComment::CodeObject::Comment.new.tap do |c|
+          c.file = @file_object
+          c.line = token.line_no
+          c.value = token.value
+        end
       end
     end
   end

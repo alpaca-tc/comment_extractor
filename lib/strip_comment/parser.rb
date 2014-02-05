@@ -6,7 +6,9 @@ module StripComment::Parser
     def for(file_object)
       if parser = can_parse(file_object)
         parser = const_get(parser) if parser.is_a?(Symbol) # :Klass => Klass
-        parser.new(file_object.content, file_object)
+        # [todo] - Encodes content
+        content = file_object.content
+        parser.new(file_object, content)
       end
     end
 
@@ -56,3 +58,5 @@ module StripComment::Parser
     end
   end
 end
+
+require 'strip_comment/scanner'

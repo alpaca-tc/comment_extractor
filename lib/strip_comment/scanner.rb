@@ -1,4 +1,5 @@
 require 'strscan'
+require 'strip_comment/parser'
 
 class StripComment::Scanner
   attr_accessor :file_object, :content
@@ -18,3 +19,5 @@ class StripComment::Scanner
 
   autoload :Ruby, 'strip_comment/scanner/ruby'
 end
+
+require 'strip_comment/scanner/ruby'
