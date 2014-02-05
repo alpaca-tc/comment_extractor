@@ -10,6 +10,8 @@ class StripComment::Stripper
     root_path = configuration.root_path
     root_path = File.dirname(root_path) unless File.directory?(root_path)
 
+    # [todo] - exceptを実装
+    # [todo] - 非同期を実装
     Dir["#{root_path}/**/*"].each_with_object([]) do |path, memo|
       memo << path unless File.directory?(path)
     end
@@ -19,9 +21,7 @@ class StripComment::Stripper
     list_up_files.each_with_object([]) do |file, memo|
       file = StripComment::FileObject.new(file)
       parser = StripComment::Parser.for(file)
-      if parser
-        memo.concat parser.scan
-      end
+      memo.concat(parser.scan) if parser
     end
   end
 end
