@@ -31,12 +31,6 @@ module StripComment
       define_required_attribute(name) if opts.delete(:required)
     end
 
-    add_setting :root_path
-    add_setting :dry_run, default: false
-    add_setting :files, default: []
-    add_setting :directories, default: []
-    add_setting :ignore_list, default: []
-
     private
 
     def self.define_required_attribute(*names)
@@ -52,5 +46,11 @@ module StripComment
         end
       end
     end
+
+    add_setting :root_path, required: true
+    add_setting :dry_run, default: false
+    add_setting :files, default: []
+    add_setting :directories, default: []
+    add_setting :ignore_list, default: []
   end
 end

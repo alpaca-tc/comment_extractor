@@ -8,10 +8,10 @@ describe StripComment::Configuration do
   end
 
   describe '.new' do
-    subject { StripComment::Configuration.new }
+    subject { StripComment::Configuration.new(options) }
+    let(:options) { { root_path: File.dirname(__FILE__) } }
 
     it 'sets attributes to default value' do
-      expect(subject.root_path).to eql nil
       expect(subject.dry_run).to be_false
       expect(subject.files).to eql []
       expect(subject.directories).to eql []
