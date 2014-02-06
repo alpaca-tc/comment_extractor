@@ -16,8 +16,6 @@ class StripComment::Scanner
   def content
     @content ||= file_object.respond_to?(:content) ? file_object.content : ''
   end
-
-  autoload :Ruby, 'strip_comment/scanner/ruby'
 end
 
 require 'strip_comment/scanner/ruby'
