@@ -21,13 +21,12 @@ describe StripComment::Parser do
   end
 
   before do
+    @scanners = StripComment::Parser.class_variable_get(:@@scanners)
     StripComment::Parser.class_variable_set(:@@scanners, scanners)
   end
 
   after do
-    StripComment::Parser.module_eval do |klass|
-      remove_class_variable :@@scanners
-    end
+    StripComment::Parser.class_variable_set(:@@scanners, @scanners)
   end
 
   describe '.can_parse_by_shebang' do
