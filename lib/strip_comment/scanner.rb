@@ -37,6 +37,11 @@ module StripComment
     end
   end
 
-  require 'strip_comment/scanner/ruby'
-  Parser.register_scanner(Scanner::Ruby)
+  # Registers scanners in ./scanner/*.rb
+  scanner_path = File.expand_path('../scanner', __FILE__)
+  Dir["#{scanner_path}/*.rb"].each do |f|
+    require f
+    klass_name = f[%r![^/]+(?=\.rb$)!].split('_').collect(&:capitalize).join
+    Parser.register_scanner(Scanner.const_get(klass_name))
+  end
 end
