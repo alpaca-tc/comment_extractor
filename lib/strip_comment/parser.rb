@@ -27,7 +27,7 @@ module StripComment::Parser
       parser
     end
 
-    def register_scanner(klass_or_symbol, rule = nil)
+    def regist_scanner(klass_or_symbol, rule = nil)
       if rule.nil? && klass_or_symbol.respond_to?(:definition)
         rule = klass_or_symbol.definition
       end

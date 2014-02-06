@@ -89,10 +89,10 @@ describe StripComment::Parser do
     end
   end
 
-  describe '.register_scanner' do
+  describe '.regist_scanner' do
     let(:rule) { :key }
     before do
-      StripComment::Parser.register_scanner(scanner, rule)
+      StripComment::Parser.regist_scanner(scanner, rule)
     end
 
     subject { StripComment::Parser.class_variable_get(:@@scanners)[:key] }

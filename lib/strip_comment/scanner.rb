@@ -42,6 +42,6 @@ module StripComment
   Dir["#{scanner_path}/*.rb"].each do |f|
     require f
     klass_name = f[%r![^/]+(?=\.rb$)!].split('_').collect(&:capitalize).join
-    Parser.register_scanner(Scanner.const_get(klass_name))
+    Parser.regist_scanner(Scanner.const_get(klass_name))
   end
 end
