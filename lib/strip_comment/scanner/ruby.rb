@@ -17,12 +17,10 @@ class StripComment::Scanner::Ruby < StripComment::Scanner
 
     tokens.each_with_object([]) do |token, comments|
       if token.is_a?(RDoc::RubyToken::TkCOMMENT)
-        comments << StripComment::CodeObject::Comment.new.tap do |c|
-          c.file = @file_object
-          c.line = token.line_no
-          c.value = token.value
-        end
+        self.add_comment(token.line_no, token.value)
       end
     end
+
+    comments
   end
 end

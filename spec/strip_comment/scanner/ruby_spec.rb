@@ -13,9 +13,8 @@ describe StripComment::Scanner::Ruby do
       it { expect(scan).to be_an_instance_of(Array) }
 
       it 'works' do
-        result = scan
         expected.each_with_index do |value, index|
-          expect(result[index].value).to eql value
+          expect(scan[index].value).to eql value
         end
       end
     end
