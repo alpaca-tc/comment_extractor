@@ -1,9 +1,9 @@
 require 'rdoc'
 
 class StripComment::Scanner::Ruby < StripComment::Scanner
-  definition = { filename: /\.rb$/, filetype: 'ruby', shebang: /.*ruby$/, }
-  # [review] - Should not implements here?
-  ::StripComment::Parser.register_scanner(self, definition)
+  filename /\.rb$/
+  filetype 'ruby'
+  shebang /.*ruby$/
 
   # [todo] - Uses original implementation for scanning comments
   class Options < Hash
