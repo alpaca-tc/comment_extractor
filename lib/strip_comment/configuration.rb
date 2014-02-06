@@ -1,5 +1,3 @@
-require 'active_support/core_ext/class/attribute_accessors'
-
 module StripComment
   class Configuration
     @@default_values = {}
@@ -21,7 +19,7 @@ module StripComment
     end
 
     def self.add_setting(name, opts={})
-      self.send(:attr_accessor, name)
+      attr_accessor name
 
       if value = opts.delete(:default)
         @@default_values[name] = value
