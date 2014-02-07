@@ -6,14 +6,6 @@ class StripComment::Stripper
     yield(@configuration) if block_given?
   end
 
-  def list_up_files
-    @files ||= begin
-      root_path = configuration.root_path
-      root_path = File.dirname(root_path) unless File.directory?(root_path)
-      Dir["#{root_path}/**/*"]
-    end.select { |v| enabled_file?(v) }
-  end
-
   def comments
     list_up_files.each_with_object([]) do |file, memo|
       file = StripComment::FileObject.new(file)
@@ -23,6 +15,14 @@ class StripComment::Stripper
   end
 
   private
+
+  def list_up_files
+    @files ||= begin
+      root_path = configuration.root_path
+      root_path = File.dirname(root_path) unless File.directory?(root_path)
+      Dir["#{root_path}/**/*"]
+    end.select { |v| enabled_file?(v) }
+  end
 
   def enabled_file?(file_path)
     # [review] - Complex branch function...
