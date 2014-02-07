@@ -17,7 +17,7 @@ class StripComment::Scanner::Ruby < StripComment::Scanner
 
     tokens.each do |token|
       if token.is_a?(RDoc::RubyToken::TkCOMMENT)
-        self.add_comment(token.line_no, token.value)
+        self.add_comment(token.line_no, token.value.sub(/^\s*#\s?/, ''))
       end
     end
 

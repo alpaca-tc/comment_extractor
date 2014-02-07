@@ -6,7 +6,7 @@ describe StripComment::Scanner::Ruby do
 
   describe '#scan' do
     let(:scan) { scanner.scan }
-    let(:comment) { "# This is comment line" }
+    let(:comment) { 'This is comment line' }
     let(:dummy_program) { 'def initlaize; end' }
 
     shared_examples_for 'a scanning' do
@@ -20,25 +20,25 @@ describe StripComment::Scanner::Ruby do
     end
 
     context 'given single line comment(`#`)' do
-      let(:content) { comment }
+      let(:content) { "# #{comment}" }
       let(:expected) { [comment.strip] }
       it_should_behave_like 'a scanning'
     end
 
     context 'given postposition single line comment(`code ... #`)' do
-      let(:content) { "#{dummy_program} #{comment}" }
+      let(:content) { "#{dummy_program} # #{comment}" }
       let(:expected) { [comment.strip] }
       it_should_behave_like 'a scanning'
     end
 
     context 'given multi line comment(`#...\n#...`)' do
-      let(:content) { "#{dummy_program}\n#{comment}\n#{comment}" }
+      let(:content) { "#{dummy_program}\n# #{comment}\n# #{comment}" }
       let(:expected) { [comment.strip, comment.strip] }
       it_should_behave_like 'a scanning'
     end
 
     context 'given multi line comment(`#...\n#...`)' do
-      let(:content) { "#{dummy_program}\n#{comment}\n#{comment}" }
+      let(:content) { "#{dummy_program}\n# #{comment}\n# #{comment}" }
       let(:expected) { [comment.strip, comment.strip] }
       it_should_behave_like 'a scanning'
     end
