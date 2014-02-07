@@ -5,6 +5,10 @@ module StripComment
   class Scanner
     attr_accessor :file_object, :content, :comments
 
+    REGEXP = {
+      BREAK: /(?:\r?\n|\r)/,
+    }.freeze
+
     def initialize(file_object, content = nil)
       @file_object = file_object
       @content = content
@@ -34,6 +38,12 @@ module StripComment
         c.line = line
         c.value = comment
       end
+    end
+
+    private
+
+    def raise_report
+      raise 'Error occurred. Please report to <https://github.com/alpaca-tc/strip_comment/issues>'
     end
 
     def self.definition_attr(*keys)
