@@ -61,11 +61,16 @@ module StripComment
     end
   end
 
-  # Registers scanners in ./scanner/*.rb
   scanner_path = File.expand_path('../scanner', __FILE__)
+  module Scanner::Concerns; end
+  # Requires common future for scanners
+  Dir["#{scanner_path}/concerns/*.rb"].each { |f| require f }
+
+  # Registers scanners in ./scanner/*.rb
   Dir["#{scanner_path}/*.rb"].each do |f|
     require f
     klass_name = f[%r![^/]+(?=\.rb$)!].split('_').collect(&:capitalize).join
     Parser.regist_scanner(Scanner.const_get(klass_name))
   end
+
 end
