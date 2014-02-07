@@ -37,7 +37,7 @@ module StripComment
 
     describe 'InstanceMethods' do
       describe '#list_up_files' do
-        subject { stripper.send(:list_up_files) }
+        subject { stripper.send(:list_up_files).sort }
 
         let(:root_path) { File.expand_path('../../assets/stripper', __FILE__) }
         let(:expected) do
