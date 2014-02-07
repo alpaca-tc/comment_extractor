@@ -6,8 +6,8 @@ module StripComment::Parser
     def for(file_object)
       if parser = can_parse(file_object)
         parser = const_get(parser) if parser.is_a?(Symbol) # :Klass => Klass
-        # [todo] - Encodes content
-        content = file_object.content
+        # [review] - Rescues error which occurred in StripComment::Encoding.encode
+        content = StripComment::Encoding.encode(file_object.content)
         parser.new(file_object, content)
       end
     end

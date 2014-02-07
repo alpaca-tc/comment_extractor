@@ -2,16 +2,11 @@ require 'spec_helper'
 
 module StripComment
   describe Encoding do
-    let(:temp) { Tempfile.new('tempfile') }
     let(:hello_world) { 'hello_world' }
+    let(:temp) { Tempfile.new('tempfile') }
 
-    describe '.read_file' do
-      subject { Encoding.read_file(*[temp.path, format].compact) }
-
-      before do
-        temp.write(body)
-        temp.flush
-      end
+    describe '.encode' do
+      subject { Encoding.encode(*[body, format].compact) }
 
       shared_examples_for 'a encoding' do
         let(:format_type) { respond_to?(:format_expected) ? format_expected : format }
@@ -33,7 +28,7 @@ module StripComment
           it_should_behave_like 'a encoding'
         end
 
-        context 'and UTF-8' do
+        context 'and UTF-8 as encoding type' do
           let(:format) { ::Encoding::UTF_8 }
 
           it_should_behave_like 'a encoding'
@@ -45,7 +40,24 @@ module StripComment
         let(:body) { x_mark }
         let(:format) { ::Encoding::US_ASCII }
 
-        it { expect { subject }.to raise_error(::Encoding::CompatibilityError) }
+        it { expect { subject }.to raise_error(::Encoding::UndefinedConversionError) }
+      end
+    end
+
+    describe '.read_file' do
+      subject { Encoding.read_file(temp.path) }
+
+      before do
+        temp.write(hello_world)
+        temp.flush
+      end
+
+      it 'read file which is encoded' do
+        StripComment::Encoding.should_receive(:encode)
+          .at_least(:once)
+          .with(hello_world)
+          .and_return(hello_world)
+        expect(subject).to eql hello_world
       end
     end
   end

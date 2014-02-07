@@ -3,11 +3,14 @@ require 'tempfile'
 module StripComment::Encoding
   def self.read_file(file_path, encoding = Encoding.default_external)
     content = File.open(file_path, 'rb') { |f| f.read }
+    self.encode(content)
+  end
 
+  def self.encode(content, encoding = Encoding.default_external)
     windows_platforms = Regexp.new(%w[mingw mswin].join('|'))
     content.gsub!("\r\n", "\n") if RUBY_PLATFORM =~ windows_platforms
 
-    orig_encoding = content.encoding
+    original_encoding = content.encoding
 
     if strip_bom(content) # When content is UTF-8
       content.force_encoding(Encoding::UTF_8)
@@ -17,7 +20,7 @@ module StripComment::Encoding
     end
 
     unless content.valid_encoding?
-      content.force_encoding(orig_encoding)
+      content.force_encoding(original_encoding)
       content.encode!(encoding)
     end
 
@@ -26,20 +29,18 @@ module StripComment::Encoding
     end
 
     content
-  rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError => e
-    # binding.pry;
-    nil
-  rescue Errno::EISDIR, Errno::ENOENT
-    nil
-  rescue ArgumentError => e
-    # binding.pry;
-    nil
+  # rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError => e
+  #   nil
+  # rescue Errno::EISDIR, Errno::ENOENT
+  #   nil
+  # rescue ArgumentError => e
+  #   nil
   end
 
   private
 
   def self.strip_bom(content)
     bom_regexp = /\A\xef\xbb\xbf/
-    !!content.sub!(bom_regexp, '')
+    content.sub!(bom_regexp, '')
   end
 end
