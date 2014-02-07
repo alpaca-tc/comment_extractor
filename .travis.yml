@@ -1,0 +1,8 @@
+language: ruby
+rvm:
+  - 2.1.0
+gemfile:
+  - Gemfile
+notifications:
+  email: false
+script: bundle exec rspec spec

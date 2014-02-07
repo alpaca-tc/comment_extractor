@@ -2,6 +2,8 @@ strip\_comment is simple strip code utility tool.
 
 ## Install
 
+[![Build Status](https://travis-ci.org/alpaca-tc/strip_comment.png?branch=develop)](https://travis-ci.org/alpaca-tc/strip_comment)
+
 ```sh
 git clone https://github.com/alpaca-tc/strip_comment
 cd strip_comment
