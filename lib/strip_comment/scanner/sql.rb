@@ -1,6 +1,5 @@
 class StripComment::Scanner::Sql < StripComment::Scanner
+  disable!
   filename /\.sql$/
   filetype 'sql'
-
-  include StripComment::Scanner::Concerns::SlashScanner
 end

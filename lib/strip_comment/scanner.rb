@@ -46,7 +46,6 @@ module StripComment
 
     def self.disable!
       @status = :disable
-      @definition = {}
     end
 
     private
