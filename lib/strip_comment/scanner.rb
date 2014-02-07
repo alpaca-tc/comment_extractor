@@ -40,6 +40,15 @@ module StripComment
       end
     end
 
+    def self.disabled?
+      @status == :disable
+    end
+
+    def self.disable!
+      @status = :disable
+      @definition = {}
+    end
+
     private
 
     def raise_report
@@ -70,7 +79,7 @@ module StripComment
   Dir["#{scanner_path}/*.rb"].each do |f|
     require f
     klass_name = f[%r![^/]+(?=\.rb$)!].split('_').collect(&:capitalize).join
-    Parser.regist_scanner(Scanner.const_get(klass_name))
+    klass = Scanner.const_get(klass_name)
+    Parser.regist_scanner(klass) unless klass.disabled?
   end
-
 end

@@ -63,6 +63,14 @@ module StripComment
     describe 'ClassMethods' do
       let(:scanner_klass) { Scanner }
 
+      describe '.disable!' do
+        it 'disables own status' do
+          expect(scanner_klass.disabled?).to be_false
+          scanner_klass.disable!
+          expect(scanner_klass.disabled?).to be_true
+        end
+      end
+
       describe 'definition' do
         after do
           scanner_klass.send(:remove_instance_variable, :@definition)
