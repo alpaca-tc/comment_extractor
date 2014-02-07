@@ -10,7 +10,7 @@ module StripComment::Scanner::Concerns::SlashScanner
         scan_oneline_comment
       when scanner.scan(%r!\s*/\*!)
         scan_multi_comment
-      when scanner.scan(%r![0-9a-zA-Z()\[\]\?\!.,:;'"~#@`{}= /_\'"&+|<>*\\-]!)
+      when scanner.scan(%r![0-9a-zA-Z()\[\]\?\!.,:;'"~#@`{}= /_\'"&+|<>*&%\\-]!)
         # [review] - Should use complex characters?
         next
       else
