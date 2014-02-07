@@ -15,12 +15,12 @@ class StripComment::Scanner::Ruby < StripComment::Scanner
   def scan
     tokens = RDoc::RubyLex.tokenize(content, Options.new)
 
-    tokens.each_with_object([]) do |token, comments|
+    tokens.each do |token|
       if token.is_a?(RDoc::RubyToken::TkCOMMENT)
         self.add_comment(token.line_no, token.value)
       end
     end
 
-    comments
+    self.comments
   end
 end
