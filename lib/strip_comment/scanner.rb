@@ -48,12 +48,6 @@ module StripComment
       @status = :disable
     end
 
-    private
-
-    def raise_report
-      raise 'Error occurred. Please report to <https://github.com/alpaca-tc/strip_comment/issues>'
-    end
-
     def self.definition_attr(*keys)
       keys.each do |key|
         define_singleton_method key do |value|
@@ -66,6 +60,12 @@ module StripComment
 
     def self.definition
       @definition ||= {}
+    end
+
+    private
+
+    def raise_report
+      raise 'Error occurred. Please report to <https://github.com/alpaca-tc/strip_comment/issues>'
     end
   end
 

@@ -7,14 +7,11 @@ class StripComment::Stripper
   end
 
   def list_up_files
+    # [todo] - files, directriesの実装
     root_path = configuration.root_path
     root_path = File.dirname(root_path) unless File.directory?(root_path)
 
-    # [todo] - exceptを実装
-    # [todo] - 非同期を実装
-    Dir["#{root_path}/**/*"].each_with_object([]) do |path, memo|
-      memo << path unless File.directory?(path)
-    end
+    Dir["#{root_path}/**/*"].select { |v| enabled_file?(v) }
   end
 
   def comments
@@ -23,5 +20,17 @@ class StripComment::Stripper
       parser = StripComment::Parser.for(file)
       memo.concat(parser.scan) if parser
     end
+  end
+
+  private
+
+  def enabled_file?(file_path)
+    return false if File.directory?(file_path)
+
+    configuration.ignore_list.each do |regexp|
+      return false if regexp =~ file_path
+    end
+
+    true
   end
 end
