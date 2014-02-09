@@ -5,6 +5,7 @@ group :development do
 end
 
 group :test do
-  gem 'rspec'
+  gem 'rspec', '~> 3.0.0.beta1'
+  gem 'guard'
   gem 'guard-rspec'
 end

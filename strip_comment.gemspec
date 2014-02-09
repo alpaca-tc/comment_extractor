@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.summary               = 'an inline comment scanner'
   s.description           = 'an inline comment scanner for source code'
 
-  s.add_development_dependency 'rake'
-  s.add_development_dependency 'rspec'
+  # s.add_development_dependency 'rake'
+  # s.add_development_dependency 'rspec'
   # s.executables = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
 end
