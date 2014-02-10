@@ -1,6 +1,6 @@
-class StripComment::Scanner::H < StripComment::Scanner
+class CommentParser::Scanner::H < CommentParser::Scanner
   filename /\.h$/
   filetype 'h'
 
-  include StripComment::Scanner::Concerns::SlashScanner
+  include CommentParser::Scanner::Concerns::SlashScanner
 end

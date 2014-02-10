@@ -1,4 +1,4 @@
-class StripComment::Scanner::Clojure < StripComment::Scanner
+class CommentParser::Scanner::Clojure < CommentParser::Scanner
   disable!
   filename /\.clj$/
   filetype 'clojure'

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class StripComment::Scanner
+class CommentParser::Scanner
   describe Coffee do
     let(:klass) { Coffee }
     it { pending 'scanner' }

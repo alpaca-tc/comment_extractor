@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class StripComment::Scanner
+class CommentParser::Scanner
   describe Fortran do
     let(:klass) { Fortran }
     it { pending 'scanner' }

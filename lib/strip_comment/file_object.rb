@@ -1,6 +1,6 @@
 require 'delegate'
 
-class StripComment::FileObject < File
+class CommentParser::FileObject < File
   THRESHOLD_BINARY = 0.3
 
   attr_accessor :content, :shebang

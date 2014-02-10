@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class StripComment::Scanner
+class CommentParser::Scanner
   describe Vim do
     let(:klass) { Vim }
     it { pending 'scanner' }

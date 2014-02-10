@@ -1,6 +1,6 @@
-class StripComment::Scanner::Java < StripComment::Scanner
+class CommentParser::Scanner::Java < CommentParser::Scanner
   filename /\.java$/
   filetype 'java'
 
-  include StripComment::Scanner::Concerns::SlashScanner
+  include CommentParser::Scanner::Concerns::SlashScanner
 end

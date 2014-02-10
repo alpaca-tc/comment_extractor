@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module StripComment
+module CommentParser
   describe Stripper do
     let(:options) { { root_path: root_path } }
     let(:root_path) { File.expand_path('../../assets/stripper', __FILE__) }

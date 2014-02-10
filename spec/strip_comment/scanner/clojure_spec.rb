@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class StripComment::Scanner
+class CommentParser::Scanner
   describe Clojure do
     let(:klass) { Clojure }
     it { pending 'scanner' }

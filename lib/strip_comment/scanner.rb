@@ -1,7 +1,7 @@
 require 'strscan'
-require 'strip_comment/parser'
+require 'comment_parser/parser'
 
-module StripComment
+module CommentParser
   class Scanner
     attr_accessor :file_object, :content, :comments
 
@@ -33,7 +33,7 @@ module StripComment
     end
 
     def add_comment(line, comment)
-      @comments << StripComment::CodeObject::Comment.new.tap do |c|
+      @comments << CommentParser::CodeObject::Comment.new.tap do |c|
         c.file = file_object
         c.line = line
         c.value = comment
@@ -65,7 +65,7 @@ module StripComment
     private
 
     def raise_report
-      raise 'Error occurred. Please report to <https://github.com/alpaca-tc/strip_comment/issues>'
+      raise 'Error occurred. Please report to <https://github.com/alpaca-tc/comment_parser/issues>'
     end
   end
 

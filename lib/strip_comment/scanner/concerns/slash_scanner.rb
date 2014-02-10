@@ -1,10 +1,10 @@
-module StripComment::Scanner::Concerns::SlashScanner
+module CommentParser::Scanner::Concerns::SlashScanner
   def scan
     scanner = build_scanner
 
     until scanner.eos?
       case
-      when scanner.scan(StripComment::Scanner::REGEXP[:BREAK]), scanner.scan(%r!^\s*$!)
+      when scanner.scan(CommentParser::Scanner::REGEXP[:BREAK]), scanner.scan(%r!^\s*$!)
         next
       when scanner.scan(%r!\s*//!)
         scan_oneline_comment
@@ -36,7 +36,7 @@ module StripComment::Scanner::Concerns::SlashScanner
     scanner = build_scanner
 
     until scanner.eos? || scanner.scan(%r!\s*\*/!) # Removes dead-end of comment
-      next if scanner.scan(StripComment::Scanner::REGEXP[:BREAK])
+      next if scanner.scan(CommentParser::Scanner::REGEXP[:BREAK])
       line = scanner.scan(%r{(.?(?!\*/))+.})
 
       if %r!^(?:[ *]*)(?<comment>.*)! =~ line

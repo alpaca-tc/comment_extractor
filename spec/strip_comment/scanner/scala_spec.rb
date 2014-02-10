@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class StripComment::Scanner
+class CommentParser::Scanner
   describe Scala do
     subject { Scala }
     it { should include Concerns::SlashScanner }

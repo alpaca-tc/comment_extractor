@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class StripComment::Scanner
+class CommentParser::Scanner
   describe Shell do
     let(:klass) { Shell }
     it { pending 'scanner' }

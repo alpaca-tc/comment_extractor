@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class StripComment::Scanner
+class CommentParser::Scanner
   describe Erlang do
     let(:klass) { Erlang }
     it { pending 'scanner' }

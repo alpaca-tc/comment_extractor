@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class StripComment::Scanner
+class CommentParser::Scanner
   describe Sass do
     subject { Sass }
     it { should include Concerns::SlashScanner }

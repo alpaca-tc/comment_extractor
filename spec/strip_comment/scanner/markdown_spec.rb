@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class StripComment::Scanner
+class CommentParser::Scanner
   describe Markdown do
     let(:klass) { Markdown }
     it { pending 'scanner' }

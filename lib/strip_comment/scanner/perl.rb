@@ -1,4 +1,4 @@
-class StripComment::Scanner::Perl < StripComment::Scanner
+class CommentParser::Scanner::Perl < CommentParser::Scanner
   disable!
   filename /\.(pm|pl)$/
   filetype 'perl'

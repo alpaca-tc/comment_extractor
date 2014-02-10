@@ -1,4 +1,4 @@
-class StripComment::Scanner::Sql < StripComment::Scanner
+class CommentParser::Scanner::Sql < CommentParser::Scanner
   disable!
   filename /\.sql$/
   filetype 'sql'

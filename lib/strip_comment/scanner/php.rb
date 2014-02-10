@@ -1,7 +1,7 @@
-class StripComment::Scanner::Php < StripComment::Scanner
+class CommentParser::Scanner::Php < CommentParser::Scanner
   disable!
   filename /\.php$/
   filetype 'php'
 
-  include StripComment::Scanner::Concerns::SlashScanner
+  include CommentParser::Scanner::Concerns::SlashScanner
 end

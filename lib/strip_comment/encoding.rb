@@ -1,6 +1,6 @@
 require 'tempfile'
 
-module StripComment::Encoding
+module CommentParser::Encoding
   def self.read_file(file_path, encoding = Encoding.default_external)
     content = File.open(file_path, 'rb') { |f| f.read }
     self.encode(content)

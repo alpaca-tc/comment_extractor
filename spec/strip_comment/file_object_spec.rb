@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module StripComment
+module CommentParser
   describe FileObject do
     let(:asset_dir) { File.expand_path('../../assets', __FILE__) }
     let(:file_object) { FileObject.new(file_path) }

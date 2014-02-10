@@ -1,6 +1,6 @@
-class StripComment::Scanner::Scala < StripComment::Scanner
+class CommentParser::Scanner::Scala < CommentParser::Scanner
   filename /\.scala$/
   filetype 'scala'
 
-  include StripComment::Scanner::Concerns::SlashScanner
+  include CommentParser::Scanner::Concerns::SlashScanner
 end

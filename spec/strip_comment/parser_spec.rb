@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module StripComment
+module CommentParser
   describe Parser do
     let(:scanners) do
       {

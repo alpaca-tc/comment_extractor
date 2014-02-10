@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class StripComment::Scanner
+class CommentParser::Scanner
   describe Python do
     let(:klass) { Python }
     it { pending 'scanner' }

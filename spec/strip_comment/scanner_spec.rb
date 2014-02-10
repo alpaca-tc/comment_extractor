@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module StripComment
+module CommentParser
   describe Scanner do
     let(:file_path) { __FILE__ }
     let(:file_object) { FileObject.new(file_path) }

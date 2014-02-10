@@ -1,6 +1,6 @@
 require 'rdoc'
 
-class StripComment::Scanner::Ruby < StripComment::Scanner
+class CommentParser::Scanner::Ruby < CommentParser::Scanner
   filename /\.rb$/
   filetype 'ruby'
   shebang /.*ruby$/

@@ -1,4 +1,4 @@
-class StripComment::Scanner::Vim < StripComment::Scanner
+class CommentParser::Scanner::Vim < CommentParser::Scanner
   disable!
   filename /\.vim$/
   filetype 'vim'

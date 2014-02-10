@@ -1,6 +1,6 @@
-class StripComment::Scanner::Sass < StripComment::Scanner
+class CommentParser::Scanner::Sass < CommentParser::Scanner
   filename /\.sass$/
   filetype 'sass'
 
-  include StripComment::Scanner::Concerns::SlashScanner
+  include CommentParser::Scanner::Concerns::SlashScanner
 end

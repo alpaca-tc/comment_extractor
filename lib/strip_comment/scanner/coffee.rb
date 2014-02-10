@@ -1,4 +1,4 @@
-class StripComment::Scanner::Coffee < StripComment::Scanner
+class CommentParser::Scanner::Coffee < CommentParser::Scanner
   disable!
   filename /\.coffee$/
   filetype 'coffee'

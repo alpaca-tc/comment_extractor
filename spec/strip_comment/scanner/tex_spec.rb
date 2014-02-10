@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class StripComment::Scanner
+class CommentParser::Scanner
   describe Tex do
     let(:klass) { Tex }
     it { pending 'scanner' }

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class StripComment::Scanner
+class CommentParser::Scanner
   describe Lisp do
     let(:klass) { Lisp }
     it { pending 'scanner' }

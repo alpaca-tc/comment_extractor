@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class StripComment::Scanner
+class CommentParser::Scanner
   describe Haskell do
     let(:klass) { Haskell }
     it { pending 'scanner' }

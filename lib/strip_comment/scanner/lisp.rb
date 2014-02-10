@@ -1,4 +1,4 @@
-class StripComment::Scanner::Lisp < StripComment::Scanner
+class CommentParser::Scanner::Lisp < CommentParser::Scanner
   filename /\.el$/
   filetype 'lisp'
   disable!

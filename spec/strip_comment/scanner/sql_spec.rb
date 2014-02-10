@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class StripComment::Scanner
+class CommentParser::Scanner
   describe Sql do
     let(:klass) { Sql }
     it { pending 'scanner' }

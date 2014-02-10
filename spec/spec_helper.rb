@@ -1,7 +1,7 @@
 require 'rspec'
 
 $LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
-require 'strip_comment'
+require 'comment_parser'
 
 RSpec.configure do |config|
   config.order = 'random'

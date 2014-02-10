@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class StripComment::Scanner
+class CommentParser::Scanner
   describe Sqf do
     let(:klass) { Sqf }
     it { pending 'scanner' }

@@ -1,4 +1,4 @@
-class StripComment::Scanner::Erlang < StripComment::Scanner
+class CommentParser::Scanner::Erlang < CommentParser::Scanner
   disable!
   filename /\.erl$/
   filetype 'erlang'

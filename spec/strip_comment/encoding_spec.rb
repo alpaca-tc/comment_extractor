@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module StripComment
+module CommentParser
   describe Encoding do
     let(:hello_world) { 'hello_world' }
     let(:temp) { Tempfile.new('tempfile') }
@@ -53,7 +53,7 @@ module StripComment
       end
 
       it 'read file which is encoded' do
-        StripComment::Encoding.should_receive(:encode)
+        CommentParser::Encoding.should_receive(:encode)
           .at_least(:once)
           .with(hello_world)
           .and_return(hello_world)

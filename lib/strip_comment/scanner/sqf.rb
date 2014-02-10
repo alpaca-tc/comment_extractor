@@ -1,4 +1,4 @@
-class StripComment::Scanner::Sqf < StripComment::Scanner
+class CommentParser::Scanner::Sqf < CommentParser::Scanner
   disable!
   filename /\.sqf$/
   filetype 'sqf'

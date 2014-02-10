@@ -1,15 +1,15 @@
-class StripComment::Stripper
+class CommentParser::Stripper
   attr_accessor :configuration
 
   def initialize(options = {})
-    @configuration = StripComment::Configuration.new(options)
+    @configuration = CommentParser::Configuration.new(options)
     yield(@configuration) if block_given?
   end
 
   def comments
     list_up_files.each_with_object([]) do |file, memo|
-      file = StripComment::FileObject.new(file)
-      parser = StripComment::Parser.for(file)
+      file = CommentParser::FileObject.new(file)
+      parser = CommentParser::Parser.for(file)
       memo.concat(parser.scan) if parser
     end
   end

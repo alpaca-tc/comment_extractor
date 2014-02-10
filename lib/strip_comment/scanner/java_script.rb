@@ -1,7 +1,7 @@
-class StripComment::Scanner::JavaScript < StripComment::Scanner
+class CommentParser::Scanner::JavaScript < CommentParser::Scanner
   filename /\.js$/
   filetype 'javascript'
   shebang /.*(js|node)$/
 
-  include StripComment::Scanner::Concerns::SlashScanner
+  include CommentParser::Scanner::Concerns::SlashScanner
 end

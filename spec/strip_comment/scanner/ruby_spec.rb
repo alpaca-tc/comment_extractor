@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe StripComment::Scanner::Ruby do
-  let(:scanner) { StripComment::Scanner::Ruby.new(dummy_file_object, content) }
-  let(:dummy_file_object) { StripComment::FileObject.new(__FILE__) }
+describe CommentParser::Scanner::Ruby do
+  let(:scanner) { CommentParser::Scanner::Ruby.new(dummy_file_object, content) }
+  let(:dummy_file_object) { CommentParser::FileObject.new(__FILE__) }
 
   describe '#scan' do
     let(:scan) { scanner.scan }

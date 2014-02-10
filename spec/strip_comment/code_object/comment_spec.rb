@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module StripComment
+module CommentParser
   describe CodeObject::Comment do
     describe '.new' do
       subject { CodeObject::Comment.new }

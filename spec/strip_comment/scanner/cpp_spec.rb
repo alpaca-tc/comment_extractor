@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class StripComment::Scanner
+class CommentParser::Scanner
   describe Cpp do
     subject { Cpp }
     it { should include Concerns::SlashScanner }

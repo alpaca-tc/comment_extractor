@@ -1,11 +1,11 @@
-require 'strip_comment/version'
+require 'comment_parser/version'
 
-module StripComment
-  autoload :CodeObject, 'strip_comment/code_object'
-  autoload :Configuration, 'strip_comment/configuration'
-  autoload :Encoding, 'strip_comment/encoding'
-  autoload :FileObject, 'strip_comment/file_object'
-  autoload :Parser, 'strip_comment/parser'
-  autoload :Scanner, 'strip_comment/scanner'
-  autoload :Stripper, 'strip_comment/stripper'
+module CommentParser
+  autoload :CodeObject, 'comment_parser/code_object'
+  autoload :Configuration, 'comment_parser/configuration'
+  autoload :Encoding, 'comment_parser/encoding'
+  autoload :FileObject, 'comment_parser/file_object'
+  autoload :Parser, 'comment_parser/parser'
+  autoload :Scanner, 'comment_parser/scanner'
+  autoload :Stripper, 'comment_parser/stripper'
 end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class StripComment::Scanner
+class CommentParser::Scanner
   describe D do
     subject { D }
     it { should include Concerns::SlashScanner }

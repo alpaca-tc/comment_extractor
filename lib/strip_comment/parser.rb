@@ -1,13 +1,13 @@
 ## Parser finds scanner klass from file_name
-module StripComment::Parser
+module CommentParser::Parser
   class << self
     attr_accessor :scanners
 
     def for(file_object)
       if parser = can_parse(file_object)
         parser = const_get(parser) if parser.is_a?(Symbol) # :Klass => Klass
-        # [review] - Rescues error which occurred in StripComment::Encoding.encode
-        content = StripComment::Encoding.encode(file_object.content)
+        # [review] - Rescues error which occurred in CommentParser::Encoding.encode
+        content = CommentParser::Encoding.encode(file_object.content)
         parser.new(file_object, content)
       end
     end
@@ -63,4 +63,4 @@ module StripComment::Parser
   end
 end
 
-require 'strip_comment/scanner'
+require 'comment_parser/scanner'

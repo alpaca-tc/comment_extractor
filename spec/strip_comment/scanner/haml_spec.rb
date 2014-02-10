@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class StripComment::Scanner
+class CommentParser::Scanner
   describe Haml do
     let(:klass) { Haml }
     it { pending 'scanner' }

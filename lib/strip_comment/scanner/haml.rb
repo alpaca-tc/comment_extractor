@@ -1,4 +1,4 @@
-class StripComment::Scanner::Haml < StripComment::Scanner
+class CommentParser::Scanner::Haml < CommentParser::Scanner
   disable!
   filename /\.haml$/
   filetype 'haml'

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class StripComment::Scanner
+class CommentParser::Scanner
   describe Php do
     let(:klass) { Php }
     it { pending 'scanner' }
