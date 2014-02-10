@@ -2,8 +2,12 @@ require 'spec_helper'
 
 class StripComment::Scanner
   describe Html do
-    subject { Html }
-    it { pending 'Implementation scanner' }
-    its(:disabled?) { should be_true }
+    let(:klass) { Html }
+    it { pending 'scanner' }
+
+    describe '#disabled?' do
+      subject { klass.disabled? }
+      it { should be_truthy }
+    end
   end
 end

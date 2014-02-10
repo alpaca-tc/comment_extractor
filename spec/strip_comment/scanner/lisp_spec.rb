@@ -2,7 +2,12 @@ require 'spec_helper'
 
 class StripComment::Scanner
   describe Lisp do
-    subject { Lisp }
-    it { pending 'Implementation scanner' }
+    let(:klass) { Lisp }
+    it { pending 'scanner' }
+
+    describe '#disabled?' do
+      subject { klass.disabled? }
+      it { should be_truthy }
+    end
   end
 end

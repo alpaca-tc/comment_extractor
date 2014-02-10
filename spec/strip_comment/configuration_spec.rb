@@ -8,7 +8,7 @@ module StripComment
 
       it 'sets attributes to default value' do
         expect(subject.root_path).to eql options[:root_path]
-        expect(subject.dry_run).to be_false
+        expect(subject.dry_run).to be_falsy
         expect(subject.files).to eql []
         expect(subject.directories).to eql []
         expect(subject.ignore_list).to eql []

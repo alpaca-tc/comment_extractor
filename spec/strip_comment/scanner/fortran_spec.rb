@@ -2,8 +2,12 @@ require 'spec_helper'
 
 class StripComment::Scanner
   describe Fortran do
-    subject { Fortran }
-    it { pending 'Implementation scanner' }
-    its(:disabled?) { should be_true }
+    let(:klass) { Fortran }
+    it { pending 'scanner' }
+
+    describe '#disabled?' do
+      subject { klass.disabled? }
+      it { should be_truthy }
+    end
   end
 end

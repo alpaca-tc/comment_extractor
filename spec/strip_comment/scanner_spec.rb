@@ -65,9 +65,9 @@ module StripComment
 
       describe '.disable!' do
         it 'disables own status' do
-          expect(scanner_klass.disabled?).to be_false
+          expect(scanner_klass.disabled?).to be_falsy
           scanner_klass.disable!
-          expect(scanner_klass.disabled?).to be_true
+          expect(scanner_klass.disabled?).to be_truthy
         end
       end
 

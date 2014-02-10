@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 class StripComment::Scanner
-  describe Cc do
-    subject { Cc }
+  describe Css do
+    subject { Css }
     it { should include Concerns::SlashScanner }
   end
 end

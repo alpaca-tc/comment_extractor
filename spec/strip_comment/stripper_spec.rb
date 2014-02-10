@@ -10,8 +10,6 @@ module StripComment
       describe '.new' do
         subject { stripper }
 
-        its(:configuration) { should be_an_instance_of(Configuration) }
-
         context 'given block' do
           subject { stripper.configuration }
           let(:stripper) { Stripper.new(options, &block) }
@@ -19,7 +17,7 @@ module StripComment
 
           # [review] - This test is depends on Configuration
           it 'initializes Configuration by block' do
-            expect(subject.dry_run).to be_true
+            expect(subject.dry_run).to be_truthy
           end
         end
 
@@ -29,13 +27,18 @@ module StripComment
 
           # [review] - This test is depends on Configuration
           it 'initializes Configuration by hash' do
-            expect(subject.dry_run).to be_true
+            expect(subject.dry_run).to be_truthy
           end
         end
       end
     end
 
     describe 'InstanceMethods' do
+      describe '#configuration' do
+        subject { stripper.configuration }
+        it { should be_an_instance_of(Configuration) }
+      end
+
       describe '#list_up_files' do
         subject { stripper.send(:list_up_files).sort }
 
@@ -81,21 +84,21 @@ module StripComment
           let(:ignore_list) { [/\.rb$/] }
           let(:file_path) { File.expand_path('../bar.rb', __FILE__) }
 
-          it { should be_false }
+          it { should be_falsy }
         end
 
         context 'when file_path does not match excepted regexp' do
           let(:options) { { root_path: root_path, ignore_list: [] } }
           let(:file_path) { File.expand_path('../bar.rb', __FILE__) }
 
-          it { should be_true }
+          it { should be_truthy }
         end
 
         context 'when file_path is directory' do
           let(:options) { { root_path: root_path, ignore_list: [] } }
           let(:file_path) { File.expand_path('..', __FILE__) }
 
-          it { should be_false }
+          it { should be_falsy }
         end
       end
 
@@ -106,13 +109,13 @@ module StripComment
         context 'when ignore_list contains file_path' do
           let(:ignore_list) { %w!.*\.rb! }
           let(:file_path) { 'bar.rb' }
-          it { should be_true }
+          it { should be_truthy }
         end
 
         context 'when ignore_list does not contain file_path' do
           let(:ignore_list) { [] }
           let(:file_path) { 'bar.rb' }
-          it { should be_false }
+          it { should be_falsy }
         end
       end
 
@@ -125,12 +128,12 @@ module StripComment
 
           context 'given "assets/bar.c"' do
             let(:file_path) { File.expand_path('../assets/bar.c', __FILE__) }
-            it { should be_false }
+            it { should be_falsy }
           end
 
           context 'given "assets/bar.rb"' do
             let(:file_path) { File.expand_path('../assets/children/bar.rb', __FILE__) }
-            it { should be_true }
+            it { should be_truthy }
           end
         end
       end
@@ -144,12 +147,12 @@ module StripComment
 
           context 'given "assets/bar.rb"' do
             let(:file_path) { File.expand_path('../assets/bar.rb', __FILE__) }
-            it { should be_false }
+            it { should be_falsy }
           end
 
           context 'given "assets/children/bar.rb"' do
             let(:file_path) { File.expand_path('../assets/children/bar.rb', __FILE__) }
-            it { should be_true }
+            it { should be_truthy }
           end
         end
       end

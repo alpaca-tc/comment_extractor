@@ -2,8 +2,12 @@ require 'spec_helper'
 
 class StripComment::Scanner
   describe Erlang do
-    subject { Erlang }
-    it { pending 'Implementation scanner' }
-    its(:disabled?) { should be_true }
+    let(:klass) { Erlang }
+    it { pending 'scanner' }
+
+    describe '#disabled?' do
+      subject { klass.disabled? }
+      it { should be_truthy }
+    end
   end
 end

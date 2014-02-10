@@ -14,12 +14,12 @@ module StripComment
 
       context 'given the binary file' do
         let(:file_path) { binary_path }
-        it { should be_true }
+        it { should be_truthy }
       end
 
       context 'given the source file' do
         let(:file_path) { ruby_path }
-        it { should be_false }
+        it { should be_falsy }
       end
     end
 
