@@ -2,40 +2,26 @@ strip\_comment is simple strip code utility tool.
 
 ## Install
 
-[![Build Status](https://travis-ci.org/alpaca-tc/strip_comment.png?branch=develop)](https://travis-ci.org/alpaca-tc/strip_comment)
+[![Build Status](https://travis-ci.org/alpaca-tc/comment_parser.png?branch=develop)](https://travis-ci.org/alpaca-tc/comment_parser)
 
 ```sh
-git clone https://github.com/alpaca-tc/strip_comment
-cd strip_comment
+git clone https://github.com/alpaca-tc/comment_parser
+cd comment_parser
 rake install
 ```
 
 ## Usage
 
-```ruby
-require 'strip_comment'
-
-root_path = '/path/to/strip_comment'
-stripper = StripComment::Stripper.new(root_path: root_path)
-
-stripper.comments.each do |comment_object|
-  puts "#{File.expand_path(comment_object.file.path, '\~')}#{comment_object.line} [#{comment_object.value}]"
-end
-
-# => /Users/alpaca-tc/projects/strip_comment/lib/strip_comment/encoding.rb15 [When content is UTF-8]
-# ...
-```
-
 ### Scanner
 
 ```ruby
-require 'strip_comment'
+require 'comment_parser'
 
 path = '/path/to/file'
-file = StripComment::FileObject.new(path)
-parser = StripComment::Parser.for(file)
+file = CommentParser::FileObject.new(path)
+parser = CommentParser::Parser.for(file)
 parser.scan
-parser.comments # => [StripComment::CodeObject::Comment, ...]
+parser.comments # => [CommentParser::CodeObject::Comment, ...]
 ```
 
 ## Supported Languages
@@ -55,13 +41,13 @@ parser.comments # => [StripComment::CodeObject::Comment, ...]
 
 If you wanted to create new scanner for new file type, you send me Pull-Request.
 
-1. Create `StripComment::Scanner::#{FileTypeName}` to `strip_comment/scanner/#{file_type_name}.rb`
+1. Create `CommentParser::Scanner::#{FileTypeName}` to `comment_parser/scanner/#{file_type_name}.rb`
 2. Define `#scan` method.
 
 Syntax Sample
 
 ```ruby
-class StripComment::Scanner::Coffee < StripComment::Scanner
+class CommentParser::Scanner::Coffee < CommentParser::Scanner
   # (required) Regexp to match extname for new file type
   filename /\.coffee$/
 
@@ -80,7 +66,7 @@ class StripComment::Scanner::Coffee < StripComment::Scanner
 
     until scanner.eos?
       case
-      when scanner.scan(StripComment::Scanner::REGEXP[:BREAK]), scanner.scan(%r!^\s*$!)
+      when scanner.scan(CommentParser::Scanner::REGEXP[:BREAK]), scanner.scan(%r!^\s*$!)
         next
       when scanner.scan(%r!^\s*#!)
         scan_singleline_comment
@@ -105,7 +91,7 @@ class StripComment::Scanner::Coffee < StripComment::Scanner
 end
 ```
 
-You can test code by rspec. [Check out here](https://github.com/alpaca-tc/strip_comment/blob/develop/spec/strip_comment/scanner/ruby_spec.rb)
+You can test code by rspec. [Check out here](https://github.com/alpaca-tc/comment_parser/blob/develop/spec/comment_parser/scanner/ruby_spec.rb)
 
 ## TODO
 

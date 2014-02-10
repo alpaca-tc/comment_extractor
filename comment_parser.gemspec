@@ -1,18 +1,18 @@
 $:.unshift File.expand_path('../lib', __FILE__)
-require 'strip_comment/version'
+require 'comment_parser/version'
 
 Gem::Specification.new do |s|
   s.authors               = 'alpaca-tc'
   s.date                  = Time.now.strftime('%Y-%m-%d')
   s.email                 = 'alpaca-tc@alpaca.tc'
   s.files                 = `git ls-files`.split("\n")
-  s.homepage              = 'https://github.com/alpaca-tc/strip_comment'
+  s.homepage              = 'https://github.com/alpaca-tc/comment_parser'
   s.license               = 'MIT'
-  s.name                  = 'strip_comment'
+  s.name                  = 'comment_parser'
   s.require_paths         = %w!lib!
   s.required_ruby_version = '>= 2.0.0'
   s.test_files            = `git ls-files -- {spec}/*`.split("\n")
-  s.version               = StripComment::VERSION
+  s.version               = CommentParser::VERSION
 
   s.summary               = 'an inline comment scanner'
   s.description           = 'an inline comment scanner for source code'
