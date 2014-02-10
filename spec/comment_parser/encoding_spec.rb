@@ -53,7 +53,7 @@ module CommentParser
       end
 
       it 'read file which is encoded' do
-        CommentParser::Encoding.should_receive(:encode)
+        expect(Encoding).to receive(:encode)
           .at_least(:once)
           .with(hello_world)
           .and_return(hello_world)

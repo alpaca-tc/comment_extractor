@@ -67,10 +67,10 @@ module CommentParser
       let(:shebang) { nil }
       let(:file_object) do
         double(FileObject).tap do |f|
-          f.stub(:shebang).and_return(shebang)
-          f.stub(:content).and_return(content)
-          f.stub(:binary?).and_return(binary?)
-          f.stub(:path).and_return(path)
+          allow(f).to receive(:shebang) { shebang }
+          allow(f).to receive(:content) { content }
+          allow(f).to receive(:binary?) { binary? }
+          allow(f).to receive(:path) { path }
         end
       end
 
@@ -108,12 +108,12 @@ module CommentParser
       subject { Parser.for(file_object) }
 
       before do
-        Parser.should_receive(:can_parse).and_return(scanner)
+        expect(Parser).to receive(:can_parse).and_return(scanner)
       end
 
       let(:file_object) do
         double(FileObject).tap do |f|
-          f.stub(:content).and_return('')
+          allow(f).to receive(:content).and_return('')
         end
       end
 
@@ -121,7 +121,7 @@ module CommentParser
         context 'and which is defined as class' do
           let(:scanner) { double }
           it 'initializes Scanner' do
-            scanner.should_receive(:new).and_return('HelloWorld')
+            expect(scanner).to receive(:new).and_return('HelloWorld')
             expect(subject).to eql 'HelloWorld'
           end
         end
@@ -129,7 +129,7 @@ module CommentParser
         context 'and which is defined as symbol' do
           before do
             class StubScanner;end
-            StubScanner.should_receive(:new).and_return('HelloWorld')
+            allow(StubScanner).to receive(:new).and_return('HelloWorld')
             Parser.const_set(scanner, StubScanner)
           end
 
