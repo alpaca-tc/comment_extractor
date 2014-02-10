@@ -14,8 +14,8 @@ Gem::Specification.new do |s|
   s.test_files            = `git ls-files -- {spec}/*`.split("\n")
   s.version               = CommentParser::VERSION
 
-  s.summary               = 'an inline comment scanner'
-  s.description           = 'an inline comment scanner for source code'
+  s.summary               = 'an inline comment parser'
+  s.description           = 'an inline comment parser for source code'
 
   # s.add_development_dependency 'rake'
   # s.add_development_dependency 'rspec'
