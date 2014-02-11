@@ -1,6 +1,5 @@
 module CommentParser::Scanner::Concerns::SlashScanner
   def scan
-    corrective_line = self.file_object.shebang ? 1 : 0
     scanner = build_scanner
 
     until scanner.eos?
