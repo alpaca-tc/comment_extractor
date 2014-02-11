@@ -1,47 +1,50 @@
 module CommentParser::Scanner::Concerns::SlashScanner
   def scan
+    corrective_line = self.file_object.shebang ? 1 : 0
     scanner = build_scanner
 
     until scanner.eos?
       case
-      when scanner.scan(CommentParser::Scanner::REGEXP[:BREAK]), scanner.scan(%r!^\s*$!)
+      when scanner.scan(/"/)
+        scanner.scan(/.+?(?<!\\)"/m)
+      when scanner.scan(/'/)
+        scanner.scan(/.+?(?<!\\)'/m)
+      when scanner.scan(%r!/!)
+        case
+        when scanner.scan(/\*/)
+          identify_multi_comment
+        when scanner.scan(%r!/!)
+          identify_single_comment
+        else
+          scanner.scan(%r!.*?/!)
+        end
+      when scanner.scan(/(\w|\W)/)
         next
-      when scanner.scan(%r!\s*//!)
-        scan_oneline_comment
-      when scanner.scan(%r!\s*/\*!)
-        scan_multi_comment
-      when scanner.scan(%r![0-9a-zA-Z()\[\]\?\!.,:;'"~#@`{}= /_\'"&+|<>*&%\\-]!)
-        # [review] - Should use complex characters?
+      when scanner.scan(CommentParser::Scanner::REGEXP[:BREAK])
         next
       else
         raise_report
       end
     end
-
-    self.comments
   end
 
   private
 
-  ## Matched `//`
-  def scan_oneline_comment
-    scanner = build_scanner
-    line = self.current_line
-    comment = scanner.scan(/^.*$/).strip
-    self.add_comment(line, comment)
+  def identify_single_comment
+    line_no = current_line
+    line = build_scanner.scan(/.*$/).strip
+    add_comment(line_no, line, { type: :singleline })
   end
 
-  ## Matched `/* ... */`
-  def scan_multi_comment
-    scanner = build_scanner
-
-    until scanner.eos? || scanner.scan(%r!\s*\*/!) # Removes dead-end of comment
-      next if scanner.scan(CommentParser::Scanner::REGEXP[:BREAK])
-      line = scanner.scan(%r{(.?(?!\*/))+.})
-
-      if %r!^(?:[ *]*)(?<comment>.*)! =~ line
-        self.add_comment(self.current_line - 1, comment)
+  def identify_multi_comment
+    line_no = current_line
+    lines = build_scanner.scan(/.*?\*\//m).sub(/\*\/$/, '').split("\n")
+    lines.each_with_index do |line, index|
+      line.strip!
+      if lines.size != (index + 1) || line !~ /^\s*$/
+        add_comment(line_no + index, line, { type: :multiline })
       end
     end
   end
+
 end

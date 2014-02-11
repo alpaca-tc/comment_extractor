@@ -33,9 +33,9 @@ int main (void)
     self->snapshot  = zsocket_new (self->ctx, ZMQ_ROUTER);
     
     self->publisher = zsocket_new (self->ctx, ZMQ_PUB);
-   
+    zsocket_bind (self->publisher, "tcp://*:%d", self->port + 1);
     self->collector = zsocket_new (self->ctx, ZMQ_PULL);
-  
+    zsocket_bind (self->collector, "tcp://*:%d", self->port + 2);
 
     //[-40-]  Register our handlers with reactor
     zmq_pollitem_t poller = { 0, 0, ZMQ_POLLIN };

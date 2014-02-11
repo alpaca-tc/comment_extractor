@@ -15,7 +15,7 @@ function createOptions( options ) {
   });
   return object;
 }
-
+/*[-18-] multi line [-end-]*/
 /*[-19-]
  [-20-] Create a callback list using the following parameters:
  [-21-]

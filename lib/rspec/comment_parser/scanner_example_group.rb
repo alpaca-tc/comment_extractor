@@ -57,6 +57,7 @@ module RSpec::CommentParser::ScannerExampleGroup
         let(:comments) do
           source_code.content.split("\n").each_with_object({}) do |line, memo|
             if %r!(?<comment>\[-(?<line_number>\d+)-\].*)$! =~ line
+              comment.sub!(/(?<=\[-end-\]).*$/, '') if comment =~ /\[-end-\]/
               memo[line_number.to_i] = comment
             end
           end
