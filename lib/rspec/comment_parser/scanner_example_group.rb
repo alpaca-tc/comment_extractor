@@ -7,6 +7,7 @@ end
 
 module RSpec::CommentParser::ScannerExampleGroup
   extend ActiveSupport::Concern
+  include RSpec::CommentParser::Matchers::DetectComment
 
   module ClassMethods
     def disable_test_for_scanner!
@@ -65,16 +66,8 @@ module RSpec::CommentParser::ScannerExampleGroup
           scanner.scan
         end
 
-        subject { scanner.comments }
-
         it 'scans source_code' do
-          subject.each do |comment_object|
-            comment_expected = comments.delete(comment_object.line)
-            expect(comment_expected).to eql comment_object.value
-          end
-
-          # all comemnts are detected
-          expect(comments).to be_empty
+          expect { scanner.comments }.to detect_comment(comments)
         end
       end
     end

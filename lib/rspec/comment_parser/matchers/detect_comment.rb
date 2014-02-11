@@ -1,0 +1,49 @@
+module RSpec::CommentParser::Matchers
+  module DetectComment
+    class DetectCommentMatcher < RSpec::Matchers::BuiltIn::BaseMatcher
+      def initialize(scope, comment_list = {})
+        @scope = scope
+        @comment_list = comment_list
+        @failure_case = []
+      end
+
+      # @api private
+      def matches?(list_or_block)
+        comments = list_or_block.is_a?(Proc) ? list_or_block.call : list_or_block
+        comment_list = @comment_list.dup
+
+        comments.each do |comment_object|
+          comment_expected = comment_list.delete(comment_object.line)
+          unless comment_expected == comment_object.value
+            case_array = [comment_object.line, comment_expected, comment_object]
+            @failure_case << case_array
+          end
+        end
+
+        # all comemnts are detected
+        @failure_case.empty? && comment_list.empty?
+      end
+
+      def failure_message_for_should
+        messages = []
+        @failure_case.each do |(line, expected, comment_object)|
+          messages << <<-MESSAGE.gsub(/^\s*/, '')
+          expected not to detect comment in #{line}
+          expected: '#{comment_object.value}'
+          got: '#{expected}'
+          MESSAGE
+        end
+        messages.join("\n")
+      end
+
+      def failure_message_for_should_not
+        # [todo] - implements here
+        # "expected not to render #{expected.inspect}, but did"
+      end
+    end
+
+    def detect_comment(*args)
+      DetectCommentMatcher.new(self, *args)
+    end
+  end
+end
