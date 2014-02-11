@@ -1,6 +1,7 @@
 class CommentParser::Stripper
   attr_accessor :configuration
 
+  # [review] - Should remove stripper?
   def initialize(options = {})
     @configuration = CommentParser::Configuration.new(options)
     yield(@configuration) if block_given?

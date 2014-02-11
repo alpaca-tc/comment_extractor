@@ -5,6 +5,7 @@ module CommentParser
   class Scanner
     attr_accessor :file_object, :content, :comments
 
+    # [todo] - Separates common feature to other module and scanners includes them
     REGEXP = {
       BREAK: /(?:\r?\n|\r)/,
     }.freeze
@@ -52,6 +53,10 @@ module CommentParser
       keys.each do |key|
         define_singleton_method key do |value|
           self.definition[key] = value
+        end
+
+        define_method key do
+          self.class.definition[key]
         end
       end
     end

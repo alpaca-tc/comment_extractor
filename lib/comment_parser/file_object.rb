@@ -1,5 +1,7 @@
 require 'delegate'
 
+# [todo] - Renames FileObject -> File
+# [todo] - Content is encoded by CommentParser::Encoding
 class CommentParser::FileObject < File
   THRESHOLD_BINARY = 0.3
 

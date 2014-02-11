@@ -3,6 +3,7 @@ module CommentParser::Parser
   class << self
     attr_accessor :scanners
 
+    # [todo] - Implements Parser.new method and it contains scanner
     def for(file_object)
       if parser = can_parse(file_object)
         parser = const_get(parser) if parser.is_a?(Symbol) # :Klass => Klass
