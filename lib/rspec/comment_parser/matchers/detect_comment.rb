@@ -10,10 +10,10 @@ module RSpec::CommentParser::Matchers
       # @api private
       def matches?(list_or_block)
         comments = list_or_block.is_a?(Proc) ? list_or_block.call : list_or_block
-        comment_list = @comment_list.dup
+        @target_comment_list = @comment_list.dup
 
         comments.each do |comment_object|
-          comment_expected = comment_list.delete(comment_object.line)
+          comment_expected = @target_comment_list.delete(comment_object.line)
           unless comment_expected == comment_object.value
             case_array = [comment_object.line, comment_expected, comment_object]
             @failure_case << case_array
@@ -21,7 +21,7 @@ module RSpec::CommentParser::Matchers
         end
 
         # all comemnts are detected
-        @failure_case.empty? && comment_list.empty?
+        @failure_case.empty? && @target_comment_list.empty?
       end
 
       def failure_message_for_should
@@ -33,6 +33,15 @@ module RSpec::CommentParser::Matchers
           got: '#{expected}'
           MESSAGE
         end
+
+        @target_comment_list.each do |line, comment|
+          messages << <<-MESSAGE.gsub(/^\s*/, '')
+          expected not to detect comment in #{line}
+          expected: '#{comment}'
+          got: not detected
+          MESSAGE
+        end
+
         messages.join("\n")
       end
 
