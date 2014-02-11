@@ -19,7 +19,6 @@ module CommentParser::Scanner::Concerns::SlashScanner
           scanner.scan(%r!.*?/!)
         end
       when scanner.scan(/(\w|\W)/)
-        next
       when scanner.scan(CommentParser::Scanner::REGEXP[:BREAK])
         next
       else

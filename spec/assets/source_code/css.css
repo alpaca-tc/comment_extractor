@@ -1,0 +1,37 @@
+@charset "UTF-8";
+@font-face {
+  font-family: ClumsyRegular;
+  src: url(/font/clumsy-webfont.eot);
+  src: local("☺"), url(/font/clumsy-webfont.woff) format("woff"), url(/font/clumsy-webfont.ttf) format("truetype"), url(/font/clumsy-webfont.svg#webfontYlE9Voyi) format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+/*[-9-] single comment [-end-]*/
+
+/*[-11-] multi line comment
+  [-12-] multi line comment
+ */
+@font-face {
+  font-family: "Courier10BTRoman";
+  src: url(/font/courier-10-pitch-bt-webfont.eot);
+  src: local("☺"), url(/font/courier-10-pitch-bt-webfont.woff) format("woff"), url(/font/courier-10-pitch-bt-webfont.ttf) format("truetype"), url(/font/courier-10-pitch-bt-webfont.svg#webfontKRtE3TYu) format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "LietzLindauHamburgRegular";
+  src: url(/font/lietzlindauhamburg-webfont.eot);
+  src: local("☺"), url(/font/lietzlindauhamburg-webfont.woff) format("woff"), url(/font/lietzlindauhamburg-webfont.ttf) format("truetype"), url(/font/lietzlindauhamburg-webfont.svg#webfont7wlycxIS) format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.heading {
+  font-family: "PT Serif", "Georgia", "Helvetica Neue", Arial, sans-serif;
+}
+
+.sans, html .gist .gist-file .gist-meta {
+  font-family: "PT Sans", "Helvetica Neue", Arial, sans-serif;
+}
+

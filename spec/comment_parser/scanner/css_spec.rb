@@ -2,7 +2,7 @@ require 'spec_helper'
 
 class CommentParser::Scanner
   describe Css do
-    subject { Css }
-    it { should include Concerns::SlashScanner }
+    let(:file_path) { 'css.css' }
+    it_behaves_like 'scanning source code'
   end
 end
