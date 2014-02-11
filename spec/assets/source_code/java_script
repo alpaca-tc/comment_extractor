@@ -3,7 +3,7 @@
 //[-3-] Copyright 2014 jQuery Foundation and other contributors
 define([
   "./core",
-  "./var/rnotwhite"
+  './var/rnotwhite'
 ], function( jQuery, rnotwhite ) {
 
 var optionsCache = {};
@@ -17,11 +17,11 @@ function createOptions( options ) {
 }
 
 /*[-19-]
- *[-20-] Create a callback list using the following parameters:
- *[-21-]
- *[-22-]  options: an optional list of space-separated options that will change how
- *[-23-]      the callback list behaves or a more traditional option object
- *[-24-]
+ [-20-] Create a callback list using the following parameters:
+ [-21-]
+ [-22-]  options: an optional list of space-separated options that will change how
+ [-23-]      the callback list behaves or a more traditional option object
+ [-24-]
  */
 jQuery.Callbacks = function( options ) {
   //[-27-] (we check in cache first)
@@ -36,8 +36,8 @@ jQuery.Callbacks = function( options ) {
     //[-36-] Flag to know if list is currently firing
     firing,
     firingStart,
-    firingLength,
-    firingIndex,
+    list = "// dummy",
+    list = "/*dummy",
     list = [],
     stack = !options.once && [],
     fire = function( data ) {

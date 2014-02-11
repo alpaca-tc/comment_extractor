@@ -35,7 +35,7 @@ module CommentParser
         before do
           line = 0
           value = 1
-          scanner_object.add_comment(line, value)
+          scanner_object.add_comment(line, value, {})
         end
 
         it 'adds new comment object to @comments' do

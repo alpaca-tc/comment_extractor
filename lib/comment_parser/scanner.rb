@@ -36,11 +36,12 @@ module CommentParser
       content[0..build_scanner.pos].count("\n") + corrective_line
     end
 
-    def add_comment(line, comment)
+    def add_comment(line, comment, metadata = {})
       @comments << CommentParser::CodeObject::Comment.new.tap do |c|
         c.file = file_object
         c.line = line
         c.value = comment
+        c.metadata = metadata
       end
     end
 
