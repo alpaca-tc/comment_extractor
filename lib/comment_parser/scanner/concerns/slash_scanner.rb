@@ -45,5 +45,4 @@ module CommentParser::Scanner::Concerns::SlashScanner
       end
     end
   end
-
 end

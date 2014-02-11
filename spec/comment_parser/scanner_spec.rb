@@ -51,12 +51,21 @@ module CommentParser
 
         context 'when scanner has already used' do
           before do
-            scanner = scanner_object.build_scanner
-            scanner.scan(/^.*$/) # Scanning one line
+            @scanner = scanner_object.build_scanner
           end
 
           context 'and shebang is not detected' do
-            it { expect(scanner_object.current_line).to eql 2 }
+            it { expect(scanner_object.current_line).to eql 1 }
+          end
+
+          context 'and shebang is not detected' do
+            it 'returns current line number' do
+              expect(scanner_object.current_line).to eql 1
+              @scanner.scan(/^.*$/) # Scanning one line
+              expect(scanner_object.current_line).to eql 1
+              @scanner.scan(/\n/) # Go to next line
+              expect(scanner_object.current_line).to eql 2
+            end
           end
 
           context 'and shebang is detected' do
@@ -64,7 +73,7 @@ module CommentParser
               allow(scanner_object.file_object).to receive(:shebang) { '' }
             end
 
-            it { expect(scanner_object.current_line).to eql 3 }
+            it { expect(scanner_object.current_line).to eql 2 }
           end
         end
       end
