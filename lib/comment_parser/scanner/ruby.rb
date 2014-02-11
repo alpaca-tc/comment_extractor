@@ -14,13 +14,26 @@ class CommentParser::Scanner::Ruby < CommentParser::Scanner
 
   def scan
     tokens = RDoc::RubyLex.tokenize(content, Options.new)
+    corrective_line = self.file_object.shebang ? 1 : 0
 
     tokens.each do |token|
-      if token.is_a?(RDoc::RubyToken::TkCOMMENT)
-        self.add_comment(token.line_no, token.value.sub(/^\s*#\s?/, ''))
+      case token
+      when RDoc::RubyToken::TkRD_COMMENT # =begin ... =end
+        token.value.split("\n").each_with_index do |comment, index|
+          line_no = token.line_no + corrective_line + 1 + index
+          add_comment(line_no, comment)
+        end
+      when RDoc::RubyToken::TkCOMMENT # # ...
+        line_no = token.line_no + corrective_line
+        add_comment(line_no, token.value.sub(/^\s*#\s?/, ''))
       end
     end
+  end
 
-    self.comments
+  private
+
+  def line_is_comment_of_begin_keyword?(token)
+    binding.pry
+    File.readlines(self.file_object.path)[token.line_no] == /^=begin/
   end
 end

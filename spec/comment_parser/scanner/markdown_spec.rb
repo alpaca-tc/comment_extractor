@@ -1,13 +1,6 @@
 require 'spec_helper'
 
 class CommentParser::Scanner
-  describe Markdown do
-    let(:klass) { Markdown }
-    it { pending 'scanner' }
-
-    describe '#disabled?' do
-      subject { klass.disabled? }
-      it { should be_truthy }
-    end
+  describe Markdown, disabled: true do
   end
 end
