@@ -16,6 +16,8 @@ GEM
     guard-rspec (4.2.5)
       guard (~> 2.1)
       rspec (>= 2.14, < 4.0)
+    haml (4.0.3)
+      tilt
     listen (2.4.0)
       celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
@@ -42,6 +44,7 @@ GEM
     rspec-support (3.0.0.beta1)
     slop (3.4.7)
     thor (0.18.1)
+    tilt (1.4.1)
     timers (1.1.0)
 
 PLATFORMS
@@ -50,5 +53,6 @@ PLATFORMS
 DEPENDENCIES
   guard
   guard-rspec
+  haml
   rake
   rspec (~> 3.0.0.beta1)
