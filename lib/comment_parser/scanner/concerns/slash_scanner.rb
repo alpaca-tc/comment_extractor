@@ -6,9 +6,9 @@ module CommentParser::Scanner::Concerns::SlashScanner
     until scanner.eos?
       case
       when scanner.scan(/"/)
-        scanner.scan(/.+?(?<!\\)"/m)
+        scanner.scan(/.*?(?<!\\)"/m)
       when scanner.scan(/'/)
-        scanner.scan(/.+?(?<!\\)'/m)
+        scanner.scan(/.*?(?<!\\)'/m)
       when scanner.scan(%r!/!)
         case
         when scanner.scan(/\*/)
@@ -19,6 +19,7 @@ module CommentParser::Scanner::Concerns::SlashScanner
           scanner.scan(%r!.*?/!)
         end
       when scanner.scan(/(\w|\W)/)
+        next
       when scanner.scan(CommentParser::Scanner::REGEXP[:BREAK])
         next
       else

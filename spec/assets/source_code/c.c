@@ -1,4 +1,4 @@
-//[-1-] Clone server - Model Five
+//[-1-]Attribution-Share Alike 3.0 License, copyright (c) 2010 Pieter Hintjens, modified @alpaca-tc
 //[-2-] Copyright (c) 2010-2013 iMatix Corporation and Contributors
 //[-3-] Lets us build this source without creating a library
 #include "kvmsg.c"
