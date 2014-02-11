@@ -36,12 +36,12 @@ class CommentParser::Scanner::Coffee < CommentParser::Scanner
   private
 
   def scan_multi_line_regexp
-    line_no = current_line
+    line_no = current_line + 1
     lines = build_scanner.scan(/.*?(?<!\\)\/\/\//m).sub(%r!///!, '').split("\n")
     lines.each.with_index do |line, index|
       if /(?<!\[)#(?<comment>.*)$/ =~ line
         comment.strip!
-        add_comment(line_no + index - 1, comment, { type: :singleline })
+        add_comment(line_no + index - 1, comment, { type: :multi_line })
       end
     end
   end
@@ -59,6 +59,7 @@ class CommentParser::Scanner::Coffee < CommentParser::Scanner
 
   def identify_single_line_comment
     line_no = current_line
+    binding.pry if line_no == 14
     line = build_scanner.scan(/.*$/).strip
     add_comment(line_no, line, { type: :singleline })
   end

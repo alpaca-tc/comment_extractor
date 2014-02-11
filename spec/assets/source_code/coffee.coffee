@@ -9,7 +9,7 @@ class GiftModel
     @removeGift = (gift) =>
       @gifts.remove gift
 
-      regexp = ///
+      regexp = /// # [-12-] regexp comment
       reg(exp) # [-13-] regexp comment
       reg(exp) # [-14-] regexp comment
       ///
