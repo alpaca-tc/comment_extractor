@@ -40,7 +40,7 @@ module CommentParser::Scanner::Concerns::SlashScanner
       line = scanner.scan(%r{(.?(?!\*/))+.})
 
       if %r!^(?:[ *]*)(?<comment>.*)! =~ line
-        self.add_comment(self.current_line, comment)
+        self.add_comment(self.current_line - 1, comment)
       end
     end
   end

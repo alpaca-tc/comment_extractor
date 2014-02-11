@@ -30,7 +30,10 @@ module CommentParser
 
     def current_line
       return unless instance_variable_defined?(:@scanner)
-      content[0..build_scanner.pos].count("\n") + 1
+
+      corrective_line = 1
+      corrective_line += 1 if self.shebang
+      content[0..build_scanner.pos].count("\n") + corrective_line
     end
 
     def add_comment(line, comment)
