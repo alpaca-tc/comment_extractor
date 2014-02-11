@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 class CommentParser::Scanner
-  describe Coffee, disabled: true do
+  describe Coffee do
+    let(:file_path) { 'coffee.coffee' }
+    it_behaves_like 'scanning source code'
   end
 end
