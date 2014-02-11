@@ -32,7 +32,7 @@ module CommentParser
       return unless instance_variable_defined?(:@scanner)
 
       corrective_line = 1
-      corrective_line += 1 if self.shebang
+      corrective_line += 1 if self.file_object.shebang
       content[0..build_scanner.pos].count("\n") + corrective_line
     end
 

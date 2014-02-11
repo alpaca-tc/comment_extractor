@@ -55,13 +55,13 @@ module CommentParser
             scanner.scan(/^.*$/) # Scanning one line
           end
 
-          context 'when shebang is not detected' do
+          context 'and shebang is not detected' do
             it { expect(scanner_object.current_line).to eql 2 }
           end
 
-          context 'when shebang is detected' do
+          context 'and shebang is detected' do
             before do
-              allow(scanner_object).to receive(:shebang) { '' }
+              allow(scanner_object.file_object).to receive(:shebang) { '' }
             end
 
             it { expect(scanner_object.current_line).to eql 3 }
