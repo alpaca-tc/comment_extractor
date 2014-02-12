@@ -17,7 +17,7 @@ module CommentParser
     end
 
     def scan
-      raise 'Neet to implement'
+      raise 'Need to implement'
     end
 
     def content
