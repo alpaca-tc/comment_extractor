@@ -1,7 +1,10 @@
 class CommentParser::Scanner::JavaScript < CommentParser::Scanner
+  include CommentParser::Scanner::Concerns::SimpleScanner
+  include CommentParser::Scanner::Concerns::SlashScanner
+
   filename /\.js$/
   filetype 'javascript'
   shebang /.*(js|node)$/
 
-  include CommentParser::Scanner::Concerns::SlashScanner
+  define_regexp_bracket
 end

@@ -88,9 +88,6 @@
         }
       }
     }
-    /*[-91-] multi_line
-     [-92-] multi_line
-     [-93-] multi_line
-     [-94-] [-end-]*/
+    /*[-91-] multi_line [-end-]*/
   }
 }

@@ -21,7 +21,7 @@ func main() {
 
   /*[-22-]
 [-23-]  Socket to receive messages on
-  */
+*/
   receiver.Connect("tcp://localhost:5557")
 
   //[-27-]  Socket to send messages to task sink

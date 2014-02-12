@@ -20,13 +20,13 @@ namespace zguide.clonesrv1
                     publisher.Bind("tcp://*:5556");
                     Thread.Sleep(TimeSpan.FromMilliseconds(200));
 
-                    var interrupted = false; // [-23-] single line
-                    var sequence = 0L;/* [-24-] multi line [-end-]*/
+                    var interrupted = false; //[-23-] single line
+                    var sequence = 0L;/*[-24-] multi line [-end-]*/
                     var random = new Random((int)DateTime.UtcNow.Ticks);
                     var dict = new Dictionary<string, KvMsg>();
                     /*[-27-]
-                     [-28-] multi line [-end-]
-                     */
+[-28-] multi line [-end-]
+*/
                     Console.CancelKeyPress += (s, e) => { interrupted = true; };
 
                     while (!interrupted)

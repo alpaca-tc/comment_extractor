@@ -1,46 +1,7 @@
 module CommentParser::Scanner::Concerns::SlashScanner
-  def scan
-    until scanner.eos?
-      case
-      when scanner.scan(/"/)
-        scanner.scan(/.*?(?<!\\)"/m)
-      when scanner.scan(/'/)
-        scanner.scan(/.*?(?<!\\)'/m)
-      when scanner.scan(%r!/!)
-        case
-        when scanner.scan(/\*/)
-          identify_multi_line_comment
-        when scanner.scan(%r!/!)
-          identify_single_line_comment
-        else
-          scanner.scan(%r!.*?/!)
-        end
-      when scanner.scan(/(\w|\W)/)
-        next
-      when scanner.scan(CommentParser::Scanner::REGEXP[:BREAK])
-        next
-      else
-        raise_report
-      end
-    end
-  end
+  include CommentParser::Scanner::Concerns::SimpleScanner
 
-  private
-
-  def identify_single_line_comment
-    line_no = current_line
-    line = scanner.scan(/.*$/).strip
-    add_comment(line_no, line, { type: :singleline })
-  end
-
-  def identify_multi_line_comment
-    line_no = current_line
-    lines = scanner.scan(/.*?\*\//m).sub(/\*\/$/, '').split("\n")
-    lines.each_with_index do |line, index|
-      line.strip!
-      if lines.size != (index + 1) || line !~ /^\s*$/
-        add_comment(line_no + index, line, { type: :multiline })
-      end
-    end
-  end
+  define_default_bracket
+  define_rule start: /\/\//
+  define_rule start: /\/\*/, stop: /\*\//, type: BLOCK_COMMENT
 end

@@ -4,6 +4,12 @@ module CommentParser::Scanner::Concerns::SimpleScanner
   module ClassMethods
     include CommentParser::CodeObject::Comment::Type
 
+    def included(k)
+      self.instance_variables.each do |key|
+        k.instance_variable_set(key, self.instance_variable_get(key))
+      end
+    end
+
     def define_rule(start: nil, stop: nil, type: ONE_LINER_COMMENT)
       @comment_regexp ||= []
       raise ArgumentError unless [type, start].all?

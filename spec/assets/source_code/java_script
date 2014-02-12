@@ -17,12 +17,12 @@ function createOptions( options ) {
 }
 /*[-18-] multi line [-end-]*/
 /*[-19-]
- [-20-] Create a callback list using the following parameters:
- [-21-]
- [-22-]  options: an optional list of space-separated options that will change how
- [-23-]      the callback list behaves or a more traditional option object
- [-24-]
- */
+[-20-] Create a callback list using the following parameters:
+[-21-]
+[-22-]  options: an optional list of space-separated options that will change how
+[-23-]      the callback list behaves or a more traditional option object
+[-24-]
+*/
 jQuery.Callbacks = function( options ) {
   //[-27-] (we check in cache first)
   options = typeof options === "string" ?

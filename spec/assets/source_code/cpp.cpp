@@ -12,7 +12,7 @@ client_thread (void *arg) {
     //[-12-]  Send request, get reply
     s_send (client, "HELLO");
     std::string reply = s_recv (client);
-    /* [-15-]  Send request, get reply [-end-]*/
+    /*[-15-]  Send request, get reply [-end-]*/
     return (NULL);
 }
 
@@ -27,8 +27,8 @@ worker_thread (void *arg) {
 
     while (1) {
         /*[-29-]
-        [-30-]Read and save all frames until we get an empty frame
-        [-31-]In this example there is only 1 but it could be more [-end-]*/
+[-30-]Read and save all frames until we get an empty frame
+[-31-]In this example there is only 1 but it could be more [-end-]*/
         std::string address = s_recv (worker);
         {
             std::string empty = s_recv (worker);

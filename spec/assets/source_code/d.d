@@ -1,16 +1,16 @@
-/* [-1-]@copyright wikipedia http://en.wikibooks.org/wiki/D_Programming/First_Program_Examples [-end-]*/
-/* [-2-]Hello World in D
-   [-3-]To compile:
-   [-4-]dmd hello.d
-   [-5-]or to optimize:
-   [-6-]dmd -O -inline -release hello.d
-   [-7-]or to get generated documentation:
-   [-8-]dmd hello.d -D
- */
-import std.stdio;  // [-10-]References to  commonly used I/O routines.
+/*[-1-]@copyright wikipedia http://en.wikibooks.org/wiki/D_Programming/First_Program_Examples [-end-]*/
+/*[-2-]Hello World in D
+[-3-]To compile:
+[-4-]dmd hello.d
+[-5-]or to optimize:
+[-6-]dmd -O -inline -release hello.d
+[-7-]or to get generated documentation:
+[-8-]dmd hello.d -D
+*/
+import std.stdio;  //[-10-]References to  commonly used I/O routines.
 void main(char[][] args)
 {
-  // [-13-]Write-Formatted-Line
+  //[-13-]Write-Formatted-Line
   writefln("Hello World, "
       "Reloaded");
   foreach(argc, argv; args)
