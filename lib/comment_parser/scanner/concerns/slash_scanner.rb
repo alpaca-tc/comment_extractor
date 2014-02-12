@@ -1,3 +1,5 @@
+require 'comment_parser/scanner/concerns/simple_scanner'
+
 module CommentParser::Scanner::Concerns::SlashScanner
   include CommentParser::Scanner::Concerns::SimpleScanner
 
