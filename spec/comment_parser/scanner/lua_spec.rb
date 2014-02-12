@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 class CommentParser::Scanner
-  describe Sql, disabled: true do
+  describe Lua do
+    let(:file_path) { 'lua.lua' }
+    it_behaves_like 'scanning source code'
   end
 end
