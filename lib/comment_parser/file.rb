@@ -1,7 +1,5 @@
 require 'delegate'
 
-# [todo] - Renames File -> File
-# [todo] - Content is encoded by CommentParser::Encoding
 class CommentParser::File < File
   THRESHOLD_BINARY = 0.3
 
@@ -11,7 +9,7 @@ class CommentParser::File < File
     header = File.read(self.path, File.stat(self.path).blksize) || nil
 
     if header.nil? || header.empty?
-      return false
+      false
     else
       chars = header.chars
       (chars.grep(' '..'~').size / chars.size.to_f) <= THRESHOLD_BINARY
@@ -32,7 +30,7 @@ class CommentParser::File < File
   def content
     @content ||= begin
       if shebang
-        self.gets # Removes shebang
+        self.gets # Remove shebang
       end
 
       CommentParser::Encoding.encode(self.read)

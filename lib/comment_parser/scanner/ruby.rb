@@ -33,7 +33,6 @@ class CommentParser::Scanner::Ruby < CommentParser::Scanner
   private
 
   def line_is_comment_of_begin_keyword?(token)
-    binding.pry
     File.readlines(self.file.path)[token.line_no] == /^=begin/
   end
 end

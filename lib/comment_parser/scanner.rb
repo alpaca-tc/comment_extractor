@@ -3,12 +3,10 @@ require 'comment_parser/parser'
 
 module CommentParser
   class Scanner
-    module Concerns
-    end
+    module Concerns; end
 
     attr_accessor :file, :content, :comments
 
-    # [todo] - Separates common feature to other module and scanners includes them
     REGEXP = {
       BREAK: /(?:\r?\n|\r)/,
     }.freeze
@@ -56,7 +54,7 @@ module CommentParser
       @status = :disable
     end
 
-    def self.definition_attr(*keys)
+    def self.attr_definition_accessor(*keys)
       keys.each do |key|
         define_singleton_method key do |value|
           self.definition[key] = value
@@ -67,8 +65,7 @@ module CommentParser
         end
       end
     end
-
-    definition_attr :shebang, :filetype, :filename
+    attr_definition_accessor :shebang, :filetype, :filename
 
     def self.definition
       @definition ||= {}
@@ -86,7 +83,7 @@ module CommentParser
   end
 end
 
-# Registers scanners in ./scanner/*.rb
+# Register scanners in ./scanner/*.rb
 scanner_path = File.expand_path('../scanner', __FILE__)
 Dir["#{scanner_path}/concerns/*.rb"].each { |f| require f }
 Dir["#{scanner_path}/*.rb"].each do |f|

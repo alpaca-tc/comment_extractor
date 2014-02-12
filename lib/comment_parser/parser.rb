@@ -41,17 +41,14 @@ class CommentParser::Parser
       scanners[rule] = klass
     end
 
-    def find_scanner_by_shebang(shebang)
-      find_scanner_by(:shebang, shebang)
+    def self.define_scanner_finder_by(*keys)
+      keys.each do |key|
+        define_method "find_scanner_by_#{key}" do |value|
+          find_scanner_by(key, value)
+        end
+      end
     end
-
-    def find_scanner_by_filename(filename)
-      find_scanner_by(:filename, filename)
-    end
-
-    def find_scanner_by_filetype(filetype)
-      find_scanner_by(:filetype, filetype)
-    end
+    define_scanner_finder_by :shebang, :filename, :filetype
 
     private
 
