@@ -1,0 +1,41 @@
+#! /usr/bin/env ruby
+
+$:.unshift File.expand_path('../../lib', __FILE__)
+require 'comment_parser'
+
+def debug(file_path)
+  puts "Open: #{file_path}"
+
+  if parser = CommentParser::Parser.for(file_path)
+    puts "Use: #{parser.class}"
+    comments = parser.parse
+
+    if comments.empty?
+      puts "Comment is nothing"
+    else
+      comments.each do |comment|
+        puts "#{comment.line}: #{comment.value}"
+      end
+    end
+
+    puts "\n"
+  else
+    raise 'Parser is not found'
+  end
+end
+
+file_path = ARGV.first
+unless file_path
+  puts <<-USAGE.gsub(/^\s{2}/, '')
+  comment_parser_debug [file_path]
+  USAGE
+  exit
+end
+
+if File.file?(file_path)
+  debug(file_path)
+elsif File.directory?(file_path)
+  Dir["#{file_path}/*"].each do |f|
+    debug(f) if File.file?(f)
+  end
+end

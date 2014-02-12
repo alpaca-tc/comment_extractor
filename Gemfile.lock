@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    comment_parser (0.1.0)
+    comment_parser (0.1.1)
       haml
       rdoc
 

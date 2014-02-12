@@ -10,6 +10,9 @@ Gem::Specification.new do |s|
   s.files                += %w[LICENSE README.md]
 
   s.test_files            = `git ls-files -- spec/*`.split("\n")
+
+  s.executables = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
+
   s.homepage              = 'https://github.com/alpaca-tc/comment_parser'
   s.license               = 'MIT'
   s.name                  = 'comment_parser'
