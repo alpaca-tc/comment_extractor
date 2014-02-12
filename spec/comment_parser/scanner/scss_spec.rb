@@ -2,7 +2,6 @@ require 'spec_helper'
 
 class CommentParser::Scanner
   describe Scss do
-    subject { Scss }
-    it { should include Concerns::SlashScanner }
+    it_behaves_like 'scanning source code'
   end
 end
