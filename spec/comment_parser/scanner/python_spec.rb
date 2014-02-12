@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 class CommentParser::Scanner
-  describe Python, disabled: true do
+  describe Python do
+    it_behaves_like 'scanning source code'
   end
 end
