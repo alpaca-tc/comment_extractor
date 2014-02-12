@@ -7,7 +7,7 @@ class CommentParser::Scanner::Html < CommentParser::Scanner
   define_default_bracket
   define_ignore_patterns /<\s*script[^>]*>.*?<\/script\s*>/mi
 
-  define_rule open: '<!--', close: '-->', type: BLOCK_COMMENT
+  define_rule start: '<!--', stop: '-->', type: BLOCK_COMMENT
 
   def content
     @content ||= super.gsub(/&\w+;/, '')

@@ -5,7 +5,7 @@ class CommentParser::Scanner::Python < CommentParser::Scanner
   filetype 'py'
 
   define_default_bracket
-  define_rule open: '"""', close: '"""', type: BLOCK_COMMENT
-  define_rule open: '"""', close: '"""', type: BLOCK_COMMENT
-  define_rule open: '#'
+  define_rule start: '"""', stop: '"""', type: BLOCK_COMMENT
+  define_rule start: '"""', stop: '"""', type: BLOCK_COMMENT
+  define_rule start: '#'
 end

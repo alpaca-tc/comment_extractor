@@ -5,5 +5,5 @@ class CommentParser::Scanner::Lisp < CommentParser::Scanner
   filetype 'lisp'
 
   define_bracket '"'
-  define_rule open: /;+/
+  define_rule start: /;+/
 end

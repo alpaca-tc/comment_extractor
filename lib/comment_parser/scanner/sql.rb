@@ -5,6 +5,6 @@ class CommentParser::Scanner::Sql < CommentParser::Scanner
   filetype 'sql'
 
   define_default_bracket
-  define_rule open: '--'
-  define_rule open: '/\*', close: '\*/', type: BLOCK_COMMENT
+  define_rule start: '--'
+  define_rule start: '/\*', stop: '\*/', type: BLOCK_COMMENT
 end

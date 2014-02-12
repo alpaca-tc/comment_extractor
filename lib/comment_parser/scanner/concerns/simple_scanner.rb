@@ -10,14 +10,14 @@ module CommentParser::Scanner::Concerns::SimpleScanner
   module ClassMethods
     include CommentParser::CodeObject::Comment::Type
 
-    def define_rule(open: nil, close: nil, type: ONE_LINER_COMMENT)
+    def define_rule(start: nil, stop: nil, type: ONE_LINER_COMMENT)
       @comment_regexp ||= []
-      raise ArgumentError unless [type, open].all?
+      raise ArgumentError unless [type, start].all?
 
-      definition = { open: build_regexp(open), type: type, close: close }
+      definition = { start: build_regexp(start), type: type, stop: stop }
 
       if type == BLOCK_COMMENT
-        definition[:close] = build_regexp(close, Regexp::MULTILINE)
+        definition[:stop] = build_regexp(stop, Regexp::MULTILINE)
       end
       @comment_regexp << definition
     end
@@ -28,14 +28,14 @@ module CommentParser::Scanner::Concerns::SimpleScanner
     end
 
     def define_bracket(bracket, options = 0)
-      open_regexp = build_regexp(bracket)
-      close_regexp = if bracket.is_a?(Regexp)
+      start_regexp = build_regexp(bracket)
+      stop_regexp = if bracket.is_a?(Regexp)
                  join_regexp(/(?<!\\)/, bracket)
                else
                  /(?<!\\)#{bracket}/
                end
-      close_regexp = Regexp.new(close_regexp.source, options)
-      append_bracket(open_regexp, close_regexp)
+      stop_regexp = Regexp.new(stop_regexp.source, options)
+      append_bracket(start_regexp, stop_regexp)
     end
 
     def define_regexp_bracket
@@ -47,9 +47,9 @@ module CommentParser::Scanner::Concerns::SimpleScanner
       define_bracket("'", Regexp::MULTILINE)
     end
 
-    def append_bracket(open, close)
+    def append_bracket(start, stop)
       @brackets ||= []
-      @brackets << { open: open, close: close }
+      @brackets << { start: start, stop: stop }
     end
 
     def define_complicate_condition(&proc_object)
@@ -113,10 +113,10 @@ module CommentParser::Scanner::Concerns::SimpleScanner
 
   def scan_bracket
     brackets.each do |definition|
-      open = definition[:open]
-      close = definition[:close]
-      next unless scanner.scan(open)
-      return scanner.scan(Regexp.new(/.*?/.source + close.source, close.options))
+      start = definition[:start]
+      stop = definition[:stop]
+      next unless scanner.scan(start)
+      return scanner.scan(Regexp.new(/.*?/.source + stop.source, stop.options))
     end
 
     nil
@@ -132,13 +132,13 @@ module CommentParser::Scanner::Concerns::SimpleScanner
 
   def scan_comment
     comment_regexp.each do |definition|
-      next unless scanner.scan(definition[:open])
+      next unless scanner.scan(definition[:start])
 
       return case definition[:type]
       when ONE_LINER_COMMENT
         identify_single_line_comment
       when BLOCK_COMMENT
-        identify_multi_line_comment(definition[:close])
+        identify_multi_line_comment(definition[:stop])
       else
         raise_report
       end
@@ -155,8 +155,8 @@ module CommentParser::Scanner::Concerns::SimpleScanner
 
   def identify_multi_line_comment(regexp)
     line_no = current_line
-    close_regexp = Regexp.new(/.*?/.source + regexp.source, regexp.options)
-    comment_block = scanner.scan(close_regexp)
+    stop_regexp = Regexp.new(/.*?/.source + regexp.source, regexp.options)
+    comment_block = scanner.scan(stop_regexp)
 
     remove_tail_regexp = Regexp.new(regexp.source + /$/.source)
     comments = comment_block.sub(remove_tail_regexp, '').split("\n")

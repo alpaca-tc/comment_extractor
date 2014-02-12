@@ -5,5 +5,5 @@ class CommentParser::Scanner::Clojure < CommentParser::Scanner
   filetype 'clojure'
 
   define_default_bracket
-  define_rule open: /;+/
+  define_rule start: /;+/
 end

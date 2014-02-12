@@ -5,5 +5,5 @@ class CommentParser::Scanner::Fortran < CommentParser::Scanner
   filetype 'fortran'
 
   define_default_bracket
-  define_rule open: '!'
+  define_rule start: '!'
 end

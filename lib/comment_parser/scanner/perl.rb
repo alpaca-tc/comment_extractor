@@ -5,6 +5,6 @@ class CommentParser::Scanner::Perl < CommentParser::Scanner
   filetype 'perl'
 
   define_default_bracket
-  define_rule open: /^=pod/, close: /^=cut/, type: BLOCK_COMMENT
-  define_rule open: '#'
+  define_rule start: /^=pod/, stop: /^=cut/, type: BLOCK_COMMENT
+  define_rule start: '#'
 end

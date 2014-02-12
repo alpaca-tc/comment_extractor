@@ -5,5 +5,5 @@ class CommentParser::Scanner::Shell < CommentParser::Scanner
   filetype '(bash|sh)'
 
   define_default_bracket
-  define_rule open: '#'
+  define_rule start: '#'
 end

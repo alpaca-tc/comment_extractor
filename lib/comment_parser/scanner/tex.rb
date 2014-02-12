@@ -5,6 +5,6 @@ class CommentParser::Scanner::Tex < CommentParser::Scanner
   filetype 'tex'
 
   define_bracket '{'
-  define_rule open: /(?<!\\)%/
+  define_rule start: /(?<!\\)%/
   define_ignore_patterns /\\%/
 end
