@@ -1,4 +1,3 @@
-## Parser finds scanner klass from file_name
 class CommentParser::Parser
   def initialize(scanner)
     @scanner = scanner
@@ -34,12 +33,12 @@ class CommentParser::Parser
       scanner
     end
 
-    def regist_scanner(klass_or_symbol, rule = nil)
-      if rule.nil? && klass_or_symbol.respond_to?(:definition)
-        rule = klass_or_symbol.definition
+    def regist_scanner(klass, rule = nil)
+      if rule.nil? && klass.respond_to?(:definition)
+        rule = klass.definition
       end
 
-      scanners[rule] = klass_or_symbol
+      scanners[rule] = klass
     end
 
     def find_scanner_by_shebang(shebang)

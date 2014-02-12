@@ -1,7 +1,5 @@
 module CommentParser::Scanner::Concerns::SlashScanner
   def scan
-    scanner = build_scanner
-
     until scanner.eos?
       case
       when scanner.scan(/"/)
@@ -11,9 +9,9 @@ module CommentParser::Scanner::Concerns::SlashScanner
       when scanner.scan(%r!/!)
         case
         when scanner.scan(/\*/)
-          identify_multi_comment
+          identify_multi_line_comment
         when scanner.scan(%r!/!)
-          identify_single_comment
+          identify_single_line_comment
         else
           scanner.scan(%r!.*?/!)
         end
@@ -29,15 +27,15 @@ module CommentParser::Scanner::Concerns::SlashScanner
 
   private
 
-  def identify_single_comment
+  def identify_single_line_comment
     line_no = current_line
-    line = build_scanner.scan(/.*$/).strip
+    line = scanner.scan(/.*$/).strip
     add_comment(line_no, line, { type: :singleline })
   end
 
-  def identify_multi_comment
+  def identify_multi_line_comment
     line_no = current_line
-    lines = build_scanner.scan(/.*?\*\//m).sub(/\*\/$/, '').split("\n")
+    lines = scanner.scan(/.*?\*\//m).sub(/\*\/$/, '').split("\n")
     lines.each_with_index do |line, index|
       line.strip!
       if lines.size != (index + 1) || line !~ /^\s*$/

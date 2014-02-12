@@ -20,7 +20,7 @@ module CommentParser
       end
 
       describe '#scanner' do
-        it { expect(scanner_object.build_scanner).to be_an_instance_of(StringScanner) }
+        it { expect(scanner_object.scanner).to be_an_instance_of(StringScanner) }
       end
 
       describe '#content' do
@@ -51,7 +51,7 @@ module CommentParser
 
         context 'when scanner has already used' do
           before do
-            @scanner = scanner_object.build_scanner
+            @scanner = scanner_object.scanner
           end
 
           context 'and shebang is not detected' do

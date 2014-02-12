@@ -1,12 +1,6 @@
 module CommentParser::Scanner::Concerns::SimpleScanner
   include CommentParser::CodeObject::Comment::Type
 
-  def self.included(k)
-    k.class_eval do |klass|
-      extend ClassMethods
-    end
-  end
-
   module ClassMethods
     include CommentParser::CodeObject::Comment::Type
 
@@ -67,6 +61,12 @@ module CommentParser::Scanner::Concerns::SimpleScanner
     def build_regexp(str_or_reg, type = 0)
       str_or_reg = str_or_reg.source if str_or_reg.respond_to?(:source)
       Regexp.new(str_or_reg, type)
+    end
+  end
+
+  def self.included(k)
+    k.class_eval do |klass|
+      extend ClassMethods
     end
   end
 
@@ -163,9 +163,5 @@ module CommentParser::Scanner::Concerns::SimpleScanner
     comments.each_with_index do |comment, index|
       add_comment(line_no + index, comment, type: BLOCK_COMMENT)
     end
-  end
-
-  def scanner
-    @scanner ||= build_scanner
   end
 end

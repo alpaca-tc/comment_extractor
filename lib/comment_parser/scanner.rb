@@ -3,6 +3,9 @@ require 'comment_parser/parser'
 
 module CommentParser
   class Scanner
+    module Concerns
+    end
+
     attr_accessor :file, :content, :comments
 
     # [todo] - Separates common feature to other module and scanners includes them
@@ -24,8 +27,8 @@ module CommentParser
       @content ||= file.respond_to?(:content) ? file.content : ''
     end
 
-    def build_scanner
-      @scanner ||= StringScanner.new(self.content)
+    def scanner
+      @scanner ||= build_scanner
     end
 
     def current_line
@@ -33,7 +36,7 @@ module CommentParser
 
       corrective_line = 1
       corrective_line += 1 if self.file.shebang
-      content[0...build_scanner.charpos].count("\n") + corrective_line
+      content[0...scanner.charpos].count("\n") + corrective_line
     end
 
     def add_comment(line, comment, metadata = {})
@@ -73,21 +76,22 @@ module CommentParser
 
     private
 
+    def build_scanner
+      StringScanner.new(self.content)
+    end
+
     def raise_report
       raise 'Error occurred. Please report to <https://github.com/alpaca-tc/comment_parser/issues>'
     end
   end
+end
 
-  scanner_path = File.expand_path('../scanner', __FILE__)
-  module Scanner::Concerns; end
-  # Requires common future for scanners
-  Dir["#{scanner_path}/concerns/*.rb"].each { |f| require f }
-
-  # Registers scanners in ./scanner/*.rb
-  Dir["#{scanner_path}/*.rb"].each do |f|
-    require f
-    klass_name = f[%r![^/]+(?=\.rb$)!].split('_').collect(&:capitalize).join
-    klass = Scanner.const_get(klass_name)
-    Parser.regist_scanner(klass) unless klass.disabled?
-  end
+# Registers scanners in ./scanner/*.rb
+scanner_path = File.expand_path('../scanner', __FILE__)
+Dir["#{scanner_path}/concerns/*.rb"].each { |f| require f }
+Dir["#{scanner_path}/*.rb"].each do |f|
+  require f
+  klass_name = f[%r![^/]+(?=\.rb$)!].split('_').collect(&:capitalize).join
+  klass = CommentParser::Scanner.const_get(klass_name)
+  CommentParser::Parser.regist_scanner(klass) unless klass.disabled?
 end
