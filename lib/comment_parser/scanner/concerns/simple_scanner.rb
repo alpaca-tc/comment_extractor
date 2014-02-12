@@ -14,12 +14,17 @@ module CommentParser::Scanner::Concerns::SimpleScanner
       @comment_regexp ||= []
       raise ArgumentError unless [type, open].all?
 
-      definition = { open: build_regexp(open), type: type }
+      definition = { open: build_regexp(open), type: type, close: close }
 
       if type == BLOCK_COMMENT
         definition[:close] = build_regexp(close, Regexp::MULTILINE)
       end
       @comment_regexp << definition
+    end
+
+    def define_ignore_patterns(*patterns)
+      @ignore_patterns ||= []
+      @ignore_patterns += patterns
     end
 
     def define_bracket(bracket, options = 0)
@@ -47,6 +52,11 @@ module CommentParser::Scanner::Concerns::SimpleScanner
       @brackets << { open: open, close: close }
     end
 
+    def define_complicate_condition(&proc_object)
+      @complicate_conditions ||= []
+      @complicate_conditions << proc_object
+    end
+
     private
 
     def join_regexp(*regexp)
@@ -67,11 +77,17 @@ module CommentParser::Scanner::Concerns::SimpleScanner
       end
     end
   end
-  attr_definition :brackets, :comment_regexp
+  attr_definition :brackets, :comment_regexp,
+    :ignore_patterns, :complicate_conditions
 
   def scan
+    raise if scan_ignore_patterns
     until scanner.eos?
       case
+      when scan_ignore_patterns
+        next
+      when scan_complicate_conditions
+        next
       when scan_comment
         next
       when scan_bracket
@@ -88,6 +104,14 @@ module CommentParser::Scanner::Concerns::SimpleScanner
 
   private
 
+  def scan_complicate_conditions
+    complicate_conditions.each do |proc_object|
+      return if self.instance_eval(&proc_object)
+    end
+
+    nil
+  end
+
   def scan_bracket
     brackets.each do |definition|
       open = definition[:open]
@@ -99,10 +123,19 @@ module CommentParser::Scanner::Concerns::SimpleScanner
     nil
   end
 
+  def scan_ignore_patterns
+    ignore_patterns.each do |pattern|
+      return true if scanner.scan(pattern)
+    end
+
+    nil
+  end
+
   def scan_comment
     comment_regexp.each do |definition|
       next unless scanner.scan(definition[:open])
-      case definition[:type]
+
+      return case definition[:type]
       when ONE_LINER_COMMENT
         identify_single_line_comment
       when BLOCK_COMMENT
