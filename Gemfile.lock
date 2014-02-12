@@ -1,9 +1,8 @@
 PATH
   remote: .
   specs:
-    comment_parser (0.1.1)
+    comment_parser (0.1.2)
       haml
-      rdoc
 
 GEM
   remote: https://rubygems.org/
@@ -39,7 +38,6 @@ GEM
     rb-fsevent (0.9.4)
     rb-inotify (0.9.3)
       ffi (>= 0.5.0)
-    rdoc (4.0.0)
     rspec (3.0.0.beta1)
       rspec-core (= 3.0.0.beta1)
       rspec-expectations (= 3.0.0.beta1)

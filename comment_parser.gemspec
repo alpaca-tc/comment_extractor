@@ -24,7 +24,6 @@ Gem::Specification.new do |s|
   s.description           = 'CommentParser parses comment from source code'
 
   s.add_dependency 'haml'
-  s.add_dependency 'rdoc'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'guard'
