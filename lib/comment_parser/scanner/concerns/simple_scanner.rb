@@ -22,18 +22,37 @@ module CommentParser::Scanner::Concerns::SimpleScanner
       @comment_regexp << definition
     end
 
-    def define_bracket(char, options = 0)
-      @brackets ||= []
-      close_regexp = Regexp.new("(?<!\\\\)#{char}", options)
-      @brackets << { open: Regexp.new(char), close: close_regexp }
+    def define_bracket(bracket, options = 0)
+      open_regexp = build_regexp(bracket)
+      close_regexp = if bracket.is_a?(Regexp)
+                 join_regexp(/(?<!\\)/, bracket)
+               else
+                 /(?<!\\)#{bracket}/
+               end
+      close_regexp = Regexp.new(close_regexp.source, options)
+      append_bracket(open_regexp, close_regexp)
+    end
+
+    def define_regexp_bracket
+      append_bracket(%r!/(?=[^/])!, /(?<!\\)\//)
     end
 
     def define_default_bracket
-      self.define_bracket('"', Regexp::MULTILINE)
-      self.define_bracket("'", Regexp::MULTILINE)
+      define_bracket('"', Regexp::MULTILINE)
+      define_bracket("'", Regexp::MULTILINE)
+    end
+
+    def append_bracket(open, close)
+      @brackets ||= []
+      @brackets << { open: open, close: close }
     end
 
     private
+
+    def join_regexp(*regexp)
+      # [review] - Should I ignore regexp options?
+      Regexp.new(regexp.map { |v| v.source }.inject(:+))
+    end
 
     def build_regexp(str_or_reg, type = 0)
       str_or_reg = str_or_reg.source if str_or_reg.respond_to?(:source)

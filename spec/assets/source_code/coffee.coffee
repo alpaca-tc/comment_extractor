@@ -1,6 +1,6 @@
-# [-1-] singleline
+#[-1-] singleline
 class GiftModel
-  constructor: (gifts) -> # [-3-] singleline
+  constructor: (gifts) -> #[-3-] singleline
     @gifts = ko.observableArray gifts
 
     @addGift = =>
@@ -9,9 +9,9 @@ class GiftModel
     @removeGift = (gift) =>
       @gifts.remove gift
 
-      regexp = /// # [-12-] regexp comment
-      reg(exp) # [-13-] regexp comment
-      reg(exp) # [-14-] regexp comment
+      regexp = /// #[-12-] regexp comment
+      reg(exp) #[-13-] regexp comment
+      reg(exp) #[-14-] regexp comment
       ///
     @save = (form) =>
       alert "Could now transmit to server: #{ko.utils.stringifyJson @gifts}"
@@ -20,7 +20,7 @@ class GiftModel
 ###
 viewModel = new GiftModel(
   [
-    { name: "Tall Hat", price: "39.95" } # [-23-] singleline
+    { name: "Tall Hat", price: "39.95" } #[-23-] singleline
         { name: "Long Cloak", price: "120.00"}
   ])
 ko.applyBindings viewModel
