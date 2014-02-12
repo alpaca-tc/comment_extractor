@@ -13,6 +13,7 @@ class CommentParser::Parser
     attr_accessor :scanners
 
     def for(file)
+      file = CommentParser::File.new(file) unless file.is_a?(CommentParser::File)
       if scanner = can_parse(file)
         new(scanner.new(file))
       end

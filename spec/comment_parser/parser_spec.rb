@@ -147,7 +147,9 @@ module CommentParser
       end
 
       describe '.for' do
-        let(:file) { allow(double(File)).to receive(:content).and_return('') }
+        let(:file) do
+          CommentParser::File.new(__FILE__)
+        end
         subject { Parser.for(file) }
 
         before do
