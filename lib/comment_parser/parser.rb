@@ -1,29 +1,36 @@
 ## Parser finds scanner klass from file_name
-module CommentParser::Parser
+class CommentParser::Parser
+  def initialize(scanner)
+    @scanner = scanner
+  end
+
+  def parse
+    @scanner.scan
+    @scanner.comments
+  end
+
   class << self
     attr_accessor :scanners
 
-    # [todo] - Implements Parser.new method and it contains scanner
     def for(file)
-      if parser = can_parse(file)
-        parser = const_get(parser) if parser.is_a?(Symbol) # :Klass => Klass
-        parser.new(file, file.content)
+      if scanner = can_parse(file)
+        new(scanner.new(file))
       end
     end
 
     def can_parse(file)
       return if file.binary?
-      parser = nil
+      scanner = nil
 
       if file.shebang
-        parser = can_parse_by_shebang(file.shebang)
+        scanner = find_scanner_by_shebang(file.shebang)
       end
 
-      unless parser
-        parser = can_parse_by_filename(file.path)
+      unless scanner
+        scanner = find_scanner_by_filename(file.path)
       end
 
-      parser
+      scanner
     end
 
     def regist_scanner(klass_or_symbol, rule = nil)
@@ -34,23 +41,27 @@ module CommentParser::Parser
       scanners[rule] = klass_or_symbol
     end
 
-    def can_parse_by_shebang(shebang)
+    def find_scanner_by_shebang(shebang)
       find_scanner_by(:shebang, shebang)
     end
 
-    def can_parse_by_filename(filename)
+    def find_scanner_by_filename(filename)
       find_scanner_by(:filename, filename)
+    end
+
+    def find_scanner_by_filetype(filetype)
+      find_scanner_by(:filetype, filetype)
     end
 
     private
 
     def find_scanner_by(key, value)
-      return unless key || value
-
       scanners.each_key do |rule_of|
-        if rule_of.has_key?(key) && rule_of[key] =~ value
-          return scanners[rule_of]
-        end
+        next unless rule_of.has_key?(key)
+
+        rule = rule_of[key]
+        comparison_operator = rule.is_a?(Regexp) ? :=~ : :==
+        return scanners[rule_of] if rule.send(comparison_operator, value)
       end
 
       nil
