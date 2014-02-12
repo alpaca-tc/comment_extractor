@@ -14,10 +14,10 @@ module CommentParser::Scanner::Concerns::SimpleScanner
       @comment_regexp ||= []
       raise ArgumentError unless [type, open].all?
 
-      definition = { open: Regexp.new(open), type: type }
+      definition = { open: build_regexp(open), type: type }
 
       if type == BLOCK_COMMENT
-        definition[:close] = Regexp.new(close, Regexp::MULTILINE)
+        definition[:close] = build_regexp(close, Regexp::MULTILINE)
       end
       @comment_regexp << definition
     end
@@ -31,6 +31,13 @@ module CommentParser::Scanner::Concerns::SimpleScanner
     def define_default_bracket
       self.define_bracket('"', Regexp::MULTILINE)
       self.define_bracket("'", Regexp::MULTILINE)
+    end
+
+    private
+
+    def build_regexp(str_or_reg, type = 0)
+      str_or_reg = str_or_reg.source if str_or_reg.respond_to?(:source)
+      Regexp.new(str_or_reg, type)
     end
   end
 
