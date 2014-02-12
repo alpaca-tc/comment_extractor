@@ -72,9 +72,9 @@ module CommentParser::Scanner::Concerns::SimpleScanner
   def scan
     until scanner.eos?
       case
-      when scan_bracket
-        next
       when scan_comment
+        next
+      when scan_bracket
         next
       when scanner.scan(CommentParser::Scanner::REGEXP[:BREAK])
         next
