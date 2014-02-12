@@ -7,5 +7,4 @@ module CommentParser
   autoload :File, 'comment_parser/file'
   autoload :Parser, 'comment_parser/parser'
   autoload :Scanner, 'comment_parser/scanner'
-  autoload :Stripper, 'comment_parser/stripper'
 end
