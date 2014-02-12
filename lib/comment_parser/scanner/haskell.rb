@@ -4,9 +4,7 @@ class CommentParser::Scanner::Haskell < CommentParser::Scanner
   filename /\.hs$/
   filetype 'haskell'
 
-  rule = {
-    single_line: { open: '--' },
-    multi_line: { open: '{-', close: '-}' }
-  }
-  self.define_rule rule
+  define_default_bracket
+  define_rule open: '--'
+  define_rule open: '{-', close: '-}', type: BLOCK_COMMENT
 end

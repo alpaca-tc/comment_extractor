@@ -1,4 +1,6 @@
 module CommentParser::Scanner::Concerns::SimpleScanner
+  include CommentParser::CodeObject::Comment::Type
+
   def self.included(k)
     k.class_eval do |klass|
       extend ClassMethods
@@ -6,55 +8,106 @@ module CommentParser::Scanner::Concerns::SimpleScanner
   end
 
   module ClassMethods
-    # rule = { single_line: { open: nil, close: nil }, multi_line: { open: nil, close: nil } }
-    def define_rule(rule = {})
-      @rule ||= Hash.new { |h,k| h[k] = Hash.new(&h.default_proc) }
-      [:single_line, :multi_line].each do |key|
-        @rule[key] = rule[key] if rule.has_key?(key)
+    include CommentParser::CodeObject::Comment::Type
+
+    def define_rule(open: nil, close: nil, type: ONE_LINER_COMMENT)
+      @comment_regexp ||= []
+      raise ArgumentError unless [type, open].all?
+
+      definition = { open: Regexp.new(open), type: type }
+
+      if type == BLOCK_COMMENT
+        definition[:close] = Regexp.new(close, Regexp::MULTILINE)
       end
+      @comment_regexp << definition
     end
-    attr_reader :rule
+
+    def define_bracket(char, options = 0)
+      @brackets ||= []
+      close_regexp = Regexp.new("(?<!\\\\)#{char}", options)
+      @brackets << { open: Regexp.new(char), close: close_regexp }
+    end
+
+    def define_default_bracket
+      self.define_bracket('"', Regexp::MULTILINE)
+      self.define_bracket("'", Regexp::MULTILINE)
+    end
   end
 
   def scan
-    scanner = build_scanner
-
     until scanner.eos?
       case
-      when scanner.scan(/"/)
-        scanner.scan(/.*?(?<!\\)"/m)
-      when scanner.scan(/'/)
-        scanner.scan(/.*?(?<!\\)'/m)
-      when scanner.scan(/#{rule[:multi_line][:open]}/)
-        identify_multi_line_comment
-      when scanner.scan(/#{rule[:single_line][:open]}/)
-        identify_single_line_comment
-      when scanner.scan(/(\w|\W)/), scanner.scan(CommentParser::Scanner::REGEXP[:BREAK])
+      when scan_bracket
         next
+      when scan_comment
+        next
+      when scanner.scan(CommentParser::Scanner::REGEXP[:BREAK])
+        next
+      when scanner.scan(/./)
+        next
+      else
+        raise_report
       end
     end
   end
 
+  def self.attr_definition(*keys)
+    keys.each do |key|
+      define_method key do
+        self.class.instance_variable_get("@#{key}") || []
+      end
+    end
+  end
+  attr_definition :brackets, :comment_regexp
+
   private
 
-  def identify_single_line_comment
-    scanner = build_scanner
-    line_no = current_line
-    comment = scanner.scan(/^.*$/)
-    add_comment(line_no, comment)
+  def scan_bracket
+    brackets.each do |definition|
+      open = definition[:open]
+      close = definition[:close]
+      next unless scanner.scan(open)
+      return scanner.scan(Regexp.new(/.*?/.source + close.source, close.options))
+    end
+
+    nil
   end
 
-  def identify_multi_line_comment
-    scanner = build_scanner
+  def scan_comment
+    comment_regexp.each do |definition|
+      next unless scanner.scan(definition[:open])
+      case definition[:type]
+      when ONE_LINER_COMMENT
+        identify_single_line_comment
+      when BLOCK_COMMENT
+        identify_multi_line_comment(definition[:close])
+      else
+        raise_report
+      end
+    end
+
+    nil
+  end
+
+  def identify_single_line_comment
+    line_number = current_line
+    comment = scanner.scan(/^.*$/)
+    add_comment(line_number, comment, type: ONE_LINER_COMMENT)
+  end
+
+  def identify_multi_line_comment(regexp)
     line_no = current_line
-    close_reg = rule[:multi_line][:close]
-    comments = scanner.scan(/.*?#{close_reg}/m).sub(/#{close_reg}$/, '').split("\n")
+    close_regexp = Regexp.new(/.*?/.source + regexp.source, regexp.options)
+    comment_block = scanner.scan(close_regexp)
+
+    remove_tail_regexp = Regexp.new(regexp.source + /$/.source)
+    comments = comment_block.sub(remove_tail_regexp, '').split("\n")
     comments.each_with_index do |comment, index|
-      add_comment(line_no + index, comment)
+      add_comment(line_no + index, comment, type: BLOCK_COMMENT)
     end
   end
 
-  def rule
-    self.class.rule
+  def scanner
+    @scanner ||= build_scanner
   end
 end
