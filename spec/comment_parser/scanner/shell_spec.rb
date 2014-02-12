@@ -2,12 +2,6 @@ require 'spec_helper'
 
 class CommentParser::Scanner
   describe Shell do
-    let(:klass) { Shell }
-    it { pending 'scanner' }
-
-    describe '#disabled?' do
-      subject { klass.disabled? }
-      it { should be_truthy }
-    end
+    it_behaves_like 'scanning source code'
   end
 end
