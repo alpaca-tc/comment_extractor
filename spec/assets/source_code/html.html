@@ -1,142 +1,139 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>RailsとRubyとVimのブログ</title>
+  <head>
+    <meta charset="UTF-8">
+    <title>RailsとRubyとVimのブログ</title>
 
-  <meta name="description" content="ここまで出来る！RubyのSplat Operatorまとめ Feb 12th, 2014 Posted by 石井浩之 Splat Operatorとは、*のことです この前、友人にコードレビューしてもらっていたら 「え、Rubyってこんな書き方出来るんですか？」と言われて、「 &hellip;">
-
-  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
-  <meta content='RailsとRubyとVimのブログ' name='title' />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <meta content='RailsとRubyとVimのブログ' name='title' />
 
 
-<link rel="author" href="https://plus.google.com/105581201951227096827" />
-<link rel="publisher" href="https://plus.google.com/105581201951227096827" />
+    <link rel="author" href="https://plus.google.com/105581201951227096827" />
+    <link rel="publisher" href="https://plus.google.com/105581201951227096827" />
+    <!--[-13-][if lte IE 8]>
+[-14-] multiline comment
+[-15-]<![endif][-end-]-->
+
+    <meta property="og:title" content='RailsとRubyとVimのブログ' />
+    <meta property="og:locale" content="ja_JP"/>
+    <meta property="og:image" content="http://http://alpaca.tc/images/meta/site_title.png"/>
+    <meta property="og:type" content="blog"/>
+    <meta property="og:url" content="http://alpaca.tc/index.html"/>
+    <meta property="og:site_name" content="RailsとRubyとVimのブログ"/>
+    <meta property="og:description" content="ここまで出来る！RubyのSplat Operatorまとめ Feb 12th, 2014 Posted by 石井浩之 Splat Operatorとは、*のことです この前、友人にコードレビューしてもらっていたら 「え、Rubyってこんな書き方出来るんですか？」と言われて、「 &hellip;" />
+    <meta property="fb:app_id" content="224701561024840" />
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="RailsとRubyとVimのブログ">
+    <meta name="twitter:description" content="ここまで出来る！RubyのSplat Operatorまとめ Feb 12th, 2014 Posted by 石井浩之 Splat Operatorとは、*のことです この前、友人にコードレビューしてもらっていたら 「え、Rubyってこんな書き方出来るんですか？」と言われて、「 &hellip;">
+    <meta name="twitter:image" content="http://http://alpaca.tc/images/meta/twitter.png">
+    <meta name="twitter:site" content="@alpaca_taichou">
+    <meta name="twitter:creator" content="@alpaca_taichou">
 
 
-  <meta property="og:title" content='RailsとRubyとVimのブログ' />
-<meta property="og:locale" content="ja_JP"/>
-<meta property="og:image" content="http://http://alpaca.tc/images/meta/site_title.png"/>
-<meta property="og:type" content="blog"/>
-<meta property="og:url" content="http://alpaca.tc/index.html"/>
-<meta property="og:site_name" content="RailsとRubyとVimのブログ"/>
-<meta property="og:description" content="ここまで出来る！RubyのSplat Operatorまとめ Feb 12th, 2014 Posted by 石井浩之 Splat Operatorとは、*のことです この前、友人にコードレビューしてもらっていたら 「え、Rubyってこんな書き方出来るんですか？」と言われて、「 &hellip;" />
-<meta property="fb:app_id" content="224701561024840" />
+    <script type="text/javascript">window._pt_lt = new Date().getTime();</script>
 
-  <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="RailsとRubyとVimのブログ">
-<meta name="twitter:description" content="ここまで出来る！RubyのSplat Operatorまとめ Feb 12th, 2014 Posted by 石井浩之 Splat Operatorとは、*のことです この前、友人にコードレビューしてもらっていたら 「え、Rubyってこんな書き方出来るんですか？」と言われて、「 &hellip;">
-<meta name="twitter:image" content="http://http://alpaca.tc/images/meta/twitter.png">
-<meta name="twitter:site" content="@alpaca_taichou">
-<meta name="twitter:creator" content="@alpaca_taichou">
+    <link rel="stylesheet" href="/stylesheets/reset.css" type="text/css" media="all"/>
+    <link rel="stylesheet" href="/stylesheets/compression.css" type="text/css" media="all"/>
+    <meta name="google-site-verification" content="thSL3cUT7BV1-AENglRFIF-kv6I85JJ6_iUGAU8GaQI" />
+
+    <!--[-40-] multiline comment [-end-]-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 
-  <script type="text/javascript">window._pt_lt = new Date().getTime();</script>
-
-  <link rel="stylesheet" href="/stylesheets/reset.css" type="text/css" media="all"/>
-  <link rel="stylesheet" href="/stylesheets/compression.css" type="text/css" media="all"/>
-  <meta name="google-site-verification" content="thSL3cUT7BV1-AENglRFIF-kv6I85JJ6_iUGAU8GaQI" />
-
-  <!--[-40-][if lte IE 8]>
-[-41-] multiline comment
-[-42-]<![endif][-end-]-->
-  <!--[-43-] multiline comment [-end-]-->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
-
-<script>
-  var _gaq = _gaq || [];
-  _gaq.push(['_require', 'inpage_linkid', '//www.google-analytics.com/plugins/ga/inpage_linkid.js']);
-  _gaq.push(['_setAccount', 'UA-44082439-2']);
-  _gaq.push(['_trackPageview']);
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
+    <script>
+      var _gaq = _gaq || [];
+      _gaq.push(['_require', 'inpage_linkid', '//www.google-analytics.com/plugins/ga/inpage_linkid.js']);
+      _gaq.push(['_setAccount', 'UA-44082439-2']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+       ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+       })();
+     </script>
 
 
 
 
 
-<link rel="next" href="/blog/page/2/">
+     <link rel="next" href="/blog/page/2/">
 
 
 
 
 
-<link rel="canonical" href="http://alpaca.tc/index.html">
+     <link rel="canonical" href="http://alpaca.tc/index.html">
 
 
 
-</head>
-<div id="fb-root"></div>
+   </head>
+   <div id="fb-root"></div>
 
-<body id="default_contents">
-  <div id="header_top" class="outer_envelope clearfix">
-    <header>        <div class="inner_wrapper clearfix">
-        <div class="inner clearfix">
-          <div id="logo">
+   <body id="default_contents">
+     <div id="header_top" class="outer_envelope clearfix">
+       <header>        <div class="inner_wrapper clearfix">
+           <div class="inner clearfix">
+             <div id="logo">
 
-              <h1 id="site_title"><a href="/">RailsとRubyとVimのブログ</a></h1>
+               <h1 id="site_title"><a href="/">RailsとRubyとVimのブログ</a></h1>
 
-          </div>
+             </div>
 
-          <nav id="header_nav">
-            <ul class="clearfix">
-              <li>
-                <a href="/about_me">About Me</a>
-              </li>
-              <li>
-                <a href="/">Blog</a>
-              </li>
-              <li>
-                <a href="/works/">Works</a>
-              </li>
-              <li>
-                <a target="_blank" href="https://github.com/alpaca-tc">GitHub</a>
-              </li>
-              <li>
-                <a target="_blank" href="https://twitter.com/alpaca_taichou">Twitter</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-</header>
+             <nav id="header_nav">
+               <ul class="clearfix">
+                 <li>
+                   <a href="/about_me">About Me</a>
+                 </li>
+                 <li>
+                   <a href="/">Blog</a>
+                 </li>
+                 <li>
+                   <a href="/works/">Works</a>
+                 </li>
+                 <li>
+                   <a target="_blank" href="https://github.com/alpaca-tc">GitHub</a>
+                 </li>
+                 <li>
+                   <a target="_blank" href="https://twitter.com/alpaca_taichou">Twitter</a>
+                 </li>
+               </ul>
+             </nav>
+           </div>
+         </div>
+       </header>
 
-    <div id="main_contents" class="clearfix">
-      <div class="inner_wrapper">
-        <div class="inner">
-          <div class="left_page inner_wrapper">
-            <div id="page_contents" class="inner">
-              <div id="index_contents" class="blog-index">
-                <!--[-115-]
-[-116-][-end-]-->
-<script type="text/javascript" charset="utf-8">
-  (function() {
-    $(function() {
-      var isSmartPhone = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase());
-      if (isSmartPhone) {
-        var $pagination = $('.pagination'),
-        $prev = $pagination.find('.prev'),
-        $next = $pagination.find('.next');
-        $prev.text($prev.data('label'));
-        $next.text($next.data('label'));
-      }
-    });
-  })();
-</script>
-</div>
+       <div id="main_contents" class="clearfix">
+         <div class="inner_wrapper">
+           <div class="inner">
+             <div class="left_page inner_wrapper">
+               <div id="page_contents" class="inner">
+                 <div id="index_contents" class="blog-index">
+                   <!--[-112-]
+[-113-][-end-]-->
+                   <script type="text/javascript" charset="utf-8">
+                     (function() {
+                      $(function() {
+                        var isSmartPhone = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase());
+                        if (isSmartPhone) {
+                        var $pagination = $('.pagination'),
+                        $prev = $pagination.find('.prev'),
+                        $next = $pagination.find('.next');
+                        $prev.text($prev.data('label'));
+                        $next.text($next.data('label'));
+                        }
+                        });
+                      })();
+                    </script>
+                  </div>
+
+                </div>
+              </div>
+
 
             </div>
           </div>
-
-
         </div>
       </div>
-    </div>
-  </div>
-</body>
-</html>
+    </body>
+  </html>

@@ -81,7 +81,6 @@ module CommentParser::Scanner::Concerns::SimpleScanner
     :ignore_patterns, :complicate_conditions
 
   def scan
-    raise if scan_ignore_patterns
     until scanner.eos?
       case
       when scan_ignore_patterns

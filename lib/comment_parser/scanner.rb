@@ -33,7 +33,7 @@ module CommentParser
 
       corrective_line = 1
       corrective_line += 1 if self.file.shebang
-      content[0...build_scanner.pos].count("\n") + corrective_line
+      content[0...build_scanner.charpos].count("\n") + corrective_line
     end
 
     def add_comment(line, comment, metadata = {})
