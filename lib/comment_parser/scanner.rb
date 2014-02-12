@@ -3,15 +3,15 @@ require 'comment_parser/parser'
 
 module CommentParser
   class Scanner
-    attr_accessor :file_object, :content, :comments
+    attr_accessor :file, :content, :comments
 
     # [todo] - Separates common feature to other module and scanners includes them
     REGEXP = {
       BREAK: /(?:\r?\n|\r)/,
     }.freeze
 
-    def initialize(file_object, content = nil)
-      @file_object = file_object
+    def initialize(file, content = nil)
+      @file = file
       @content = content
       @comments = []
     end
@@ -21,7 +21,7 @@ module CommentParser
     end
 
     def content
-      @content ||= file_object.respond_to?(:content) ? file_object.content : ''
+      @content ||= file.respond_to?(:content) ? file.content : ''
     end
 
     def build_scanner
@@ -32,13 +32,13 @@ module CommentParser
       return unless instance_variable_defined?(:@scanner)
 
       corrective_line = 1
-      corrective_line += 1 if self.file_object.shebang
+      corrective_line += 1 if self.file.shebang
       content[0...build_scanner.pos].count("\n") + corrective_line
     end
 
     def add_comment(line, comment, metadata = {})
       @comments << CommentParser::CodeObject::Comment.new.tap do |c|
-        c.file = file_object
+        c.file = file
         c.line = line
         c.value = comment
         c.metadata = metadata

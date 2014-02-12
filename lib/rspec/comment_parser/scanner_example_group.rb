@@ -16,8 +16,8 @@ module RSpec::CommentParser::ScannerExampleGroup
   end
   attr_reader :test_for_scanner
 
-  def build_scanner(file_object, content = nil)
-    described_class.new(file_object, content)
+  def build_scanner(file, content = nil)
+    described_class.new(file, content)
   end
 
   def source_code_path(file_name = nil)
@@ -45,7 +45,7 @@ module RSpec::CommentParser::ScannerExampleGroup
     subject { scanner }
 
     let(:file_path) { described_class.to_s[/[^:]+$/].underscore }
-    let(:source_code) { CommentParser::FileObject.new(source_code_path(file_path)) }
+    let(:source_code) { CommentParser::File.new(source_code_path(file_path)) }
     let(:scanner) { build_scanner(source_code) }
 
     context '.new' do
@@ -75,7 +75,7 @@ module RSpec::CommentParser::ScannerExampleGroup
 
     shared_examples_for 'detecting shebang' do |*shebangs|
       # let dummy source code
-      let(:source_code) { CommentParser::FileObject.new(__FILE__) }
+      let(:source_code) { CommentParser::File.new(__FILE__) }
 
       shebangs.each do |shebang|
         it 'detects shebang' do

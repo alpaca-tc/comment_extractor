@@ -3,9 +3,9 @@ require 'spec_helper'
 module CommentParser
   describe Scanner do
     let(:file_path) { __FILE__ }
-    let(:file_object) { FileObject.new(file_path) }
-    let(:content) { file_object.content }
-    let(:scanner_object) { Scanner.new(file_object, content) }
+    let(:file) { File.new(file_path) }
+    let(:content) { file.content }
+    let(:scanner_object) { Scanner.new(file, content) }
 
     describe 'InstanceMethods' do
       describe '#new' do
@@ -13,7 +13,7 @@ module CommentParser
         it { expect { subject }.to_not raise_error }
 
         it 'initializes attributes' do
-          expect(subject.file_object).to eql file_object
+          expect(subject.file).to eql file
           expect(subject.content).to eql content
           expect(subject.instance_variable_get(:@comments)).to eql []
         end
@@ -28,7 +28,7 @@ module CommentParser
       end
 
       describe '#scan' do
-        it { expect { scanner_object.scan }.to raise_error('Neet to implement') }
+        it { expect { scanner_object.scan }.to raise_error('Need to implement') }
       end
 
       describe '#add_comment' do
@@ -70,7 +70,7 @@ module CommentParser
 
           context 'and shebang is detected' do
             before do
-              allow(scanner_object.file_object).to receive(:shebang) { '' }
+              allow(scanner_object.file).to receive(:shebang) { '' }
             end
 
             it { expect(scanner_object.current_line).to eql 2 }

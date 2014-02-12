@@ -1,8 +1,8 @@
 require 'delegate'
 
-# [todo] - Renames FileObject -> File
+# [todo] - Renames File -> File
 # [todo] - Content is encoded by CommentParser::Encoding
-class CommentParser::FileObject < File
+class CommentParser::File < File
   THRESHOLD_BINARY = 0.3
 
   attr_accessor :content, :shebang
@@ -35,7 +35,7 @@ class CommentParser::FileObject < File
         self.gets # Removes shebang
       end
 
-      self.read
+      CommentParser::Encoding.encode(self.read)
     end
   end
 end

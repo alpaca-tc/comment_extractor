@@ -1,16 +1,16 @@
 require 'spec_helper'
 
 module CommentParser
-  describe FileObject do
+  describe File do
     let(:asset_dir) { File.expand_path('../../assets', __FILE__) }
-    let(:file_object) { FileObject.new(file_path) }
+    let(:file) { File.new(file_path) }
 
     let(:binary_path) { "#{asset_dir}/binary_file" }
     let(:shebang_path) { "#{asset_dir}/shebang_file" }
     let(:ruby_path) { __FILE__ }
 
     describe '#binary?' do
-      subject { file_object.binary? }
+      subject { file.binary? }
 
       context 'given the binary file' do
         let(:file_path) { binary_path }
@@ -24,7 +24,7 @@ module CommentParser
     end
 
     describe '#shebang' do
-      subject { file_object.shebang }
+      subject { file.shebang }
 
       context 'given the source file' do
         let(:file_path) { __FILE__ }
@@ -38,7 +38,7 @@ module CommentParser
     end
 
     describe '#content' do
-      subject { file_object.content }
+      subject { file.content }
 
       context 'given a binary_file' do
         let(:file_path) { binary_path }

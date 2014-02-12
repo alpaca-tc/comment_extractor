@@ -59,14 +59,14 @@ module CommentParser
     end
 
     describe '.can_parse' do
-      subject { Parser.can_parse(file_object) }
+      subject { Parser.can_parse(file) }
 
       let(:binary?) { false }
       let(:content) { '' }
       let(:path) { '/path/to/file' }
       let(:shebang) { nil }
-      let(:file_object) do
-        double(FileObject).tap do |f|
+      let(:file) do
+        double(File).tap do |f|
           allow(f).to receive(:shebang) { shebang }
           allow(f).to receive(:content) { content }
           allow(f).to receive(:binary?) { binary? }
@@ -74,7 +74,7 @@ module CommentParser
         end
       end
 
-      context 'given file_object which parsed ruby file' do
+      context 'given file which parsed ruby file' do
         let(:path) { '/path/to/ruby.rb' }
         it { should eql 'Ruby' }
       end
@@ -84,7 +84,7 @@ module CommentParser
         it { should be_nil }
       end
 
-      context 'given file_object which contains shebang' do
+      context 'given file which contains shebang' do
         let(:shebang) { '/usr/bin/node' }
         it { should eql 'JavaScript' }
       end
@@ -105,14 +105,14 @@ module CommentParser
     end
 
     describe '.for' do
-      subject { Parser.for(file_object) }
+      subject { Parser.for(file) }
 
       before do
         expect(Parser).to receive(:can_parse).and_return(scanner)
       end
 
-      let(:file_object) do
-        double(FileObject).tap do |f|
+      let(:file) do
+        double(File).tap do |f|
           allow(f).to receive(:content).and_return('')
         end
       end

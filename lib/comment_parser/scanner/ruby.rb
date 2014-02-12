@@ -14,7 +14,7 @@ class CommentParser::Scanner::Ruby < CommentParser::Scanner
 
   def scan
     tokens = RDoc::RubyLex.tokenize(content, Options.new)
-    corrective_line = self.file_object.shebang ? 1 : 0
+    corrective_line = self.file.shebang ? 1 : 0
 
     tokens.each do |token|
       case token
@@ -34,6 +34,6 @@ class CommentParser::Scanner::Ruby < CommentParser::Scanner
 
   def line_is_comment_of_begin_keyword?(token)
     binding.pry
-    File.readlines(self.file_object.path)[token.line_no] == /^=begin/
+    File.readlines(self.file.path)[token.line_no] == /^=begin/
   end
 end

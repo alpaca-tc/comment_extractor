@@ -4,25 +4,23 @@ module CommentParser::Parser
     attr_accessor :scanners
 
     # [todo] - Implements Parser.new method and it contains scanner
-    def for(file_object)
-      if parser = can_parse(file_object)
+    def for(file)
+      if parser = can_parse(file)
         parser = const_get(parser) if parser.is_a?(Symbol) # :Klass => Klass
-        # [review] - Rescues error which occurred in CommentParser::Encoding.encode
-        content = CommentParser::Encoding.encode(file_object.content)
-        parser.new(file_object, content)
+        parser.new(file, file.content)
       end
     end
 
-    def can_parse(file_object)
-      return if file_object.binary?
+    def can_parse(file)
+      return if file.binary?
       parser = nil
 
-      if file_object.shebang
-        parser = can_parse_by_shebang(file_object.shebang)
+      if file.shebang
+        parser = can_parse_by_shebang(file.shebang)
       end
 
       unless parser
-        parser = can_parse_by_filename(file_object.path)
+        parser = can_parse_by_filename(file.path)
       end
 
       parser

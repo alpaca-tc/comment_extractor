@@ -60,6 +60,15 @@ module CommentParser::Scanner::Concerns::SimpleScanner
     end
   end
 
+  def self.attr_definition(*keys)
+    keys.each do |key|
+      define_method key do
+        self.class.instance_variable_get("@#{key}") || []
+      end
+    end
+  end
+  attr_definition :brackets, :comment_regexp
+
   def scan
     until scanner.eos?
       case
@@ -76,15 +85,6 @@ module CommentParser::Scanner::Concerns::SimpleScanner
       end
     end
   end
-
-  def self.attr_definition(*keys)
-    keys.each do |key|
-      define_method key do
-        self.class.instance_variable_get("@#{key}") || []
-      end
-    end
-  end
-  attr_definition :brackets, :comment_regexp
 
   private
 

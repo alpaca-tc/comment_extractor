@@ -9,7 +9,7 @@ class CommentParser::Stripper
 
   def comments
     list_up_files.each_with_object([]) do |file, memo|
-      file = CommentParser::FileObject.new(file)
+      file = CommentParser::File.new(file)
       parser = CommentParser::Parser.for(file)
       memo.concat(parser.scan) if parser
     end
