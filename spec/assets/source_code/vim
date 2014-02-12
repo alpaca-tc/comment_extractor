@@ -1,0 +1,17 @@
+"[-1-] ----------------------------------------
+"[-2-] basic settings "{{{
+set nocompatible
+let &directory = g:my.dir.swap_dir
+set viminfo='1000,<800,s300,\"1000,f1,:1000,/1000
+execute 'set viminfo+=n' . g:my.dir.viminfo . '/.viminfo'
+
+
+
+set visualbell t_vb=
+set helplang=en
+set langmenu=en_us.UTF-8
+language en_US.UTF-8
+"[-14-]
+\[-15-]
+"[-16-] ----------------------------------------
+
