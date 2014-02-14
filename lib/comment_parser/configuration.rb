@@ -1,4 +1,4 @@
-module CommentParser
+module CommentExtractor
   class Configuration
     @@default_values = {}
     @@required_attributes = {}

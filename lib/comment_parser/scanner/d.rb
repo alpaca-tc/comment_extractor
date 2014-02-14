@@ -1,7 +1,7 @@
-class CommentParser::Scanner::D < CommentParser::Scanner
+class CommentExtractor::Scanner::D < CommentExtractor::Scanner
   shebang /\/dmd/
   filename /\.d$/
   filetype 'd'
 
-  include CommentParser::Scanner::Concerns::SlashScanner
+  include CommentExtractor::Scanner::Concerns::SlashScanner
 end

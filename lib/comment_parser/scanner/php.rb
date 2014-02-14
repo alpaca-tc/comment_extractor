@@ -1,6 +1,6 @@
-class CommentParser::Scanner::Php < CommentParser::Scanner
+class CommentExtractor::Scanner::Php < CommentExtractor::Scanner
   filename /\.php$/
   filetype 'php'
 
-  include CommentParser::Scanner::Concerns::SlashScanner
+  include CommentExtractor::Scanner::Concerns::SlashScanner
 end

@@ -1,6 +1,6 @@
 require 'rspec/expectations'
 
-module RSpec::CommentParser
+module RSpec::CommentExtractor
   module Matchers
   end
 end

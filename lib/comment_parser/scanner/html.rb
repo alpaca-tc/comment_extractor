@@ -1,5 +1,5 @@
-class CommentParser::Scanner::Html < CommentParser::Scanner
-  include CommentParser::Scanner::Concerns::SimpleScanner
+class CommentExtractor::Scanner::Html < CommentExtractor::Scanner
+  include CommentExtractor::Scanner::Concerns::SimpleScanner
 
   filename /\.html$/
   filetype 'html'

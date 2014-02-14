@@ -1,5 +1,5 @@
-class CommentParser::Scanner::Fortran < CommentParser::Scanner
-  include CommentParser::Scanner::Concerns::SimpleScanner
+class CommentExtractor::Scanner::Fortran < CommentExtractor::Scanner
+  include CommentExtractor::Scanner::Concerns::SimpleScanner
 
   filename /\.(f|f90|F|F90)$/
   filetype 'fortran'

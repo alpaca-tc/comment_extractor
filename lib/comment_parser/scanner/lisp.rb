@@ -1,5 +1,5 @@
-class CommentParser::Scanner::Lisp < CommentParser::Scanner
-  include CommentParser::Scanner::Concerns::SimpleScanner
+class CommentExtractor::Scanner::Lisp < CommentExtractor::Scanner
+  include CommentExtractor::Scanner::Concerns::SimpleScanner
 
   filename /\.el$/
   filetype 'lisp'

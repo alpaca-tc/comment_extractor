@@ -1,5 +1,5 @@
-class CommentParser::Scanner::Lua < CommentParser::Scanner
-  include CommentParser::Scanner::Concerns::SimpleScanner
+class CommentExtractor::Scanner::Lua < CommentExtractor::Scanner
+  include CommentExtractor::Scanner::Concerns::SimpleScanner
 
   filename /\.lua$/
   filetype 'lua'

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class CommentParser::Scanner
+class CommentExtractor::Scanner
   describe Css do
     let(:file_path) { 'css.css' }
     it_behaves_like 'scanning source code'

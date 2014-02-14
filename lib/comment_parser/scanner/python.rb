@@ -1,5 +1,5 @@
-class CommentParser::Scanner::Python < CommentParser::Scanner
-  include CommentParser::Scanner::Concerns::SimpleScanner
+class CommentExtractor::Scanner::Python < CommentExtractor::Scanner
+  include CommentExtractor::Scanner::Concerns::SimpleScanner
 
   filename /\.py$/
   filetype 'py'

@@ -1,8 +1,8 @@
-module CommentParser::Scanner::Concerns::SimpleScanner
-  include CommentParser::CodeObject::Comment::Type
+module CommentExtractor::Scanner::Concerns::SimpleScanner
+  include CommentExtractor::CodeObject::Comment::Type
 
   module ClassMethods
-    include CommentParser::CodeObject::Comment::Type
+    include CommentExtractor::CodeObject::Comment::Type
 
     def included(k)
       self.instance_variables.each do |key|
@@ -97,7 +97,7 @@ module CommentParser::Scanner::Concerns::SimpleScanner
         next
       when scan_bracket
         next
-      when scanner.scan(CommentParser::Scanner::REGEXP[:BREAK])
+      when scanner.scan(CommentExtractor::Scanner::REGEXP[:BREAK])
         next
       when scanner.scan(/./)
         next

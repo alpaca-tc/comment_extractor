@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class CommentParser::Scanner
+class CommentExtractor::Scanner
   describe C do
     let(:file_path) { 'c.c' }
     it_behaves_like 'scanning source code'

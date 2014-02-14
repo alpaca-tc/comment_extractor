@@ -1,5 +1,5 @@
-class CommentParser::Scanner::Ruby < CommentParser::Scanner
-  include CommentParser::Scanner::Concerns::SimpleScanner
+class CommentExtractor::Scanner::Ruby < CommentExtractor::Scanner
+  include CommentExtractor::Scanner::Concerns::SimpleScanner
 
   filename /\.rb$/
   filetype 'ruby'

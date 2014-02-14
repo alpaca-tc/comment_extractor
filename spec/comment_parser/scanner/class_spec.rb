@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class CommentParser::Scanner
+class CommentExtractor::Scanner
   describe Class do
     # [todo] - Please give me .class sample
     subject { Class }

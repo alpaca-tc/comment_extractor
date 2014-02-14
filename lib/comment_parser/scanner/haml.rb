@@ -1,6 +1,6 @@
 # Copyright (c) 2006-2009 Hampton Catlin and Nathan Weizenbaum and @alpaca-tc
 require 'haml'
-class CommentParser::Scanner::Haml < CommentParser::Scanner
+class CommentExtractor::Scanner::Haml < CommentExtractor::Scanner
   filename /\.haml$/
   filetype 'haml'
 

@@ -1,7 +1,7 @@
 # Objective-C
-class CommentParser::Scanner::M < CommentParser::Scanner
+class CommentExtractor::Scanner::M < CommentExtractor::Scanner
   filename /\.m$/
   filetype 'm'
 
-  include CommentParser::Scanner::Concerns::SlashScanner
+  include CommentExtractor::Scanner::Concerns::SlashScanner
 end

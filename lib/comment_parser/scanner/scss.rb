@@ -1,6 +1,6 @@
-class CommentParser::Scanner::Scss < CommentParser::Scanner
+class CommentExtractor::Scanner::Scss < CommentExtractor::Scanner
   filename /\.scss$/
   filetype 'scss'
 
-  include CommentParser::Scanner::Concerns::SlashScanner
+  include CommentExtractor::Scanner::Concerns::SlashScanner
 end

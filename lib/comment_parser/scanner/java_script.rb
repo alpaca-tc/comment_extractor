@@ -1,6 +1,6 @@
-class CommentParser::Scanner::JavaScript < CommentParser::Scanner
-  include CommentParser::Scanner::Concerns::SimpleScanner
-  include CommentParser::Scanner::Concerns::SlashScanner
+class CommentExtractor::Scanner::JavaScript < CommentExtractor::Scanner
+  include CommentExtractor::Scanner::Concerns::SimpleScanner
+  include CommentExtractor::Scanner::Concerns::SlashScanner
 
   filename /\.js$/
   filetype 'javascript'

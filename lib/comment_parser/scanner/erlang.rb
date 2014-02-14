@@ -1,5 +1,5 @@
-class CommentParser::Scanner::Erlang < CommentParser::Scanner
-  include CommentParser::Scanner::Concerns::SimpleScanner
+class CommentExtractor::Scanner::Erlang < CommentExtractor::Scanner
+  include CommentExtractor::Scanner::Concerns::SimpleScanner
 
   shebang /escript/
   filename /\.(erl|es)$/

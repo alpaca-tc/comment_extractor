@@ -1,5 +1,5 @@
-class CommentParser::Scanner::Coffee < CommentParser::Scanner
-  include CommentParser::Scanner::Concerns::SimpleScanner
+class CommentExtractor::Scanner::Coffee < CommentExtractor::Scanner
+  include CommentExtractor::Scanner::Concerns::SimpleScanner
 
   filename /\.coffee$/
   filetype 'coffee'

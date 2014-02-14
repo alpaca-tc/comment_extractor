@@ -1,7 +1,7 @@
 require 'strscan'
-require 'comment_parser/parser'
+require 'comment_extractor/parser'
 
-module CommentParser
+module CommentExtractor
   class Scanner
     module Concerns; end
 
@@ -38,7 +38,7 @@ module CommentParser
     end
 
     def add_comment(line, comment, metadata = {})
-      @comments << CommentParser::CodeObject::Comment.new.tap do |c|
+      @comments << CommentExtractor::CodeObject::Comment.new.tap do |c|
         c.file = file
         c.line = line
         c.value = comment
@@ -78,7 +78,7 @@ module CommentParser
     end
 
     def raise_report
-      raise 'Error occurred. Please report to <https://github.com/alpaca-tc/comment_parser/issues>'
+      raise 'Error occurred. Please report to <https://github.com/alpaca-tc/comment_extractor/issues>'
     end
   end
 end
@@ -89,6 +89,6 @@ Dir["#{scanner_path}/concerns/*.rb"].each { |f| require f }
 Dir["#{scanner_path}/*.rb"].each do |f|
   require f
   klass_name = f[%r![^/]+(?=\.rb$)!].split('_').collect(&:capitalize).join
-  klass = CommentParser::Scanner.const_get(klass_name)
-  CommentParser::Parser.regist_scanner(klass) unless klass.disabled?
+  klass = CommentExtractor::Scanner.const_get(klass_name)
+  CommentExtractor::Parser.regist_scanner(klass) unless klass.disabled?
 end

@@ -1,4 +1,4 @@
-class CommentParser::CodeObject::Comment < CommentParser::CodeObject
+class CommentExtractor::CodeObject::Comment < CommentExtractor::CodeObject
   attr_accessor :line
 
   module Type

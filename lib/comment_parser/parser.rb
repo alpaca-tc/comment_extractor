@@ -1,4 +1,4 @@
-class CommentParser::Parser
+class CommentExtractor::Parser
   def initialize(scanner)
     @scanner = scanner
   end
@@ -12,7 +12,7 @@ class CommentParser::Parser
     attr_accessor :scanners
 
     def for(file)
-      file = CommentParser::File.new(file) unless file.is_a?(CommentParser::File)
+      file = CommentExtractor::File.new(file) unless file.is_a?(CommentExtractor::File)
       if scanner = can_parse(file)
         new(scanner.new(file))
       end
@@ -70,4 +70,4 @@ class CommentParser::Parser
   end
 end
 
-require 'comment_parser/scanner'
+require 'comment_extractor/scanner'

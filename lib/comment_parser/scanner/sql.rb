@@ -1,5 +1,5 @@
-class CommentParser::Scanner::Sql < CommentParser::Scanner
-  include CommentParser::Scanner::Concerns::SimpleScanner
+class CommentExtractor::Scanner::Sql < CommentExtractor::Scanner
+  include CommentExtractor::Scanner::Concerns::SimpleScanner
 
   filename /\.sql$/
   filetype 'sql'

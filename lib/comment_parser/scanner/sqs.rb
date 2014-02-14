@@ -1,4 +1,4 @@
-class CommentParser::Scanner::Sqs < CommentParser::Scanner
+class CommentExtractor::Scanner::Sqs < CommentExtractor::Scanner
   disable!
   filename /\.sqs$/
   filetype 'sqs'

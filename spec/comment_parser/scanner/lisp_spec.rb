@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class CommentParser::Scanner
+class CommentExtractor::Scanner
   describe Lisp do
     let(:file_path) { 'lisp.el' }
     it_behaves_like 'scanning source code'

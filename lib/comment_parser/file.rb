@@ -1,6 +1,6 @@
 require 'delegate'
 
-class CommentParser::File < File
+class CommentExtractor::File < File
   THRESHOLD_BINARY = 0.3
 
   attr_accessor :content, :shebang
@@ -33,7 +33,7 @@ class CommentParser::File < File
         self.gets # Remove shebang
       end
 
-      CommentParser::Encoding.encode(self.read)
+      CommentExtractor::Encoding.encode(self.read)
     end
   end
 end

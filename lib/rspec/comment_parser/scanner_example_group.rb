@@ -2,8 +2,8 @@ RSpec.configure do |config|
   config.add_setting :source_code_path, default: 'spec/assets/source_code'
 end
 
-module RSpec::CommentParser::ScannerExampleGroup
-  include RSpec::CommentParser::Matchers::DetectComment
+module RSpec::CommentExtractor::ScannerExampleGroup
+  include RSpec::CommentExtractor::Matchers::DetectComment
 
   module ClassMethods
     def disable_test_for_scanner!
@@ -51,7 +51,7 @@ module RSpec::CommentParser::ScannerExampleGroup
       subject { scanner }
 
       let(:file_path) { default_file_name }
-      let(:source_code) { CommentParser::File.new(source_code_path(file_path)) }
+      let(:source_code) { CommentExtractor::File.new(source_code_path(file_path)) }
       let(:scanner) { build_scanner(source_code) }
 
       context '.new' do
@@ -81,7 +81,7 @@ module RSpec::CommentParser::ScannerExampleGroup
 
       shared_examples_for 'detecting shebang' do |*shebangs|
         # let dummy source code
-        let(:source_code) { CommentParser::File.new(__FILE__) }
+        let(:source_code) { CommentExtractor::File.new(__FILE__) }
 
         shebangs.each do |shebang|
           it 'detects shebang' do

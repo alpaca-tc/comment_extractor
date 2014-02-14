@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module CommentParser
+module CommentExtractor
   describe Encoding do
     let(:hello_world) { 'hello_world' }
     let(:temp) { Tempfile.new('tempfile') }

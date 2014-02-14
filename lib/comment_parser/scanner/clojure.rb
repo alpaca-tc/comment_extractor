@@ -1,5 +1,5 @@
-class CommentParser::Scanner::Clojure < CommentParser::Scanner
-  include CommentParser::Scanner::Concerns::SimpleScanner
+class CommentExtractor::Scanner::Clojure < CommentExtractor::Scanner
+  include CommentExtractor::Scanner::Concerns::SimpleScanner
 
   filename /\.clj$/
   filetype 'clojure'

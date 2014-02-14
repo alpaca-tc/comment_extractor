@@ -1,6 +1,6 @@
-class CommentParser::Scanner::Go < CommentParser::Scanner
+class CommentExtractor::Scanner::Go < CommentExtractor::Scanner
   filename /\.go$/
   filetype 'go'
 
-  include CommentParser::Scanner::Concerns::SlashScanner
+  include CommentExtractor::Scanner::Concerns::SlashScanner
 end

@@ -1,4 +1,4 @@
-class CommentParser::CodeObject
+class CommentExtractor::CodeObject
   attr_accessor :file, :metadata, :value
 
   def initialize
@@ -7,5 +7,5 @@ class CommentParser::CodeObject
     @metadata = {}
   end
 
-  autoload :Comment, 'comment_parser/code_object/comment'
+  autoload :Comment, 'comment_extractor/code_object/comment'
 end

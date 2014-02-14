@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-module CommentParser
+module CommentExtractor
   describe Configuration do
     describe '.new' do
-      subject { CommentParser::Configuration.new(options) }
+      subject { CommentExtractor::Configuration.new(options) }
       let(:options) { { root_path: File.dirname(__FILE__) } }
 
       it 'sets attributes to default value' do

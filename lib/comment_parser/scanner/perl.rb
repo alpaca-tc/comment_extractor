@@ -1,5 +1,5 @@
-class CommentParser::Scanner::Perl < CommentParser::Scanner
-  include CommentParser::Scanner::Concerns::SimpleScanner
+class CommentExtractor::Scanner::Perl < CommentExtractor::Scanner
+  include CommentExtractor::Scanner::Concerns::SimpleScanner
 
   filename /\.(pm|pl)$/
   filetype 'perl'

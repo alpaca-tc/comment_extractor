@@ -1,4 +1,4 @@
-class CommentParser::Scanner::Markdown < CommentParser::Scanner
+class CommentExtractor::Scanner::Markdown < CommentExtractor::Scanner
   disable!
   filename /\.(md|markdown|mkd)$/
   filetype 'markdown'

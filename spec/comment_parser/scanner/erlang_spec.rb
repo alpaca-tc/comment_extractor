@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class CommentParser::Scanner
+class CommentExtractor::Scanner
   describe Erlang do
     let(:file_path) { 'erlang.es' }
     it_behaves_like 'detecting shebang', '/usr/bin/env escript'

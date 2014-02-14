@@ -1,6 +1,6 @@
-class CommentParser::Scanner::C < CommentParser::Scanner
+class CommentExtractor::Scanner::C < CommentExtractor::Scanner
   filename /\.c$/
   filetype 'c'
 
-  include CommentParser::Scanner::Concerns::SlashScanner
+  include CommentExtractor::Scanner::Concerns::SlashScanner
 end

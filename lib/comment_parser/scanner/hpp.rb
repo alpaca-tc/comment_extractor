@@ -1,6 +1,6 @@
-class CommentParser::Scanner::Hpp < CommentParser::Scanner
+class CommentExtractor::Scanner::Hpp < CommentExtractor::Scanner
   filename /\.hpp$/
   filetype 'hpp'
 
-  include CommentParser::Scanner::Concerns::SlashScanner
+  include CommentExtractor::Scanner::Concerns::SlashScanner
 end

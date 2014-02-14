@@ -1,5 +1,5 @@
-class CommentParser::Scanner::Haskell < CommentParser::Scanner
-  include CommentParser::Scanner::Concerns::SimpleScanner
+class CommentExtractor::Scanner::Haskell < CommentExtractor::Scanner
+  include CommentExtractor::Scanner::Concerns::SimpleScanner
 
   filename /\.hs$/
   filetype 'haskell'

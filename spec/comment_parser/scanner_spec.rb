@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module CommentParser
+module CommentExtractor
   describe Scanner do
     let(:file_path) { __FILE__ }
     let(:file) { File.new(file_path) }

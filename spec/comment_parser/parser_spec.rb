@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module CommentParser
+module CommentExtractor
   describe Parser do
     describe 'InstanceMethods' do
       describe '#parse' do
@@ -148,7 +148,7 @@ module CommentParser
 
       describe '.for' do
         let(:file) do
-          CommentParser::File.new(__FILE__)
+          CommentExtractor::File.new(__FILE__)
         end
         subject { Parser.for(file) }
 

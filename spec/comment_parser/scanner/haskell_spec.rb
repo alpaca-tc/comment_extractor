@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class CommentParser::Scanner
+class CommentExtractor::Scanner
   describe Haskell do
     let(:file_path) { 'haskell.hs' }
     it_behaves_like 'scanning source code'

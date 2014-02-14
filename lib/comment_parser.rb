@@ -1,10 +1,10 @@
-require 'comment_parser/version'
+require 'comment_extractor/version'
 
-module CommentParser
-  autoload :CodeObject, 'comment_parser/code_object'
-  autoload :Configuration, 'comment_parser/configuration'
-  autoload :Encoding, 'comment_parser/encoding'
-  autoload :File, 'comment_parser/file'
-  autoload :Parser, 'comment_parser/parser'
-  autoload :Scanner, 'comment_parser/scanner'
+module CommentExtractor
+  autoload :CodeObject, 'comment_extractor/code_object'
+  autoload :Configuration, 'comment_extractor/configuration'
+  autoload :Encoding, 'comment_extractor/encoding'
+  autoload :File, 'comment_extractor/file'
+  autoload :Parser, 'comment_extractor/parser'
+  autoload :Scanner, 'comment_extractor/scanner'
 end

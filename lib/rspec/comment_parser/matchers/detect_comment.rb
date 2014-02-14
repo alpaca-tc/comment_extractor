@@ -1,4 +1,4 @@
-module RSpec::CommentParser::Matchers
+module RSpec::CommentExtractor::Matchers
   module DetectComment
     class DetectCommentMatcher < RSpec::Matchers::BuiltIn::BaseMatcher
       def initialize(scope, comment_list = {})

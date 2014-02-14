@@ -1,12 +1,12 @@
 #! /usr/bin/env ruby
 
 $:.unshift File.expand_path('../../lib', __FILE__)
-require 'comment_parser'
+require 'comment_extractor'
 
 def debug(file_path)
   puts "Open: #{file_path}"
 
-  if parser = CommentParser::Parser.for(file_path)
+  if parser = CommentExtractor::Parser.for(file_path)
     puts "Use: #{parser.class}"
     comments = parser.parse
 
@@ -27,7 +27,7 @@ end
 file_path = ARGV.first
 unless file_path
   puts <<-USAGE.gsub(/^\s{2}/, '')
-  comment_parser_debug [file_path]
+  comment_extractor_debug [file_path]
   USAGE
   exit
 end

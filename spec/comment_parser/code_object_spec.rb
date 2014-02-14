@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module CommentParser
+module CommentExtractor
   describe CodeObject do
     describe '.new' do
       subject { CodeObject.new }

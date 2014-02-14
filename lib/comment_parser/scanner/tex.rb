@@ -1,5 +1,5 @@
-class CommentParser::Scanner::Tex < CommentParser::Scanner
-  include CommentParser::Scanner::Concerns::SimpleScanner
+class CommentExtractor::Scanner::Tex < CommentExtractor::Scanner
+  include CommentExtractor::Scanner::Concerns::SimpleScanner
 
   filename /\.tex$/
   filetype 'tex'

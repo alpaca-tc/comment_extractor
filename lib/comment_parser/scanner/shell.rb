@@ -1,5 +1,5 @@
-class CommentParser::Scanner::Shell < CommentParser::Scanner
-  include CommentParser::Scanner::Concerns::SimpleScanner
+class CommentExtractor::Scanner::Shell < CommentExtractor::Scanner
+  include CommentExtractor::Scanner::Concerns::SimpleScanner
 
   filename /\.(zsh|bash|sh)$/
   filetype '(bash|sh)'

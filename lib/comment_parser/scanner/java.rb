@@ -1,6 +1,6 @@
-class CommentParser::Scanner::Java < CommentParser::Scanner
+class CommentExtractor::Scanner::Java < CommentExtractor::Scanner
   filename /\.java$/
   filetype 'java'
 
-  include CommentParser::Scanner::Concerns::SlashScanner
+  include CommentExtractor::Scanner::Concerns::SlashScanner
 end

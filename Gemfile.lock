@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    comment_parser (0.1.2)
+    comment_extractor (0.1.2)
       haml
 
 GEM
@@ -57,7 +57,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  comment_parser!
+  comment_extractor!
   guard
   guard-rspec
   rake
