@@ -1,4 +1,5 @@
 require 'comment_extractor/file'
+
 using CommentExtractor::DetectableSchemeFile
 
 class CommentExtractor::Parser

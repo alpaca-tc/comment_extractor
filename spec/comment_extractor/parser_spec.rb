@@ -1,9 +1,10 @@
 require 'spec_helper'
 require 'comment_extractor/parser'
 
+using CommentExtractor::DetectableSchemeFile
+
 module CommentExtractor
   describe Parser do
-    using CommentExtractor::DetectableSchemeFile
 
     describe 'InstanceMethods' do
       describe '#parse' do

@@ -1,9 +1,10 @@
 require 'spec_helper'
 require 'comment_extractor/smart_string_scanner'
 
+using CommentExtractor::SmartStringScanner
+
 module CommentExtractor
   describe SmartStringScanner do
-    using SmartStringScanner
 
     let(:scanner) { StringScanner.new("...\n...") }
 
