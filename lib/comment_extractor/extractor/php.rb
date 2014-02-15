@@ -1,3 +1,5 @@
+require 'comment_extractor/extractor'
+
 class CommentExtractor::Extractor::Php < CommentExtractor::Extractor
   filename /\.php$/
   filetype 'php'

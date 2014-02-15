@@ -1,8 +1,8 @@
 require 'spec_helper'
+require 'comment_extractor/extractor/sass'
 
 class CommentExtractor::Extractor
   describe Sass do
-    let(:file_path) { 'sass.sass' }
-    it_behaves_like 'scanning source code'
+    it_behaves_like 'extracting comments from', 'sass.sass'
   end
 end

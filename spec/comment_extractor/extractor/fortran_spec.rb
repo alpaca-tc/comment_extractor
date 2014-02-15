@@ -1,8 +1,8 @@
 require 'spec_helper'
+require 'comment_extractor/extractor/fortran'
 
 class CommentExtractor::Extractor
   describe Fortran do
-    let(:file_path) { 'fortran.f' }
-    it_behaves_like 'scanning source code'
+    it_behaves_like 'extracting comments from', 'fortran.f'
   end
 end

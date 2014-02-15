@@ -1,13 +1,17 @@
-class CommentExtractor::CodeObject::Comment < CommentExtractor::CodeObject
-  attr_accessor :line
+module CommentExtractor
+  class CodeObject
+    class Comment < CommentExtractor::CodeObject
+      attr_accessor :line
 
-  module Type
-    ONE_LINER_COMMENT = :one_liner_comment
-    BLOCK_COMMENT = :block_comment
-  end
+      module Type
+        ONE_LINER_COMMENT = :one_liner_comment
+        BLOCK_COMMENT = :block_comment
+      end
 
-  def initialize
-    super
-    @line = nil
+      def initialize
+        super
+        @line = nil
+      end
+    end
   end
 end

@@ -1,9 +1,9 @@
 require 'spec_helper'
+require 'comment_extractor/extractor/d'
 
 class CommentExtractor::Extractor
   describe D do
-    let(:file_path) { 'd.d' }
     it_behaves_like 'detecting shebang', '/usr/local/bin/dmd'
-    it_behaves_like 'scanning source code'
+    it_behaves_like 'extracting comments from', 'd.d'
   end
 end

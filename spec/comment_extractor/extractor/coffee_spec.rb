@@ -1,8 +1,8 @@
 require 'spec_helper'
+require 'comment_extractor/extractor/coffee'
 
 class CommentExtractor::Extractor
   describe Coffee do
-    let(:file_path) { 'coffee.coffee' }
-    it_behaves_like 'scanning source code'
+    it_behaves_like 'extracting comments from', 'coffee.coffee'
   end
 end

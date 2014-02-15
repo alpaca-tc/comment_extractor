@@ -1,3 +1,5 @@
+require 'comment_extractor/extractor'
+
 class CommentExtractor::Extractor::Sass < CommentExtractor::Extractor
   filename /\.sass$/
   filetype 'sass'

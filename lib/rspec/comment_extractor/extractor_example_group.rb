@@ -5,13 +5,6 @@ end
 module RSpec::CommentExtractor::ExtractorExampleGroup
   include RSpec::CommentExtractor::Matchers::ExtractComment
 
-  module ClassMethods
-    def disable_test_for_scanner!
-      @test_for_scanner_disabled = true
-    end
-  end
-  attr_reader :test_for_scanner
-
   def build_scanner(content = nil)
     described_class.new(content)
   end
@@ -21,17 +14,8 @@ module RSpec::CommentExtractor::ExtractorExampleGroup
     file_name ? "#{dir}/#{file_name}" : dir
   end
 
-  def default_file_name
-    described_class.to_s[/[^:]+$/].gsub(/::/, '/').
-      gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
-      gsub(/([a-z\d])([A-Z])/,'\1_\2').
-      tr("-", "_").
-      downcase
-  end
-
   def self.included(k)
     k.class_eval do
-      extend ClassMethods
       metadata[:type] = :scanner
 
       # Skips test when scanner has already disabled
@@ -43,44 +27,45 @@ module RSpec::CommentExtractor::ExtractorExampleGroup
 
         it_behaves_like 'disabled'
 
-        pending 'skipping test for scanner'
+        pending 'skipping a test'
 
         next
       end
 
-      subject { scanner }
-
-      let(:file_path) { default_file_name }
-      let(:source_code) { CommentExtractor::File.new(source_code_path(file_path)) }
-      let(:scanner) { build_scanner(source_code.content) }
+      let(:content) { '' }
+      let(:scanner) { build_scanner(content) }
 
       context '.new' do
-        it { expect { build_scanner(source_code.content) }.to_not raise_error }
+        it { expect { scanner }.to_not raise_error }
       end
 
-      shared_examples_for 'scanning source code' do |file_name|
+      shared_examples_for 'extracting comments from' do |*file_names|
         context '.extract_comments' do
-          let(:comments) do
-            source_code.content.split("\n").each_with_object({}) do |line, memo|
-              if %r!(?<comment>\[-(?<line_number>\d+)-\].*)$! =~ line
-                comment.sub!(/(?<=\[-end-\]).*$/, '') if comment =~ /\[-end-\]/
-                memo[line_number.to_i] = comment
+          raise 'file_names did not given' if file_names.empty?
+
+          file_names.each do |file_name|
+            context "given a content of #{file_name}" do
+              let(:path) { source_code_path(file_name) }
+              let(:content) { File.open(path) { |f| f.read } }
+              let(:expected_comments) do
+                content.split("\n").each_with_object({}) do |line, memo|
+                  if %r!(?<comment>\[-(?<line_number>\d+)-\].*)$! =~ line
+                    comment.sub!(/(?<=\[-end-\]).*$/, '') if comment =~ /\[-end-\]/
+                    memo[line_number.to_i] = comment
+                  end
+                end
+              end
+              let(:extracted_comments) { scanner.extract_comments }
+
+              it 'scans content' do
+                expect { extracted_comments }.to extract_comment(expected_comments)
               end
             end
-          end
-
-          let(:extracted_comments) { scanner.extract_comments }
-
-          it 'scans source_code' do
-            expect { extracted_comments }.to extract_comment(comments)
           end
         end
       end
 
       shared_examples_for 'detecting shebang' do |*shebangs|
-        # let dummy source code
-        let(:source_code) { CommentExtractor::File.new(__FILE__) }
-
         shebangs.each do |shebang|
           it 'detects shebang' do
             expect(shebang).to match scanner.shebang

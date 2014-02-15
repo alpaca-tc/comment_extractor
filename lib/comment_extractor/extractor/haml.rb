@@ -1,5 +1,8 @@
 # Copyright (c) 2006-2009 Hampton Catlin and Nathan Weizenbaum and @alpaca-tc
+
 require 'haml'
+require 'comment_extractor/extractor'
+
 class CommentExtractor::Extractor::Haml < CommentExtractor::Extractor
   filename /\.haml$/
   filetype 'haml'

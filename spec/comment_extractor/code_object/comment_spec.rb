@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'comment_extractor/code_object'
 
 module CommentExtractor
   describe CodeObject::Comment do

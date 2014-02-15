@@ -1,3 +1,5 @@
+require 'comment_extractor/extractor'
+
 class CommentExtractor::Extractor::Css < CommentExtractor::Extractor
   filename /\.css$/
   filetype 'css'

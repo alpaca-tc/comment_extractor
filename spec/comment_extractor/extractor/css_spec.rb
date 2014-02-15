@@ -1,8 +1,8 @@
 require 'spec_helper'
+require 'comment_extractor/extractor/css'
 
 class CommentExtractor::Extractor
   describe Css do
-    let(:file_path) { 'css.css' }
-    it_behaves_like 'scanning source code'
+    it_behaves_like 'extracting comments from', 'css.css'
   end
 end

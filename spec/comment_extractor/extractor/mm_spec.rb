@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'comment_extractor/extractor/mm'
 
 class CommentExtractor::Extractor
   describe Mm do

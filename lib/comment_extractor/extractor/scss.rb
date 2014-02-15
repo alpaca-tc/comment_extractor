@@ -1,3 +1,5 @@
+require 'comment_extractor/extractor'
+
 class CommentExtractor::Extractor::Scss < CommentExtractor::Extractor
   filename /\.scss$/
   filetype 'scss'

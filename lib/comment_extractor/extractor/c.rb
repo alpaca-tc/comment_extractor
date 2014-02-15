@@ -1,4 +1,5 @@
-# [todo] - re-architect
+require 'comment_extractor/extractor'
+
 class CommentExtractor::Extractor::C < CommentExtractor::Extractor
   filename /\.c$/
   filetype 'c'

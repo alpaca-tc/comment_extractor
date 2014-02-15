@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'comment_extractor/configuration'
 
 module CommentExtractor
   describe Configuration do

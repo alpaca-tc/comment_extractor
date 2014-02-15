@@ -1,3 +1,5 @@
+require 'comment_extractor/extractor'
+
 class CommentExtractor::Extractor::Lua < CommentExtractor::Extractor
   include CommentExtractor::Extractor::Concerns::SimpleExtractor
 

@@ -71,4 +71,11 @@ class CommentExtractor::Parser
   end
 end
 
-require 'comment_extractor/extractor'
+# Register scanners in ./scanner/*.rb
+scanner_path = File.expand_path('../extractor', __FILE__)
+Dir["#{scanner_path}/*.rb"].each do |f|
+  require f
+  klass_name = f[%r![^/]+(?=\.rb$)!].split('_').collect(&:capitalize).join
+  klass = CommentExtractor::Extractor.const_get(klass_name)
+  CommentExtractor::Parser.regist_scanner(klass) unless klass.disabled?
+end

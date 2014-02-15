@@ -1,3 +1,5 @@
+require 'comment_extractor/extractor'
+
 class CommentExtractor::Extractor::Mm < CommentExtractor::Extractor
   filename /\.mm$/
   filetype 'mm'

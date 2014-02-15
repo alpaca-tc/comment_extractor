@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'comment_extractor/version'
 
 describe 'CommentExtractor::Version' do
   subject { CommentExtractor }

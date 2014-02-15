@@ -1,9 +1,8 @@
 require 'spec_helper'
+require 'comment_extractor/extractor/class'
 
 class CommentExtractor::Extractor
   describe Class do
-    # [todo] - Please give me .class sample
-    subject { Class }
-    it { should include Concerns::SlashExtractor }
+    pending 'Please give me a sample file'
   end
 end

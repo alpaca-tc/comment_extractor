@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'comment_extractor/extractor'
 
 module CommentExtractor
   describe Extractor do

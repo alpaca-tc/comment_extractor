@@ -1,8 +1,8 @@
 require 'spec_helper'
+require 'comment_extractor/extractor/haskell'
 
 class CommentExtractor::Extractor
   describe Haskell do
-    let(:file_path) { 'haskell.hs' }
-    it_behaves_like 'scanning source code'
+    it_behaves_like 'extracting comments from', 'haskell.hs'
   end
 end

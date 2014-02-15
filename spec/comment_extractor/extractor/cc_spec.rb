@@ -1,8 +1,8 @@
 require 'spec_helper'
+require 'comment_extractor/extractor/cc'
 
 class CommentExtractor::Extractor
   describe Cc do
-    let(:file_path) { 'cc.cc' }
-    it_behaves_like 'scanning source code'
+    it_behaves_like 'extracting comments from', 'cc.cc'
   end
 end

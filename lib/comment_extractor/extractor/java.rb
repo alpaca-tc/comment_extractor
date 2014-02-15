@@ -1,3 +1,5 @@
+require 'comment_extractor/extractor'
+
 class CommentExtractor::Extractor::Java < CommentExtractor::Extractor
   filename /\.java$/
   filetype 'java'

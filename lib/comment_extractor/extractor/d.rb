@@ -1,3 +1,5 @@
+require 'comment_extractor/extractor'
+
 class CommentExtractor::Extractor::D < CommentExtractor::Extractor
   shebang /\/dmd/
   filename /\.d$/

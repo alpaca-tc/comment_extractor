@@ -1,3 +1,5 @@
+require 'comment_extractor/extractor'
+
 # Objective-C
 class CommentExtractor::Extractor::M < CommentExtractor::Extractor
   filename /\.m$/
