@@ -22,15 +22,6 @@ module CommentExtractor
       raise 'Need to implement'
     end
 
-    def current_line(scanner = nil)
-      current_scanner = scanner || instance_variable_get(:@scanner)
-
-      return unless current_scanner
-
-      corrective_line = 1
-      content[0...current_scanner.charpos].count("\n") + corrective_line
-    end
-
     protected
 
     def scanner

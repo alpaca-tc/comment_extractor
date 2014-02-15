@@ -3,9 +3,7 @@ require 'comment_extractor/extractor'
 
 module CommentExtractor
   describe Extractor do
-    let(:file_path) { __FILE__ }
-    let(:file) { File.new(file_path) }
-    let(:content) { file.content }
+    let(:content) { File.read(__FILE__) }
     let(:scanner_object) { Extractor.new(content) }
 
     describe 'InstanceMethods' do
@@ -47,25 +45,6 @@ module CommentExtractor
         end
       end
 
-      describe '#current_line' do
-        context 'when scanner has not built yet' do
-          it { expect(scanner_object.current_line).to be_nil }
-        end
-
-        context 'when scanner has already used' do
-          before do
-            @scanner = scanner_object.send(:scanner)
-          end
-
-          it 'returns current line number' do
-            expect(scanner_object.current_line).to eql 1
-            @scanner.scan(/^.*$/) # Scanning one line
-            expect(scanner_object.current_line).to eql 1
-            @scanner.scan(/\n/) # Go to next line
-            expect(scanner_object.current_line).to eql 2
-          end
-        end
-      end
     end
 
     describe 'ClassMethods' do

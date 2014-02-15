@@ -1,3 +1,6 @@
+require 'comment_extractor/smart_string_scanner'
+using CommentExtractor::SmartStringScanner
+
 module CommentExtractor::Extractor::Concerns::SimpleExtractor
   include CommentExtractor::CodeObject::Comment::Type
 
@@ -156,13 +159,13 @@ module CommentExtractor::Extractor::Concerns::SimpleExtractor
   end
 
   def identify_single_line_comment
-    line_number = current_line
+    line_number = scanner.current_line
     comment = scanner.scan(/^.*$/)
     add_comment(line_number, comment, type: ONE_LINER_COMMENT)
   end
 
   def identify_multi_line_comment(regexp)
-    line_no = current_line
+    line_no = scanner.current_line
     stop_regexp = Regexp.new(/.*?/.source + regexp.source, regexp.options)
     comment_block = scanner.scan(stop_regexp)
 
