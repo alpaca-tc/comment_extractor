@@ -1,4 +1,4 @@
-#! /usr/local/bin/node
+
 
 //[-3-] Copyright 2014 jQuery Foundation and other contributors
 define([

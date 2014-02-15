@@ -3,7 +3,7 @@ RSpec.configure do |config|
 end
 
 module RSpec::CommentExtractor::ScannerExampleGroup
-  include RSpec::CommentExtractor::Matchers::DetectComment
+  include RSpec::CommentExtractor::Matchers::ExtractComment
 
   module ClassMethods
     def disable_test_for_scanner!
@@ -12,8 +12,8 @@ module RSpec::CommentExtractor::ScannerExampleGroup
   end
   attr_reader :test_for_scanner
 
-  def build_scanner(file, content = nil)
-    described_class.new(file, content)
+  def build_scanner(content = nil)
+    described_class.new(content)
   end
 
   def source_code_path(file_name = nil)
@@ -52,10 +52,10 @@ module RSpec::CommentExtractor::ScannerExampleGroup
 
       let(:file_path) { default_file_name }
       let(:source_code) { CommentExtractor::File.new(source_code_path(file_path)) }
-      let(:scanner) { build_scanner(source_code) }
+      let(:scanner) { build_scanner(source_code.content) }
 
       context '.new' do
-        it { expect { build_scanner(source_code) }.to_not raise_error }
+        it { expect { build_scanner(source_code.content) }.to_not raise_error }
       end
 
       shared_examples_for 'scanning source code' do |file_name|
@@ -74,7 +74,7 @@ module RSpec::CommentExtractor::ScannerExampleGroup
           end
 
           it 'scans source_code' do
-            expect { scanner.comments }.to detect_comment(comments)
+            expect { scanner.comments }.to extract_comment(comments)
           end
         end
       end

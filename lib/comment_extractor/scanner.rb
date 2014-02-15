@@ -7,16 +7,15 @@ module CommentExtractor
   class Scanner
     module Concerns; end
 
-    # [todo] - Remove file attribute and comments attribute
-    attr_accessor :file, :content, :comments
-
     # [todo] - Separate Regexp to other module
     REGEXP = {
       BREAK: /(?:\r?\n|\r)/,
     }.freeze
 
-    def initialize(file, content = nil)
-      @file = file
+    attr_reader :content
+    attr_accessor :comments
+
+    def initialize(content)
       @content = content
       @comments = []
     end
@@ -25,31 +24,39 @@ module CommentExtractor
       raise 'Need to implement'
     end
 
-    # [todo] - Remove Content
-    def content
-      @content ||= file.respond_to?(:content) ? file.content : ''
+    def current_line(scanner = nil)
+      current_scanner = scanner || instance_variable_get(:@scanner)
+
+      return unless current_scanner
+
+      corrective_line = 1
+      content[0...current_scanner.charpos].count("\n") + corrective_line
     end
+
+    protected
 
     def scanner
       @scanner ||= build_scanner
     end
 
-    def current_line
-      return unless instance_variable_defined?(:@scanner)
-
-      corrective_line = 1
-      corrective_line += 1 if self.file.shebang
-      content[0...scanner.charpos].count("\n") + corrective_line
-    end
-
     # [review] - How should I implement this?
+    # [todo] - Create Comments Class
     def add_comment(line, comment, metadata = {})
       @comments << CommentExtractor::CodeObject::Comment.new.tap do |c|
-        c.file = file
         c.line = line
         c.value = comment
         c.metadata = metadata
       end
+    end
+
+    def build_scanner
+      StringScanner.new(@content)
+    end
+
+    private
+
+    def raise_report
+      raise 'Error occurred. Please report to <https://github.com/alpaca-tc/comment_extractor/issues>'
     end
 
     def self.disabled?
@@ -75,17 +82,6 @@ module CommentExtractor
 
     def self.definition
       @definition ||= {}
-    end
-
-    private
-
-    # [todo] - Remove this
-    def build_scanner
-      StringScanner.new(self.content)
-    end
-
-    def raise_report
-      raise 'Error occurred. Please report to <https://github.com/alpaca-tc/comment_extractor/issues>'
     end
   end
 end

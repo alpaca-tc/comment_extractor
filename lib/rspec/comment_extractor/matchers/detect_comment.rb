@@ -1,6 +1,6 @@
 module RSpec::CommentExtractor::Matchers
-  module DetectComment
-    class DetectCommentMatcher < RSpec::Matchers::BuiltIn::BaseMatcher
+  module ExtractComment
+    class ExtractCommentMatcher < RSpec::Matchers::BuiltIn::BaseMatcher
       def initialize(scope, comment_list = {})
         @scope = scope
         @comment_list = comment_list
@@ -20,7 +20,7 @@ module RSpec::CommentExtractor::Matchers
           end
         end
 
-        # all comemnts are detected
+        # all comemnts are extracted
         @failure_case.empty? && @target_comment_list.empty?
       end
 
@@ -28,7 +28,7 @@ module RSpec::CommentExtractor::Matchers
         messages = []
         @failure_case.each do |(line, expected, comment_object)|
           messages << <<-MESSAGE.gsub(/^\s*/, '')
-          expected not to detect comment in #{line}
+          expected not to extract comment in #{line}
           expected: '#{comment_object.value}'
           got: '#{expected}'
           MESSAGE
@@ -36,9 +36,9 @@ module RSpec::CommentExtractor::Matchers
 
         @target_comment_list.each do |line, comment|
           messages << <<-MESSAGE.gsub(/^\s*/, '')
-          expected not to detect comment in #{line}
+          expected not to extract comment in #{line}
           expected: '#{comment}'
-          got: not detected
+          got: not extracted
           MESSAGE
         end
 
@@ -51,8 +51,8 @@ module RSpec::CommentExtractor::Matchers
       end
     end
 
-    def detect_comment(*args)
-      DetectCommentMatcher.new(self, *args)
+    def extract_comment(*args)
+      ExtractCommentMatcher.new(self, *args)
     end
   end
 end

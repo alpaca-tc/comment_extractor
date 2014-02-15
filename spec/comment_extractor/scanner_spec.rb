@@ -5,7 +5,7 @@ module CommentExtractor
     let(:file_path) { __FILE__ }
     let(:file) { File.new(file_path) }
     let(:content) { file.content }
-    let(:scanner_object) { Scanner.new(file, content) }
+    let(:scanner_object) { Scanner.new(content) }
 
     describe 'InstanceMethods' do
       describe '#new' do
@@ -13,18 +13,18 @@ module CommentExtractor
         it { expect { subject }.to_not raise_error }
 
         it 'initializes attributes' do
-          expect(subject.file).to eql file
           expect(subject.content).to eql content
-          expect(subject.instance_variable_get(:@comments)).to eql []
         end
       end
 
       describe '#scanner' do
-        it { expect(scanner_object.scanner).to be_an_instance_of(StringScanner) }
+        subject { scanner_object.send(:scanner) }
+        it { should be_an_instance_of(StringScanner) }
       end
 
       describe '#content' do
-        it { pending 'writes test' }
+        subject { scanner_object.content }
+        it { should be_an_instance_of String }
       end
 
       describe '#scan' do
@@ -35,12 +35,13 @@ module CommentExtractor
         before do
           line = 0
           value = 1
-          scanner_object.add_comment(line, value, {})
+          scanner_object.send(:add_comment, line, value, {})
         end
 
+        subject { scanner_object.comments[0] }
+
         it 'adds new comment object to @comments' do
-          comment_klass = CodeObject::Comment
-          expect(scanner_object.comments[0]).to be_an_instance_of(comment_klass)
+          expect(subject).to be_an_instance_of(CodeObject::Comment)
         end
       end
 
@@ -51,29 +52,15 @@ module CommentExtractor
 
         context 'when scanner has already used' do
           before do
-            @scanner = scanner_object.scanner
+            @scanner = scanner_object.send(:scanner)
           end
 
-          context 'and shebang is not detected' do
-            it { expect(scanner_object.current_line).to eql 1 }
-          end
-
-          context 'and shebang is not detected' do
-            it 'returns current line number' do
-              expect(scanner_object.current_line).to eql 1
-              @scanner.scan(/^.*$/) # Scanning one line
-              expect(scanner_object.current_line).to eql 1
-              @scanner.scan(/\n/) # Go to next line
-              expect(scanner_object.current_line).to eql 2
-            end
-          end
-
-          context 'and shebang is detected' do
-            before do
-              allow(scanner_object.file).to receive(:shebang) { '' }
-            end
-
-            it { expect(scanner_object.current_line).to eql 2 }
+          it 'returns current line number' do
+            expect(scanner_object.current_line).to eql 1
+            @scanner.scan(/^.*$/) # Scanning one line
+            expect(scanner_object.current_line).to eql 1
+            @scanner.scan(/\n/) # Go to next line
+            expect(scanner_object.current_line).to eql 2
           end
         end
       end
