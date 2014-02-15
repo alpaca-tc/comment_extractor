@@ -20,12 +20,14 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.0.0'
   s.version               = CommentExtractor::VERSION
 
-  s.summary               = 'a comment parser'
-  s.description           = 'CommentExtractor parses comment from source code'
+  s.summary               = 'a simple comment extractor'
+  s.description           = 'comment_extractor extracts comments from source code'
 
   s.add_dependency 'haml'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'guard'
   s.add_development_dependency 'guard-rspec'
+  s.add_development_dependency 'simplecov'
+  s.add_development_dependency 'fuubar'
 end
