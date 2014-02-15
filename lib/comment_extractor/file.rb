@@ -7,6 +7,15 @@ module CommentExtractor
     refine File do
       attr_accessor :content, :shebang
 
+      def File.shebang(path)
+        if File.extname(path).empty?
+          line = File.open(path) { |f| f.gets }
+          if /\A#!\s*(?<shebang_path>.+)/ =~ line
+            shebang_path
+          end
+        end
+      end
+
       def binary?
         header = File.read(self.path, File.stat(self.path).blksize) || nil
 
@@ -18,25 +27,14 @@ module CommentExtractor
         end
       end
 
-      def shebang
-        @shebang ||= begin
-                       line =  File.open(self.path) { |f| f.gets }
-                       extname = File.extname(self.path)
+      def read_content
+        return if self.binary?
 
-                       if extname.empty? && /\A#!\s*(?<shebang_path>.+)/ =~ line
-                         shebang_path
-                       end
-                     end
-      end
+        if File.shebang(self.path)
+          self.gets # Remove shebang
+        end
 
-      def content
-        @content ||= begin
-                       if shebang
-                         self.gets # Remove shebang
-                       end
-
-                       CommentExtractor::Encoding.encode(self.read)
-                     end
+        CommentExtractor::Encoding.encode(self.read)
       end
     end
   end

@@ -1,16 +1,55 @@
 require 'spec_helper'
 require 'comment_extractor/file'
+require 'tempfile'
 
 module CommentExtractor
   describe DetectableSchemeFile do
     using CommentExtractor::DetectableSchemeFile
 
-    let(:asset_dir) { File.expand_path('../../assets', __FILE__) }
     let(:file) { File.new(file_path) }
-
+    let(:asset_dir) { File.expand_path('../../assets', __FILE__) }
     let(:binary_path) { "#{asset_dir}/binary_file" }
-    let(:shebang_path) { "#{asset_dir}/shebang_file" }
-    let(:ruby_path) { __FILE__ }
+
+    describe 'ClassMethods' do
+      describe '.shebang' do
+        subject { File.shebang(file.path) }
+        let(:file_path) do
+          Tempfile.new('tempfile').tap do |f|
+            f.write(content)
+            f.flush
+            f.path
+          end
+        end
+        let(:content) { '' }
+
+        before do
+          allow(File).to receive(:extname).and_return(extname)
+        end
+
+        context 'when initialized file with a extension' do
+          let(:extname) { '.rb' }
+          it { should be_nil }
+        end
+
+        context 'when initialized file with no extension' do
+          let(:extname) { '' }
+
+          context 'content has no shebang' do
+            it 'does not detect shebang' do
+              should be_nil
+            end
+          end
+
+          context 'content has a shebang' do
+            let(:content) { "#! /usr/local/bin/ruby\n" }
+
+            it 'detects shebang' do
+              should eql '/usr/local/bin/ruby'
+            end
+          end
+        end
+      end
+    end
 
     describe '#binary?' do
       subject { file.binary? }
@@ -21,44 +60,38 @@ module CommentExtractor
       end
 
       context 'given the source file' do
-        let(:file_path) { ruby_path }
+        let(:file_path) { __FILE__ }
         it { should be_falsy }
       end
     end
 
-    describe '#shebang' do
-      subject { file.shebang }
-
-      context 'given the source file' do
-        let(:file_path) { __FILE__ }
-        it { should be_nil }
-      end
-
-      context 'given ruby file' do
-        let(:file_path) { shebang_path }
-        it { should match %r!/ruby$! }
-      end
-    end
-
-    describe '#content' do
-      subject { file.content }
+    describe '#read_content' do
+      subject { file.read_content }
 
       context 'given a binary_file' do
         let(:file_path) { binary_path }
+        it { should be_nil }
       end
 
-      context 'given ruby file' do
-        let(:file_path) { ruby_path }
+      context 'given a source code file' do
+        let(:file_path) { __FILE__ }
 
-        it 'equals the result of File.read' do
+        it "returns file's content" do
           should eql File.read(file_path)
         end
 
         context 'contains shebang' do
-          let(:file_path) { shebang_path }
+          let(:body) { 'HelloWorld' }
+          let(:file_path) do
+            Tempfile.new('tempfile').tap do |f|
+              f.write("#! /usr/local/shebang\n#{body}")
+              f.flush
+              f.path
+            end
+          end
 
           it 'equals the result without shebang' do
-            should eql "1\n2\n"
+            should eql body
           end
         end
       end

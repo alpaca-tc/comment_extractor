@@ -1,4 +1,6 @@
-# [todo] - rename, re-architect
+require 'comment_extractor/file'
+using CommentExtractor::DetectableSchemeFile
+
 class CommentExtractor::Parser
   def initialize(scanner)
     @scanner = scanner
@@ -13,7 +15,7 @@ class CommentExtractor::Parser
     attr_accessor :scanners
 
     def for(file)
-      file = CommentExtractor::File.new(file) unless file.is_a?(CommentExtractor::File)
+      file = File.new(file) unless file.is_a?(File)
       if scanner = can_parse(file)
         new(scanner.new(file))
       end

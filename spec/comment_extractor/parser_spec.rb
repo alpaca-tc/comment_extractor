@@ -3,6 +3,8 @@ require 'comment_extractor/parser'
 
 module CommentExtractor
   describe Parser do
+    using CommentExtractor::DetectableSchemeFile
+
     describe 'InstanceMethods' do
       describe '#parse' do
         let(:expected) { [] }
@@ -149,7 +151,7 @@ module CommentExtractor
 
       describe '.for' do
         let(:file) do
-          CommentExtractor::File.new(__FILE__)
+          File.new(__FILE__)
         end
         subject { Parser.for(file) }
 
