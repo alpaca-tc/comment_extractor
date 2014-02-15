@@ -2,7 +2,9 @@ require 'spec_helper'
 require 'comment_extractor/file'
 
 module CommentExtractor
-  describe File do
+  describe DetectableSchemeFile do
+    using CommentExtractor::DetectableSchemeFile
+
     let(:asset_dir) { File.expand_path('../../assets', __FILE__) }
     let(:file) { File.new(file_path) }
 
