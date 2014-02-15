@@ -8,6 +8,6 @@ module CommentExtractor
       @metadata = {}
     end
 
-    autoload :Comment, 'comment_extractor/code_object/comment'
+    require 'comment_extractor/code_object/comment'
   end
 end

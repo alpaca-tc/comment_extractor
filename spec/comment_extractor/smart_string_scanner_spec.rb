@@ -5,7 +5,6 @@ using CommentExtractor::SmartStringScanner
 
 module CommentExtractor
   describe SmartStringScanner do
-
     let(:scanner) { StringScanner.new("...\n...") }
 
     describe 'refines #current_line' do
