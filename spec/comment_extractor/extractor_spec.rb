@@ -28,7 +28,7 @@ module CommentExtractor
 
       describe '#extract_comments' do
         subject { scanner_object.extract_comments }
-        it { expect { subject }.to raise_error('Need to implement') }
+        it { expect { subject }.to raise_error(NotImplementedError) }
       end
 
       describe '#add_comment' do

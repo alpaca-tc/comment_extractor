@@ -19,7 +19,7 @@ module CommentExtractor
     end
 
     def extract_comments
-      raise 'Need to implement'
+      raise NotImplementedError, "You must implement #{self.class}##{__method__}"
     end
 
     protected
