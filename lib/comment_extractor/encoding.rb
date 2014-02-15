@@ -1,6 +1,3 @@
-# [todo] - remove tempfile
-require 'tempfile'
-
 module CommentExtractor
   module Encoding
     def self.read_file(file_path, encoding = ::Encoding.default_external)
@@ -31,12 +28,6 @@ module CommentExtractor
       end
 
       content
-      # rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError => e
-      #   nil
-      # rescue Errno::EISDIR, Errno::ENOENT
-      #   nil
-      # rescue ArgumentError => e
-      #   nil
     end
 
     private

@@ -1,4 +1,6 @@
 require 'spec_helper'
+require 'comment_extractor/encoding'
+require 'tempfile'
 
 module CommentExtractor
   describe Encoding do
