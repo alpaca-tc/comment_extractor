@@ -1,8 +1,7 @@
 require 'rspec/expectations'
+require 'rspec/comment_extractor/matchers/extract_comment'
 
 module RSpec::CommentExtractor
   module Matchers
   end
 end
-
-Dir[File.expand_path('../matchers/*.rb', __FILE__)].each { |f| require f }
