@@ -2,7 +2,6 @@ require 'strscan'
 require 'comment_extractor/parser'
 
 module CommentExtractor
-  # [todo] - Scanner should not depend on File. so user give string argument to scanner.
   # [todo] - Scanner can use some Scanner to extract comment from file path
   class Scanner
     module Concerns; end
@@ -20,7 +19,7 @@ module CommentExtractor
       @comments = []
     end
 
-    def scan
+    def extract_comments
       raise 'Need to implement'
     end
 
@@ -86,10 +85,11 @@ module CommentExtractor
   end
 end
 
-# [todo] - Use require method
+require 'comment_extractor/scanner/concerns/simple_scanner'
+require 'comment_extractor/scanner/concerns/slash_scanner'
+
 # Register scanners in ./scanner/*.rb
 scanner_path = File.expand_path('../scanner', __FILE__)
-Dir["#{scanner_path}/concerns/*.rb"].each { |f| require f }
 Dir["#{scanner_path}/*.rb"].each do |f|
   require f
   klass_name = f[%r![^/]+(?=\.rb$)!].split('_').collect(&:capitalize).join

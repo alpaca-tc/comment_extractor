@@ -59,7 +59,7 @@ module RSpec::CommentExtractor::ScannerExampleGroup
       end
 
       shared_examples_for 'scanning source code' do |file_name|
-        context '.scan' do
+        context '.extract_comments' do
           let(:comments) do
             source_code.content.split("\n").each_with_object({}) do |line, memo|
               if %r!(?<comment>\[-(?<line_number>\d+)-\].*)$! =~ line
@@ -69,12 +69,10 @@ module RSpec::CommentExtractor::ScannerExampleGroup
             end
           end
 
-          before do
-            scanner.scan
-          end
+          let(:extracted_comments) { scanner.extract_comments }
 
           it 'scans source_code' do
-            expect { scanner.comments }.to extract_comment(comments)
+            expect { extracted_comments }.to extract_comment(comments)
           end
         end
       end

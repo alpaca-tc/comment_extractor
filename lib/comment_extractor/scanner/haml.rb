@@ -5,13 +5,14 @@ class CommentExtractor::Scanner::Haml < CommentExtractor::Scanner
   filetype 'haml'
 
   # [review] - incompleted method
-  def scan
+  def extract_comments
     options = ::Haml::Options.new
     parser = ::Haml::Parser.new(self.content, options)
     parsered = parser.parse
     parsered.children.each do |node|
       detect_comment_from_node(node)
     end
+    self.comments
   end
 
   private

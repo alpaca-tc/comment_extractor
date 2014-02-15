@@ -86,7 +86,7 @@ module CommentExtractor::Scanner::Concerns::SimpleScanner
   attr_definition :brackets, :comment_regexp,
     :ignore_patterns, :complicate_conditions
 
-  def scan
+  def extract_comments
     until scanner.eos?
       case
       when scan_ignore_patterns
@@ -105,6 +105,8 @@ module CommentExtractor::Scanner::Concerns::SimpleScanner
         raise_report
       end
     end
+
+    self.comments
   end
 
   private

@@ -27,8 +27,9 @@ module CommentExtractor
         it { should be_an_instance_of String }
       end
 
-      describe '#scan' do
-        it { expect { scanner_object.scan }.to raise_error('Need to implement') }
+      describe '#extract_comments' do
+        subject { scanner_object.extract_comments }
+        it { expect { subject }.to raise_error('Need to implement') }
       end
 
       describe '#add_comment' do
