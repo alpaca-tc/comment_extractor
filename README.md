@@ -1,6 +1,6 @@
 # strip\_comment
 
-[![Gem Version](https://badge.fury.io/rb/comment_extractor.png)](http://badge.fury.io/rb/comment_extractor) [![Build Status](https://travis-ci.org/alpaca-tc/comment_extractor.png?branch=develop)](https://travis-ci.org/alpaca-tc/comment\_parser)
+[![Gem Version](https://badge.fury.io/rb/comment_extractor.png)](http://badge.fury.io/rb/comment_extractor) [![Build Status](https://travis-ci.org/alpaca-tc/comment_extractor.png?branch=v1.0.0)](https://travis-ci.org/alpaca-tc/comment\_parser) [![Coverage Status](https://coveralls.io/repos/alpaca-tc/comment_extractor/badge.png)](https://coveralls.io/r/alpaca-tc/comment_extractor)
 
 ## Description
 
