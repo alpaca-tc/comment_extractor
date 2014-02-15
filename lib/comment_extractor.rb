@@ -7,5 +7,5 @@ module CommentExtractor
   autoload :Encoding, 'comment_extractor/encoding'
   autoload :File, 'comment_extractor/file'
   autoload :Parser, 'comment_extractor/parser'
-  autoload :Scanner, 'comment_extractor/scanner'
+  autoload :Extractor, 'comment_extractor/extractor'
 end

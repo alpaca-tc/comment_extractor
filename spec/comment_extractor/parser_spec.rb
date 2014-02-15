@@ -46,7 +46,7 @@ module CommentExtractor
 
         context 'given a shebang' do
           let(:shebang) { '#! /usr/bin/node' }
-          it 'finds ScannerKlass by shebang' do
+          it 'finds ExtractorKlass by shebang' do
             should eql 'JavaScript'
           end
         end
@@ -63,7 +63,7 @@ module CommentExtractor
         context 'given a name registered' do
           let(:filename) { 'rubyfile.rb' }
 
-          it 'returns ScannerKlass' do
+          it 'returns ExtractorKlass' do
             should eql 'Ruby'
           end
         end
@@ -80,7 +80,7 @@ module CommentExtractor
         context 'given a filetype registered' do
           let(:filetype) { 'ruby' }
 
-          it 'returns ScannerKlass' do
+          it 'returns ExtractorKlass' do
             should eql 'Ruby'
           end
         end
@@ -88,7 +88,7 @@ module CommentExtractor
         context 'given a filetype not registered' do
           let(:filetype) { 'no name' }
 
-          it 'returns ScannerKlass' do
+          it 'returns ExtractorKlass' do
             should be_nil
           end
         end
@@ -112,7 +112,7 @@ module CommentExtractor
 
         context 'given a file which has a file extension' do
           let(:path) { '/path/to/ruby.rb' }
-          it 'finds ScannerKlass by file name' do
+          it 'finds ExtractorKlass by file name' do
             should eql 'Ruby'
           end
         end
@@ -125,7 +125,7 @@ module CommentExtractor
         context 'given a file which contains shebang' do
           let(:shebang) { '/usr/bin/node' }
 
-          it 'finds ScannerKlass by shebang' do
+          it 'finds ExtractorKlass by shebang' do
             should eql 'JavaScript'
           end
         end
@@ -139,8 +139,8 @@ module CommentExtractor
         let(:scanner) { :Object }
         subject { Parser.class_variable_get(:@@scanners)[:key] }
 
-        context 'given a ScannerKlass' do
-          it 'registers a ScannerKlass to Parser' do
+        context 'given a ExtractorKlass' do
+          it 'registers a ExtractorKlass to Parser' do
             should eql scanner
           end
         end
@@ -163,7 +163,7 @@ module CommentExtractor
             end
           end
 
-          it 'initializes Scanner' do
+          it 'initializes Extractor' do
             expect(subject).to be_an_instance_of described_class
           end
         end

@@ -9,8 +9,8 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.show_failures_in_pending_blocks = true
   config.raise_errors_for_deprecations!
-  config.include RSpec::CommentExtractor::ScannerExampleGroup, type: :scanner, example_group: {
-    file_path: Regexp.compile(%w[spec comment_extractor scanner .*.rb].join('[\\\/]'))
+  config.include RSpec::CommentExtractor::ExtractorExampleGroup, type: :extractor, example_group: {
+    file_path: Regexp.compile(%w[spec comment_extractor extractor .*.rb].join('[\\\/]'))
   }
   config.source_code_path = 'spec/assets/source_code'
 end

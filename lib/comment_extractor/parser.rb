@@ -71,4 +71,4 @@ class CommentExtractor::Parser
   end
 end
 
-require 'comment_extractor/scanner'
+require 'comment_extractor/extractor'
