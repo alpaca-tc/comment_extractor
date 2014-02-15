@@ -1,3 +1,4 @@
+# [todo] - require each file
 require 'comment_extractor/version'
 
 module CommentExtractor

@@ -2,11 +2,15 @@ require 'strscan'
 require 'comment_extractor/parser'
 
 module CommentExtractor
+  # [todo] - Scanner should not depend on File. so user give string argument to scanner.
+  # [todo] - Scanner can use some Scanner to extract comment from file path
   class Scanner
     module Concerns; end
 
+    # [todo] - Remove file attribute and comments attribute
     attr_accessor :file, :content, :comments
 
+    # [todo] - Separate Regexp to other module
     REGEXP = {
       BREAK: /(?:\r?\n|\r)/,
     }.freeze
@@ -21,6 +25,7 @@ module CommentExtractor
       raise 'Need to implement'
     end
 
+    # [todo] - Remove Content
     def content
       @content ||= file.respond_to?(:content) ? file.content : ''
     end
@@ -37,6 +42,7 @@ module CommentExtractor
       content[0...scanner.charpos].count("\n") + corrective_line
     end
 
+    # [review] - How should I implement this?
     def add_comment(line, comment, metadata = {})
       @comments << CommentExtractor::CodeObject::Comment.new.tap do |c|
         c.file = file
@@ -73,6 +79,7 @@ module CommentExtractor
 
     private
 
+    # [todo] - Remove this
     def build_scanner
       StringScanner.new(self.content)
     end
@@ -83,6 +90,7 @@ module CommentExtractor
   end
 end
 
+# [todo] - Use require method
 # Register scanners in ./scanner/*.rb
 scanner_path = File.expand_path('../scanner', __FILE__)
 Dir["#{scanner_path}/concerns/*.rb"].each { |f| require f }

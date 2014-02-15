@@ -1,3 +1,4 @@
+# [todo] - rename, re-architect
 class CommentExtractor::Parser
   def initialize(scanner)
     @scanner = scanner

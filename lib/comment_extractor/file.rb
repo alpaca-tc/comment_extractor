@@ -1,3 +1,4 @@
+# [todo] - remove delegate
 require 'delegate'
 
 class CommentExtractor::File < File

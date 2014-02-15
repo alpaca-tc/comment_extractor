@@ -1,3 +1,4 @@
+# [todo] - remove tempfile
 require 'tempfile'
 
 module CommentExtractor::Encoding

@@ -1,4 +1,5 @@
 module CommentExtractor
+  # [review] - unfortunately, Configuration did not used
   class Configuration
     @@default_values = {}
     @@required_attributes = {}
