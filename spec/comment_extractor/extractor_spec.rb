@@ -13,17 +13,8 @@ module CommentExtractor
 
         it 'initializes attributes' do
           expect(subject.content).to eql content
+          expect(subject.code_objects).to be_an_instance_of CodeObjects
         end
-      end
-
-      describe '#scanner' do
-        subject { scanner_object.send(:scanner) }
-        it { should be_an_instance_of(StringScanner) }
-      end
-
-      describe '#content' do
-        subject { scanner_object.content }
-        it { should be_an_instance_of String }
       end
 
       describe '#extract_comments' do
@@ -31,20 +22,25 @@ module CommentExtractor
         it { expect { subject }.to raise_error(NotImplementedError) }
       end
 
-      describe '#add_comment' do
-        before do
-          line = 0
-          value = 1
-          scanner_object.send(:add_comment, line, value, {})
-        end
-
-        subject { scanner_object.comments[0] }
-
-        it 'adds new comment object to @comments' do
-          expect(subject).to be_an_instance_of(CodeObject::Comment)
-        end
+      describe '#scan' do
+        subject { scanner_object.send(:scan) }
+        it { expect { subject }.to raise_error(NotImplementedError) }
       end
 
+      describe '#scanner' do
+        subject { scanner_object.send(:scanner) }
+        it { should be_an_instance_of(StringScanner) }
+      end
+
+      describe '#build_comment' do
+        subject { scanner_object.send(:build_comment, 1, 'comment') }
+        it { expect(subject).to be_an_instance_of CodeObject::Comment }
+      end
+
+      describe '#content' do
+        subject { scanner_object.content }
+        it { should be_an_instance_of String }
+      end
     end
 
     describe 'ClassMethods' do

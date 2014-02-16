@@ -1,5 +1,6 @@
 require 'strscan'
 require 'comment_extractor/code_object'
+require 'comment_extractor/code_objects'
 require 'comment_extractor/extractor/concerns/simple_extractor'
 require 'comment_extractor/extractor/concerns/slash_extractor'
 
@@ -9,37 +10,39 @@ module CommentExtractor
       BREAK: /(?:\r?\n|\r)/,
     }.freeze
 
-    attr_reader :content
-    attr_accessor :comments
+    attr_reader :content, :code_objects
 
-    def initialize(content)
+    def initialize(content, code_objects = nil)
       @content = content
-      @comments = []
+      @code_objects = code_objects || CodeObjects.new
     end
 
-    # #extract_comments should retrun Array contains instance of CodeObject::Comment
+    # #extract_comments should retrun CodeObjects contains instance
+    # of CodeObject::Comment
     def extract_comments
-      raise NotImplementedError, "You must implement #{self.class}##{__method__}"
+      @extracted_comments ||= begin
+                              scan
+                              code_objects
+                            end
     end
 
     protected
+
+    def scan
+      raise NotImplementedError, "You must implement #{self.class}##{__method__}"
+    end
 
     def scanner
       @scanner ||= build_scanner
     end
 
-    # [review] - How should I implement this?
-    # [todo] - Create Comments Class
-    def add_comment(line, comment, metadata = {})
-      @comments << CommentExtractor::CodeObject::Comment.new.tap do |c|
-        c.line = line
-        c.value = comment
-        c.metadata = metadata
-      end
-    end
-
     def build_scanner
       StringScanner.new(@content)
+    end
+
+    def build_comment(line, comment, **metadata)
+      metadata[:extractor] = self
+      CodeObject::Comment.new(line: line, value: comment, **metadata)
     end
 
     private

@@ -12,7 +12,6 @@ module CommentExtractor
         it 'returns a instance of CodeObjects' do
           expect(subject).to be_an_instance_of CodeObjects
           expect(subject.file).to eql file_path
-          expect(subject.comments).to eql []
         end
       end
     end
@@ -36,8 +35,8 @@ module CommentExtractor
             expect(code_object.metadata[:parent]).to eql code_objects
           end
 
-          it 'adds code_object to @comments' do
-            expect { subject }.to change { code_objects.comments.size }.to(1).from(0)
+          it 'adds code_object' do
+            expect { subject }.to change { code_objects.size }.to(1).from(0)
           end
         end
       end

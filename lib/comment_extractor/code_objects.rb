@@ -1,10 +1,14 @@
+require 'forwardable'
+
 module CommentExtractor
   class CodeObjects
-    attr_accessor :file, :comments
+    extend Forwardable
 
-    def initialize(file: file, comments: [])
+    attr_accessor :file
+
+    def initialize(file: nil)
       @file = file
-      @comments = comments
+      @code_objects = []
     end
 
     def <<(code_object)
@@ -15,7 +19,9 @@ module CommentExtractor
 
       code_object.metadata[:parent] = self
 
-      @comments << code_object
+      @code_objects << code_object
     end
+
+    def_delegators :@code_objects, :[], :size, :length, :each, :map, :each_with_index, :each_with_object, :map!
   end
 end

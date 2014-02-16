@@ -92,7 +92,7 @@ class CommentExtractor::Extractor
         end
       end
 
-      def extract_comments
+      def scan
         until scanner.eos?
           case
           when scan_ignore_patterns
@@ -111,8 +111,6 @@ class CommentExtractor::Extractor
             raise_report
           end
         end
-
-        self.comments
       end
 
       private
@@ -166,7 +164,10 @@ class CommentExtractor::Extractor
       def identify_single_line_comment
         line_number = scanner.current_line
         comment = scanner.scan(/^.*$/)
-        add_comment(line_number, comment, type: ONE_LINER_COMMENT)
+        metadata = { type: ONE_LINER_COMMENT }
+        comment_object = build_comment(line_number, comment, **metadata)
+
+        code_objects << comment_object
       end
 
       def identify_multi_line_comment(regexp)
@@ -177,7 +178,8 @@ class CommentExtractor::Extractor
         remove_tail_regexp = Regexp.new(regexp.source + /$/.source)
         comments = comment_block.sub(remove_tail_regexp, '').split("\n")
         comments.each_with_index do |comment, index|
-          add_comment(line_no + index, comment, type: BLOCK_COMMENT)
+          metadata = { type: BLOCK_COMMENT }
+          code_objects << build_comment(line_no + index, comment, metadata)
         end
       end
     end
