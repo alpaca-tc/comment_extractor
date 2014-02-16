@@ -1,11 +1,10 @@
 require 'strscan'
 require 'comment_extractor/code_object'
+require 'comment_extractor/extractor/concerns/simple_extractor'
+require 'comment_extractor/extractor/concerns/slash_extractor'
 
 module CommentExtractor
   class Extractor
-    module Concerns; end
-
-    # [todo] - Separate Regexp to other module
     REGEXP = {
       BREAK: /(?:\r?\n|\r)/,
     }.freeze
@@ -18,6 +17,7 @@ module CommentExtractor
       @comments = []
     end
 
+    # #extract_comments should retrun Array contains instance of CodeObject::Comment
     def extract_comments
       raise NotImplementedError, "You must implement #{self.class}##{__method__}"
     end
@@ -74,6 +74,3 @@ module CommentExtractor
     end
   end
 end
-
-require 'comment_extractor/extractor/concerns/simple_extractor'
-require 'comment_extractor/extractor/concerns/slash_extractor'
