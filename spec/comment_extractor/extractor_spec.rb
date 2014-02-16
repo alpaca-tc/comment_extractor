@@ -54,37 +54,37 @@ module CommentExtractor
         end
       end
 
-      describe 'definition' do
+      describe 'schema' do
         after do
-          scanner_klass.send(:remove_instance_variable, :@definition)
+          scanner_klass.send(:remove_instance_variable, :@schema)
         end
 
-        shared_examples_for 'a setting definition' do
+        shared_examples_for 'a setting schema' do
           before do
             scanner_klass.send(key, value)
           end
 
-          it 'defines definitions for own' do
-            expect(scanner_klass.definition).to eql({ key => value })
+          it 'defines schemas for own' do
+            expect(scanner_klass.schema).to eql({ key => value })
           end
         end
 
         describe '.shebang' do
           let(:value) { %r!#\! path/to/test! }
           let(:key) { :shebang }
-          it_should_behave_like 'a setting definition'
+          it_should_behave_like 'a setting schema'
         end
 
         describe '.filetype' do
           let(:value) { 'ruby' }
           let(:key) { :filetype }
-          it_should_behave_like 'a setting definition'
+          it_should_behave_like 'a setting schema'
         end
 
         describe '.filename' do
           let(:value) { /\.rb$/ }
           let(:key) { :filename }
-          it_should_behave_like 'a setting definition'
+          it_should_behave_like 'a setting schema'
         end
       end
     end

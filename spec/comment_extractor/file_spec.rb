@@ -49,19 +49,19 @@ module CommentExtractor
           end
         end
       end
-    end
 
-    describe '#binary?' do
-      subject { file.binary? }
+      describe '.binary?' do
+        subject { File.binary?(file_path) }
 
-      context 'given the binary file' do
-        let(:file_path) { binary_path }
-        it { should be_truthy }
-      end
+        context 'given the binary file' do
+          let(:file_path) { binary_path }
+          it { should be_truthy }
+        end
 
-      context 'given the source file' do
-        let(:file_path) { __FILE__ }
-        it { should be_falsy }
+        context 'given the source file' do
+          let(:file_path) { __FILE__ }
+          it { should be_falsy }
+        end
       end
     end
 

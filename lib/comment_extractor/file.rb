@@ -7,6 +7,7 @@ module CommentExtractor
     refine File do
       attr_accessor :content, :shebang
 
+      # [review] - How can I refine class method?
       def File.shebang(path)
         if File.extname(path).empty?
           line = File.open(path) { |f| f.gets }
@@ -16,8 +17,8 @@ module CommentExtractor
         end
       end
 
-      def binary?
-        header = File.read(self.path, File.stat(self.path).blksize) || nil
+      def File.binary?(file_path)
+        header = File.read(file_path, File.stat(file_path).blksize) || nil
 
         if header.nil? || header.empty?
           false
@@ -28,7 +29,7 @@ module CommentExtractor
       end
 
       def read_content
-        return if self.binary?
+        return if File.binary?(self.path)
 
         if File.shebang(self.path)
           self.gets # Remove shebang

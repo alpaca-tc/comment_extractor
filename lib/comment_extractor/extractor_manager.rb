@@ -30,8 +30,8 @@ module CommentExtractor
         return if file.binary?
         extractor = nil
 
-        if file.shebang
-          extractor = find_extractor_by_shebang(file.shebang)
+        if shebang = File.shebang(file_path)
+          extractor = find_extractor_by_shebang(shebang)
         end
 
         unless extractor

@@ -60,21 +60,21 @@ module CommentExtractor
       @status = :disable
     end
 
-    def self.attr_definition_accessor(*keys)
+    def self.attr_schema_accessor(*keys)
       keys.each do |key|
         define_singleton_method key do |value|
-          self.definition[key] = value
+          self.schema[key] = value
         end
 
         define_method key do
-          self.class.definition[key]
+          self.class.schema[key]
         end
       end
     end
-    attr_definition_accessor *SCHAME_ACCESSOR
+    attr_schema_accessor *SCHAME_ACCESSOR
 
-    def self.definition
-      @definition ||= {}
+    def self.schema
+      @schema ||= {}
     end
   end
 end

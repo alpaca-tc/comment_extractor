@@ -145,15 +145,15 @@ module CommentExtractor
             allow(described_class).to receive(:defined_extractor_finder)
               .and_return([:filename, :shebang])
             allow(File).to receive(:new).and_return(file)
+            allow(File).to receive(:shebang) { shebang }
           end
 
+          let(:shebang) { nil }
           let(:binary?) { false }
           let(:content) { '' }
           let(:path) { '/path/to/file' }
-          let(:shebang) { nil }
           let(:file) do
             double.tap do |f|
-              allow(f).to receive(:shebang) { shebang }
               allow(f).to receive(:content) { content }
               allow(f).to receive(:binary?) { binary? }
               allow(f).to receive(:path) { path }
