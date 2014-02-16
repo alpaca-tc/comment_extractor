@@ -18,12 +18,19 @@ module CommentExtractor
       describe '#extract_comments' do
         subject { parser.extract_comments }
 
-        before do
-          expect(stub_extractor).to receive(:extract_comments).once
+        context 'when initialized by a correct type Extractor' do
+          before do
+            expect(stub_extractor).to receive(:extract_comments).once
+          end
+
+          it 'parses file and returns comments' do
+            expect(subject).to be_an_instance_of Array
+          end
         end
 
-        it 'parses file and returns comments' do
-          expect(subject).to be_an_instance_of Array
+        context 'when initialized by not instance of Extractor' do
+          let(:parser) { described_class.new(nil) }
+          it { expect { subject }.to raise_error(TypeError) }
         end
       end
     end

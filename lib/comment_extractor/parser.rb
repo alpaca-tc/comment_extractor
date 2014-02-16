@@ -13,7 +13,7 @@ module CommentExtractor
 
     def extract_comments
       @extractor.extract_comments
-    rescue NoMemoryError
+    rescue NoMethodError
       raise TypeError, "#{@extractor} should be a instance of #{Extractor}"
     end
 
