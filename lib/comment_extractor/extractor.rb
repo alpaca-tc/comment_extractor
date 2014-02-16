@@ -9,6 +9,7 @@ module CommentExtractor
     REGEXP = {
       BREAK: /(?:\r?\n|\r)/,
     }.freeze
+    SCHAME_ACCESSOR = %i[shebang filetype filename]
 
     attr_reader :content, :code_objects
 
@@ -21,9 +22,9 @@ module CommentExtractor
     # of CodeObject::Comment
     def extract_comments
       @extracted_comments ||= begin
-                              scan
-                              code_objects
-                            end
+        scan
+        code_objects
+      end
     end
 
     protected
@@ -70,7 +71,7 @@ module CommentExtractor
         end
       end
     end
-    attr_definition_accessor :shebang, :filetype, :filename
+    attr_definition_accessor *SCHAME_ACCESSOR
 
     def self.definition
       @definition ||= {}

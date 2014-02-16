@@ -3,9 +3,9 @@ require 'comment_extractor/file'
 require 'tempfile'
 
 using CommentExtractor::DetectableSchemeFile
+
 module CommentExtractor
   describe DetectableSchemeFile do
-
     let(:file) { File.new(file_path) }
     let(:asset_dir) { File.expand_path('../../assets', __FILE__) }
     let(:binary_path) { "#{asset_dir}/binary_file" }
