@@ -9,7 +9,7 @@ module CommentExtractor
     REGEXP = {
       BREAK: /(?:\r?\n|\r)/,
     }.freeze
-    SCHAME_ACCESSOR = %i[shebang filetype filename]
+    SCHAME_ACCESSOR_NAMES = %i[shebang filetype filename]
 
     attr_reader :content, :code_objects
 
@@ -60,18 +60,18 @@ module CommentExtractor
       @status = :disable
     end
 
-    def self.attr_schema_accessor(*keys)
+    def self.schema_accessor(*keys)
       keys.each do |key|
-        define_singleton_method key do |value|
-          self.schema[key] = value
-        end
-
-        define_method key do
-          self.class.schema[key]
+        define_singleton_method key do |value = nil|
+          if value
+            self.schema[key] = value
+          else
+            self.schema[key]
+          end
         end
       end
     end
-    attr_schema_accessor *SCHAME_ACCESSOR
+    schema_accessor *SCHAME_ACCESSOR_NAMES
 
     def self.schema
       @schema ||= {}

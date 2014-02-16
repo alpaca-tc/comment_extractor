@@ -54,7 +54,7 @@ module CommentExtractor
         end
       end
 
-      describe 'schema' do
+      describe 'schema accessors' do
         after do
           scanner_klass.send(:remove_instance_variable, :@schema)
         end

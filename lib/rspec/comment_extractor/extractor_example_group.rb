@@ -68,7 +68,7 @@ module RSpec::CommentExtractor::ExtractorExampleGroup
       shared_examples_for 'detecting shebang' do |*shebangs|
         shebangs.each do |shebang|
           it 'detects shebang' do
-            expect(shebang).to match scanner.shebang
+            expect(shebang).to match scanner.class.shebang
           end
         end
       end

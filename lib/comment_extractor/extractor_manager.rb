@@ -111,6 +111,6 @@ module CommentExtractor
     end
 
     # define :find_extractor_by_shebang, :find_extractor_by_filename
-    define_extractor_finder_by *Extractor::SCHAME_ACCESSOR
+    define_extractor_finder_by *Extractor::SCHAME_ACCESSOR_NAMES
   end
 end
