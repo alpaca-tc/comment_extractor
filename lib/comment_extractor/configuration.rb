@@ -1,5 +1,6 @@
+require 'comment_extractor/extractor_manager'
+
 module CommentExtractor
-  # [review] - unfortunately, Configuration did not used
   class Configuration
     @@default_values = {}
     @@required_attributes = {}
@@ -46,10 +47,6 @@ module CommentExtractor
       end
     end
 
-    add_setting :root_path, required: true
-    add_setting :dry_run, default: false
-    add_setting :files, default: []
-    add_setting :directories, default: []
-    add_setting :ignore_list, default: []
+    add_setting :extractors, default: ExtractorManager.default_extractors
   end
 end
