@@ -8,9 +8,9 @@ module CommentExtractor
         BLOCK_COMMENT = :block_comment
       end
 
-      def initialize
-        super
-        @line = nil
+      def initialize(line: line, **values)
+        @line = line
+        super(**values)
       end
     end
   end

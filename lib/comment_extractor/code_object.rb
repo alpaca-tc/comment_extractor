@@ -1,13 +1,12 @@
 module CommentExtractor
   class CodeObject
-    attr_accessor :file, :metadata, :value
+    attr_accessor :metadata, :value
 
-    def initialize
-      @file = nil
-      @value = nil
-      @metadata = {}
+    def initialize(value: nil, **others)
+      @value = value
+      @metadata = others
     end
-
-    require 'comment_extractor/code_object/comment'
   end
 end
+
+require 'comment_extractor/code_object/comment'
