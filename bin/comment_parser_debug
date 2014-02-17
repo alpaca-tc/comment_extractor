@@ -8,7 +8,7 @@ def debug(file_path)
 
   if parser = CommentExtractor::Parser.for(file_path)
     puts "Use: #{parser.class}"
-    comments = parser.parse
+    comments = parser.extract_comments
 
     if comments.empty?
       puts "Comment is nothing"
