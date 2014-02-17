@@ -15,7 +15,7 @@ module CommentExtractor
 
     def push(*code_object_array)
       arguments = code_object_array.map { |v| initialize_code_object(v) }
-      super(arguments)
+      super(*arguments)
     end
 
     def concat(*code_object_arrays)
@@ -35,7 +35,7 @@ module CommentExtractor
 
     def initialize_code_object(code_object)
       unless code_object.is_a?(CodeObject)
-        message = "no implicit conversion of #{code_object.class} into CodeObject"
+        message = "no implicit conversion of #{code_object.class} into #{CodeObject}"
         raise TypeError, message
       end
 
