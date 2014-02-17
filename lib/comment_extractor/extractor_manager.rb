@@ -26,10 +26,9 @@ module CommentExtractor
       end
 
       def can_extract(file_path)
-        file = File.new(file_path)
-        return if file.binary?
-        extractor = nil
+        return if File.binary?(file_path)
 
+        extractor = nil
         if shebang = File.shebang(file_path)
           extractor = find_extractor_by_shebang(shebang)
         end
@@ -43,12 +42,12 @@ module CommentExtractor
 
       private
 
-      def defined_extractor_finder
-        @defined_extractor_finder ||= []
+      def defined_extractor_finders
+        @defined_extractor_finders ||= []
       end
 
       def define_extractor_finder_by(*keys)
-        defined_extractor_finder.concat(keys)
+        defined_extractor_finders.concat(keys)
 
         keys.each do |key|
           define_singleton_method "find_extractor_by_#{key}" do |value|
@@ -67,10 +66,15 @@ module CommentExtractor
       end
 
       def find_extractor_by(key, value)
-        # Regexp optimization which can find value O(1)
-        if extractor_definitions[key][:regexp] =~ value
-          index = $~[1..-1].rindex($~[0])
-          extractor_definitions[key][:values][index]
+        case key
+        when :filename, :shebang
+          # Regexp optimization which can find value O(1)
+          if extractor_definitions[key][:regexp] =~ value
+            index = $~[1..-1].rindex($~[0])
+            extractor_definitions[key][:values][index]
+          end
+        when :filetype
+          extractor_definitions[:filetype][value]
         end
       end
 
@@ -81,15 +85,19 @@ module CommentExtractor
       def build_extractor_definitions
         definitions = Hash.new { |h,k| h[k] = { regexp: nil, values: [] } }
 
-        defined_extractor_finder.each do |finder|
+        finders = defined_extractor_finders.dup
+        finders.delete(:filetype)
+        definitions[:filetype] = build_filetype_extractor_definitions
+
+        finders.each do |finder|
           regexp_keys = []
           values = []
 
           extractors.each do |name, value|
-            extractor = @extractors[name] = value || Extractor.const_get(name)
+            extractor = extractors[name] = value || Extractor.const_get(name)
 
             if schema = extractor.send(finder)
-              # [review] - Maybe this implementation is not better
+              # [review] - Maybe my optimization way is not better
               regexp_source = schema.is_a?(Regexp) ? schema.source : schema
               regexp_keys << "(#{regexp_source})"
               values << extractor
@@ -103,6 +111,16 @@ module CommentExtractor
         end
 
         definitions
+      end
+
+      def build_filetype_extractor_definitions
+        definitions = Hash.new { |h,k| h[k] = [] }
+
+        extractors.each_with_object(definitions) do |(name, value), memo|
+          extractor = extractors[name] = value || Extractor.const_get(name)
+          filetypes = *extractor.filetype
+          filetypes.each { |filetype| memo[filetype] = extractor }
+        end
       end
 
       def extractors

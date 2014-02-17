@@ -3,42 +3,30 @@ require 'comment_extractor/extractor_manager'
 
 module CommentExtractor
   describe ExtractorManager do
-    before do
+    after do
       if described_class.instance_variable_defined?(:@extractors)
         described_class.send(:remove_instance_variable, :@extractors)
       end
     end
 
-    describe 'ClassMethods' do
+    def registered_extractors
+      described_class.instance_variable_get(:@extractors)
+    end
+
+    describe 'PublicModuleMethods' do
       describe '.regist_extractor' do
-        subject { described_class.instance_variable_get(variable_name) }
-        let(:variable_name) { :@extractors }
-        let(:extractor) { :Object }
+        subject { registered_extractors }
 
         before do
           described_class.regist_extractor(extractor)
         end
 
-        shared_context 'registering extractor' do
+        let(:extractor) { :Object }
+
+        context "given a extractor's symbol or Klass" do
           it 'registers a extractor to self' do
-            expect(subject[extractor]).to be_nil
+            expect(subject).to have_key(extractor)
           end
-        end
-
-        context 'when extractors have already initialized' do
-          let(:expected_extractors) do
-            described_class.default_extractors + [extractor]
-          end
-
-          it 'registors extractors by .initialize_extractors!' do
-            expect(subject.keys).to match_array expected_extractors
-          end
-
-          it_behaves_like 'registering extractor'
-        end
-
-        context 'when extractors have not initialized yet' do
-          it_behaves_like 'registering extractor'
         end
       end
 
@@ -49,16 +37,111 @@ module CommentExtractor
           expect(subject).to be_an_instance_of Array
         end
       end
+    end
 
-      describe '.initialize_extractors!' do
-        before do
-          described_class.send(:initialize_extractors!)
+    describe 'Finding extractor methods' do
+      before do
+        described_class.instance_variable_set(:@extractor_definitions, definitions)
+      end
+
+      let(:definitions) do
+        {
+          shebang: {
+            regexp: /(\/node$)|(ruby$)/,
+            values: ['JavaScript', 'Ruby']
+          },
+          filename: {
+            regexp: /(\.js$)|(\.rb$|Gemfile$|Rakefile)/,
+            values: ['JavaScript', 'Ruby']
+          },
+          filetype: {
+            'key' => 'value',
+          }
+        }
+      end
+
+      shared_context 'trying to find extractor' do
+        context 'given a registered value' do
+          let(:test_value) { registed_value }
+          it 'finds ExtractorKlass' do
+            should eql 'Ruby'
+          end
         end
 
-        subject { described_class.instance_variable_get(:@extractors).keys }
+        context 'given a non-matching string' do
+          let(:test_value) { '' }
+          it { should be_nil }
+        end
+      end
+
+      describe '.find_extractor_by_shebang' do
+        subject { described_class.find_extractor_by_shebang(test_value) }
+        let(:registed_value) { '#! /usr/local/ruby' }
+
+        it_behaves_like 'trying to find extractor'
+      end
+
+      describe '.find_extractor_by_filename' do
+        subject { described_class.find_extractor_by_filename(test_value) }
+        let(:registed_value) { 'path/to/file.rb' }
+
+        it_behaves_like 'trying to find extractor'
+      end
+
+      describe '.find_extractor_by_filetype' do
+        subject { described_class.find_extractor_by_filetype('key') }
+
+        it 'finds ExtractorKlass by matching file type' do
+          should eql 'value'
+        end
+      end
+
+      describe '.can_extract' do
+        subject { described_class.can_extract(file_path) }
+
+        before do
+          allow(File).to receive(:binary?).with(file_path) { binary? }
+          allow(File).to receive(:shebang).with(file_path) { shebang }
+        end
+
+        let(:file_path) { '/path/to/file' }
+        let(:shebang) { nil }
+        let(:binary?) { false }
+
+        context 'given a binary file' do
+          let(:binary?) { true }
+          it { should be_nil }
+        end
+
+        context 'given a file that does not contain shebang' do
+          let(:file_path) { '/path/to/ruby.rb' }
+
+          it 'finds ExtractorKlass by file name' do
+            should eql 'Ruby'
+          end
+        end
+
+        context 'given a file that contains shebang' do
+          let(:shebang) { '/usr/bin/node' }
+
+          it 'finds ExtractorKlass by shebang' do
+            should eql 'JavaScript'
+          end
+        end
+      end
+    end
+
+    context 'PrivateModuleMethods' do
+      describe '.initialize_extractors!' do
+        subject { registered_extractors }
+
+        let(:described_method) { described_class.send(:initialize_extractors!) }
+        let(:default_extractors) { ExtractorManager.default_extractors }
 
         it 'initializes extractors' do
-          expect(subject).to match_array ExtractorManager.default_extractors
+          expect(subject).to be_nil
+          described_method
+          expect(registered_extractors.keys).to match_array default_extractors
         end
       end
 
@@ -66,120 +149,49 @@ module CommentExtractor
         subject { described_class.send(:build_extractor_definitions) }
 
         before do
-          allow(described_class).to receive(:defined_extractor_finder)
-            .and_return(defined_extractor_finder)
-          described_class.instance_variable_set(:@extractors, { v: extractor  })
+          allow(described_class).to receive(:extractors).and_return(extractors)
         end
 
-        let(:defined_extractor_finder) { [:shebang] }
-        let(:extractor) do
+        def build_extractor(name)
           double.tap do |e|
-            allow(e).to receive(:shebang).and_return(%r!/usr/local/shebang!)
+            allow(e).to receive(:shebang).and_return(/#{name}/)
+            allow(e).to receive(:filetype).and_return(name)
+            allow(e).to receive(:filename).and_return(/\.#{name}$/)
           end
         end
 
-        # [review] - This test is insufficiency
-        it 'build extractor definitions' do
-          expect(subject).to be_an_instance_of Hash
-
-          defined_extractor_finder.each do |finder|
-            expect(subject[finder]).to be_an_instance_of Hash
-            expect(subject[finder][:regexp]).to be_an_instance_of Regexp
-            expect(subject[finder][:values]).to be_an_instance_of Array
-          end
-        end
-      end
-
-      describe 'Finding extractor methods' do
-        before do
-          described_class.instance_variable_set(:@extractor_definitions, definitions)
-        end
-
-        let(:definitions) do
+        let(:extractors) do
           {
-            shebang: {
-              regexp: /(\/node$)|(ruby$)/,
-              values: ['JavaScript', 'Ruby']
-            },
-            filename: {
-              regexp: /(\.js$)|(\.rb$)/,
-              values: ['JavaScript', 'Ruby']
-            }
+            Ruby: ruby_extractor,
+            Php: php_extractor,
           }
         end
-
-        describe '.find_extractor_by_...' do
-          shared_context 'trying to find extractor' do
-            context 'given a registed value' do
-              let(:value_of_giving) { registed_value }
-              it 'finds Extractor by shebang' do
-                should eql 'Ruby'
-              end
-            end
-
-            context 'given a empty string' do
-              let(:value_of_giving) { '' }
-              it { should be_nil }
-            end
-          end
-
-          describe '.find_extractor_by_shebang' do
-            subject { described_class.find_extractor_by_shebang(value_of_giving) }
-            let(:registed_value) { '#! /usr/local/ruby' }
-
-            it_behaves_like 'trying to find extractor'
-          end
-
-          describe '.find_extractor_by_filename' do
-            subject { described_class.find_extractor_by_filename(value_of_giving) }
-            let(:registed_value) { 'path/to/file.rb' }
-
-            it_behaves_like 'trying to find extractor'
-          end
+        let(:php_extractor) { build_extractor('php') }
+        let(:ruby_extractor) { build_extractor('ruby') }
+        let(:expected_regexp) do
+          {
+            shebang: /(ruby)|(php)/,
+            filename: /(\.ruby$)|(\.php$)/,
+            filetype: {
+              'php' => php_extractor,
+              'ruby' => ruby_extractor,
+            },
+          }
+        end
+        let(:defined_extractor_finders) do
+          described_class.send(:defined_extractor_finders)
         end
 
-        describe '.can_extract' do
-          subject { described_class.can_extract(path) }
+        it 'builds extractor definitions' do
+          expect(subject).to be_an_instance_of Hash
 
-          before do
-            allow(described_class).to receive(:defined_extractor_finder)
-              .and_return([:filename, :shebang])
-            allow(File).to receive(:new).and_return(file)
-            allow(File).to receive(:shebang) { shebang }
+          [:filename, :shebang].each do |finder|
+            expect(subject[finder]).to be_an_instance_of Hash
+            expect(subject[finder][:regexp]).to eql expected_regexp[finder]
+            expect(subject[finder][:values]).to be_an_instance_of Array
           end
 
-          let(:shebang) { nil }
-          let(:binary?) { false }
-          let(:content) { '' }
-          let(:path) { '/path/to/file' }
-          let(:file) do
-            double.tap do |f|
-              allow(f).to receive(:content) { content }
-              allow(f).to receive(:binary?) { binary? }
-              allow(f).to receive(:path) { path }
-            end
-          end
-
-          context 'given a file which has a file extension' do
-            let(:path) { '/path/to/ruby.rb' }
-
-            it 'finds ExtractorKlass by file name' do
-              should eql 'Ruby'
-            end
-          end
-
-          context 'given a binary file' do
-            let(:binary?) { true }
-            it { should be_nil }
-          end
-
-          context 'given a file which contains shebang' do
-            let(:shebang) { '/usr/bin/node' }
-
-            it 'finds ExtractorKlass by shebang' do
-              should eql 'JavaScript'
-            end
-          end
+          expect(subject[:filetype]).to eql expected_regexp[:filetype]
         end
       end
     end

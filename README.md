@@ -1,12 +1,12 @@
 # strip\_comment
 
-[![Gem Version](https://badge.fury.io/rb/comment_extractor.png)](http://badge.fury.io/rb/comment_extractor) [![Build Status](https://travis-ci.org/alpaca-tc/comment_extractor.png?branch=v1.0.0)](https://travis-ci.org/alpaca-tc/comment\_parser) [![Coverage Status](https://coveralls.io/repos/alpaca-tc/comment_extractor/badge.png)](https://coveralls.io/r/alpaca-tc/comment_extractor)
+[![Gem Version](https://badge.fury.io/rb/comment_extractor.png)](http://badge.fury.io/rb/comment\_extractor)
+[![Build Status](https://travis-ci.org/alpaca-tc/comment_extractor.png?branch=v1.0.0)](https://travis-ci.org/alpaca-tc/comment\_parser)
+[![Coverage Status](https://coveralls.io/repos/alpaca-tc/comment_extractor/badge.png?branch=v1.0.0)](https://coveralls.io/r/alpaca-tc/comment\_extractor?branch=v1.0.0)
 
 ## Description
 
-*Simple tokenizer for taking out only a comment out*
-
-comment\_parser takens out only a comment out from a source code.
+comment\_extractor extracts the comment out from a source code.
 
 ## Installation
 
@@ -22,8 +22,7 @@ rake install
 
 ### Parser
 
-Parser is wrapper around scanners.
-When given a file to `Parser.for`, CommentExtractor::Parser returns parser of file given.
+Given a file path to `Parser.for`, it finds Extractor and returns an instance of self which is initialized by extractor. Getting the comments from file by using it.
 
 ```ruby
 require 'comment_extractor'
@@ -31,71 +30,100 @@ require 'comment_extractor'
 path = 'path/to/file'
 if parser = CommentExtractor::Parser.for(path)
   comments = parser.parse
+  comemnts.is_a?(CommentExtractor::CodeObjects)
+
   comment = comments.first
-  comemnt.is_a?(CommentExtractor::CodeObject::Comment)
-  comment.file  #=> #<CommentExtractor::File:path/to/file>
+  comment.file  #=> 'path/to/file'
   comment.line  #=> 1
   comment.value #=> 'I am a comment'
 end
 ```
 
-### Scanner
+### Extractor
+
+#### You can use Extractor directly.
 
 ```ruby
 require 'comment_extractor'
 
-file = CommentExtractor::File.new('path/to/file.rb')
-if scanner_klass = CommentExtractor::Parser.find_scanner_by_filetype('ruby')
-  scanner = scanner_klass.new(file)
-  scanner.scan
-  p scanner.comments #=> [#<CommentExtractor::CodeObject::Comment:0x007f98cb90c4f8>, ...]
+file_path = 'path/to/file.rb'
+manager = CommentExtractor::ExtractorManager
+if extractor = manager.can_extract(file_path)
+  content = File.read(file_path)
+  comments = extractor.new(content).extract_comments
+  comemnts.is_a?(CommentExtractor::CodeObjects)
 end
+
+# Other way to find extractor
+extractor = manager.find_extractor_by_shebang('#! /usr/local/bin/ruby')
+extractor = manager.find_extractor_by_filename('path/to/file.rb')
+extractor = manager.find_extractor_by_filetype('ruby')
+```
+
+#### How to use extractor of specific filetype.
+
+```ruby
+require 'comment_extractor/extractor/d'
+
+content = File.read('path/to/file.d')
+comments = CommentExtractor::Extractor::D.new(content).extract_comments
 ```
 
 ### Supported FileTypes
 
+- **Bash / Zsh**
 - **C / C++**
+- **Class**
 - **C#**
-- **Java**
-- **JavaScript**
-- **PHP**
-- **Go**
-- **Scala**
+- **Clojure**
+- **Coffee-Script**
+- **D**
+- **EmacsLisp**
 - **Erlang**
 - **Fortran**
-- **SQL / PL**
-- **Lua**
-- **HTML**
-- **SASS SCSS**
+- **Go**
+- **Haml**
 - **Haskell**
-- **Bash / Zsh**
-- **Ruby**
+- **HTML**
+- **Java**
+- **JavaScript**
+- **Tex**
+- **Lua**
+- **PHP**
 - **Perl**
 - **Python**
-- **Coffee-Script**
-- **Clojure**
-- **HTML**
-- **Emacslisp**
-- **LaTex**
+- **Ruby**
+- **SASS**
+- **SCSS**
+- **SQF**
+- **SQL**
+- **Scala**
 
-### Create new Scanner
+### TODO
 
-If you see something missing from the supported filetype, please either file an issue or submit a pull request:)
+- Markdown
+- SQS; I can not implement it because I do not know the syntax of sqs.
+
+### Create a new Extractor
+
+If you see something missing from the supported file type, please either file an issue or submit a pull request:)
+And I would be glad if I could have you send the new filetype's source code via an issues.
 
 ```ruby
-# lib/comment_extractor/scanner/new_file_type.rb
+# lib/comment_extractor/extractor/file_type.rb
+require 'comment_extractor/extractor'
 
-class CommentExtractor::Scanner::NewFileType < CommentExtractor::Scanner
-  include CommentExtractor::Scanner::Concerns::SimpleScanner
+class CommentExtractor::Extractor::FileType < CommentExtractor::Extractor
+  include CommentExtractor::Extractor::Concerns::SimpleExtractor
 
-  filename /\.(extention)$/
-  filetype 'filetype' #=> g.u 'ruby', 'php'
+  shebang /ruby$/            # (Optional)
+  filename /\.(extention)$/  # (Required)
+  filetype 'filetype'        # (Required) file type name. g.c 'ruby', 'python'
 
-  # ignore pattern
   # define_ignore_patterns(*given regexp)
 
-  # define_bracket('"') #=> ignore /".*?(?<!\\)"/
-  # define_regexp_bracket #=> ignore %r!/(?=[^/])!, /(?<!\\)\//
+  # define_bracket('"')   #=> define_ignore_patterns(/".*?(?<!\\)"/)
+  # define_regexp_bracket #=> define_ignore_patterns(%r!/(?=[^/])!, /(?<!\\)\//)
 
   # define the rule of comment
   define_rule start: /;+/
