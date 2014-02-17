@@ -11,8 +11,8 @@ module CommentExtractor
 
       original_encoding = content.encoding
 
-      if strip_bom(content) # When content is UTF-8
-        content.force_encoding(Encoding::UTF_8)
+      if strip_bom(content) # When the content contains bom, it is UTF-8
+        content.force_encoding(::Encoding::UTF_8)
         content.encode!(encoding)
       else
         content.force_encoding(encoding)

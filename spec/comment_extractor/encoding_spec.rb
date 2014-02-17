@@ -4,62 +4,67 @@ require 'tempfile'
 
 module CommentExtractor
   describe Encoding do
-    let(:hello_world) { 'hello_world' }
-    let(:temp) { Tempfile.new('tempfile') }
+    describe 'ClassMethods' do
+      let(:body) { 'hello_world' }
+      let(:temp) { Tempfile.new('tempfile') }
 
-    describe '.encode' do
-      subject { Encoding.encode(*[body, format].compact) }
+      describe '.encode' do
+        subject { described_class.encode(*[body, format].compact) }
 
-      shared_examples_for 'a encoding' do
-        let(:format_type) { respond_to?(:format_expected) ? format_expected : format }
-        let(:body_text) { respond_to?(:body_expected) ? body_expected : body }
+        shared_examples_for 'a text encoder' do
+          let(:expected_format_type) do
+            respond_to?(:format_expected) ? format_expected : format
+          end
+          let(:expected_body) do
+            respond_to?(:body_expected) ? body_expected : body
+          end
 
-        it 'works' do
-          should eql body_text
-          expect(subject.encoding).to eql format_type
+          it 'works' do
+            expect(subject).to eql expected_body
+            expect(subject.encoding).to eql expected_format_type
+          end
+        end
+
+        context 'given a raw text' do
+          context 'and empty as encoding type' do
+            let(:format) { nil }
+            let(:format_expected) { ::Encoding::UTF_8 }
+
+            it_behaves_like 'a text encoder'
+          end
+
+          context 'and UTF-8 as encoding type' do
+            let(:format) { ::Encoding::UTF_8 }
+
+            it_behaves_like 'a text encoder'
+          end
+        end
+
+        context 'given a invalid text' do
+          let(:body) { "\u00D7"  }
+          let(:format) { ::Encoding::US_ASCII }
+          let(:expected_error) { ::Encoding::UndefinedConversionError }
+
+          it { expect { subject }.to raise_error(expected_error) }
         end
       end
 
-      context 'given raw text' do
-        let(:body) { hello_world }
+      describe '.read_file' do
+        subject { Encoding.read_file(temp.path) }
 
-        context 'and nil as encoding type' do
-          let(:format) { nil }
-          let(:format_expected) { ::Encoding::UTF_8 }
-
-          it_should_behave_like 'a encoding'
+        before do
+          temp.write(body)
+          temp.flush
         end
 
-        context 'and UTF-8 as encoding type' do
-          let(:format) { ::Encoding::UTF_8 }
-
-          it_should_behave_like 'a encoding'
+        context 'given a file_path' do
+          it 'returns a encoded content' do
+            expect(described_class).to receive(:encode)
+            .at_least(:once)
+            .with(body) { |v| v }
+            expect(subject).to eql body
+          end
         end
-      end
-
-      context 'given invalid text' do
-        let(:x_mark) { "\u00D7" }
-        let(:body) { x_mark }
-        let(:format) { ::Encoding::US_ASCII }
-
-        it { expect { subject }.to raise_error(::Encoding::UndefinedConversionError) }
-      end
-    end
-
-    describe '.read_file' do
-      subject { Encoding.read_file(temp.path) }
-
-      before do
-        temp.write(hello_world)
-        temp.flush
-      end
-
-      it 'read file which is encoded' do
-        expect(Encoding).to receive(:encode)
-          .at_least(:once)
-          .with(hello_world)
-          .and_return(hello_world)
-        expect(subject).to eql hello_world
       end
     end
   end
