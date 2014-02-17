@@ -1,13 +1,13 @@
 require 'spec_helper'
-require 'comment_extractor/code_object'
+require 'comment_extractor/code_object/comment'
 
 module CommentExtractor
   describe CodeObject::Comment do
     describe '.new' do
-      subject { CodeObject::Comment.new(line: line) }
+      subject { described_class.new(line: line) }
       let(:line) { 21 }
 
-      it 'returns instance' do
+      it "returns a instance of #{described_class}" do
         expect(subject.line).to eql(line)
       end
     end

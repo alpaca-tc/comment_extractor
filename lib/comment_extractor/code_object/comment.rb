@@ -1,3 +1,5 @@
+require 'comment_extractor/code_object'
+
 module CommentExtractor
   class CodeObject
     class Comment < CommentExtractor::CodeObject
@@ -9,8 +11,8 @@ module CommentExtractor
       end
 
       def initialize(line: line, **values)
-        @line = line
         super(**values)
+        @line = line
       end
     end
   end
