@@ -3,15 +3,44 @@ require 'comment_extractor/code_object'
 require 'comment_extractor/code_objects'
 require 'comment_extractor/extractor/concerns/simple_extractor'
 require 'comment_extractor/extractor/concerns/slash_extractor'
+require 'comment_extractor/version'
 
 module CommentExtractor
   class Extractor
+    class Error < RuntimeError; end
+    class SyntaxDefinitionError < RuntimeError; end
+
     REGEXP = {
       BREAK: /(?:\r?\n|\r)/,
     }.freeze
     SCHAME_ACCESSOR_NAMES = %i[shebang filetype filename]
 
     attr_reader :content, :code_objects
+
+    def self.disabled?
+      @status == :disable
+    end
+
+    def self.disable!
+      @status = :disable
+    end
+
+    def self.schema_accessor(*keys)
+      keys.each do |key|
+        define_singleton_method key do |value = nil|
+        if value
+          self.schema[key] = value
+        else
+          self.schema[key]
+        end
+        end
+      end
+    end
+    schema_accessor *SCHAME_ACCESSOR_NAMES
+
+    def self.schema
+      @schema ||= {}
+    end
 
     def initialize(content, code_objects = nil)
       @content = content
@@ -49,32 +78,19 @@ module CommentExtractor
     private
 
     def raise_report
-      raise 'Error occurred. Please report to <https://github.com/alpaca-tc/comment_extractor/issues>'
-    end
+      content = "Content:\n#{@content}"
 
-    def self.disabled?
-      @status == :disable
-    end
+      raise SyntaxDefinitionError, <<-MSG.gsub(/^\s*/, '') + content
+      Error occurred.
+      Please report to <https://github.com/alpaca-tc/comment_extractor/issues>
 
-    def self.disable!
-      @status = :disable
-    end
+      - - -
 
-    def self.schema_accessor(*keys)
-      keys.each do |key|
-        define_singleton_method key do |value = nil|
-          if value
-            self.schema[key] = value
-          else
-            self.schema[key]
-          end
-        end
-      end
-    end
-    schema_accessor *SCHAME_ACCESSOR_NAMES
+      CommentExtractor #{CommentExtractor::VERSION}
 
-    def self.schema
-      @schema ||= {}
+      Date: #{Time.now}
+      Extractor: #{self.class}
+      MSG
     end
   end
 end

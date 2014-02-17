@@ -6,8 +6,10 @@ module CommentExtractor
     let(:content) { File.read(__FILE__) }
     let(:scanner_object) { Extractor.new(content) }
 
-    describe 'InstanceMethods' do
-      describe '#new' do
+    describe 'ClassMethods' do
+      let(:scanner_klass) { Extractor }
+
+      describe '.new' do
         subject { scanner_object }
         it { expect { subject }.to_not raise_error }
 
@@ -17,35 +19,6 @@ module CommentExtractor
         end
       end
 
-      describe '#extract_comments' do
-        subject { scanner_object.extract_comments }
-        it { expect { subject }.to raise_error(NotImplementedError) }
-      end
-
-      describe '#scan' do
-        subject { scanner_object.send(:scan) }
-        it { expect { subject }.to raise_error(NotImplementedError) }
-      end
-
-      describe '#scanner' do
-        subject { scanner_object.send(:scanner) }
-        it { should be_an_instance_of(StringScanner) }
-      end
-
-      describe '#build_comment' do
-        subject { scanner_object.send(:build_comment, 1, 'comment') }
-        it { expect(subject).to be_an_instance_of CodeObject::Comment }
-      end
-
-      describe '#content' do
-        subject { scanner_object.content }
-        it { should be_an_instance_of String }
-      end
-    end
-
-    describe 'ClassMethods' do
-      let(:scanner_klass) { Extractor }
-
       describe '.disable!' do
         it 'disables own status' do
           expect(scanner_klass.disabled?).to be_falsy
@@ -54,7 +27,7 @@ module CommentExtractor
         end
       end
 
-      describe 'schema accessors' do
+      describe 'schema' do
         after do
           scanner_klass.send(:remove_instance_variable, :@schema)
         end
@@ -86,6 +59,43 @@ module CommentExtractor
           let(:key) { :filename }
           it_should_behave_like 'a setting schema'
         end
+      end
+    end
+
+    describe 'PublicInstanceMethods' do
+      describe '#extract_comments' do
+        subject { scanner_object.extract_comments }
+        it { expect { subject }.to raise_error(NotImplementedError) }
+      end
+    end
+
+    describe 'ProtectedInstanceMethods' do
+      describe '#scan' do
+        subject { scanner_object.send(:scan) }
+        it { expect { subject }.to raise_error(NotImplementedError) }
+      end
+
+      describe '#scanner' do
+        subject { scanner_object.send(:scanner) }
+        it { should be_an_instance_of(StringScanner) }
+      end
+
+      describe '#build_comment' do
+        subject { scanner_object.send(:build_comment, 1, 'comment') }
+        it { expect(subject).to be_an_instance_of CodeObject::Comment }
+      end
+
+      describe '#content' do
+        subject { scanner_object.content }
+        it { should be_an_instance_of String }
+      end
+    end
+
+    describe 'PrivateInstanceMethods' do
+      describe '#raise_report' do
+        subject { scanner_object.send(:raise_report) }
+
+        it { expect { subject }.to raise_error(Extractor::SyntaxDefinitionError) }
       end
     end
   end

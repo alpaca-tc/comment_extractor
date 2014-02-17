@@ -25,19 +25,25 @@ module CommentExtractor
           end
         end
 
-        context 'given a raw text' do
-          context 'and empty as encoding type' do
-            let(:format) { nil }
-            let(:format_expected) { ::Encoding::UTF_8 }
+        context 'given only a raw text' do
+          let(:format) { nil }
+          let(:format_expected) { ::Encoding::UTF_8 }
 
-            it_behaves_like 'a text encoder'
-          end
+          it_behaves_like 'a text encoder'
+        end
 
-          context 'and UTF-8 as encoding type' do
-            let(:format) { ::Encoding::UTF_8 }
+        context 'given a text contains bom' do
+          let(:body) { "\xef\xbb\xbf"  }
+          let(:format) { nil }
+          let(:format_expected) { ::Encoding::UTF_8 }
 
-            it_behaves_like 'a text encoder'
-          end
+          it_behaves_like 'a text encoder'
+        end
+
+        context "given #{::Encoding::UTF_8} as encoding type" do
+          let(:format) { ::Encoding::UTF_8 }
+
+          it_behaves_like 'a text encoder'
         end
 
         context 'given a invalid text' do
@@ -57,7 +63,7 @@ module CommentExtractor
           temp.flush
         end
 
-        context 'given a file_path' do
+        context 'given a file path' do
           it 'returns a encoded content' do
             expect(described_class).to receive(:encode)
             .at_least(:once)
