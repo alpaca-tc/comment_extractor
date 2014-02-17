@@ -40,6 +40,7 @@ module CommentExtractor
       end
 
       code_object.metadata[:parent] = self
+      code_object
     end
   end
 end
