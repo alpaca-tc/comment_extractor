@@ -1,3 +1,4 @@
+require 'comment_extractor/extractor/text'
 require 'comment_extractor/extractor_manager'
 
 module CommentExtractor
@@ -48,5 +49,6 @@ module CommentExtractor
     end
 
     add_setting :extractors, default: ExtractorManager.default_extractors
+    add_setting :default_extractor, default: Extractor::Text
   end
 end

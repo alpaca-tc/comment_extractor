@@ -9,6 +9,7 @@ module CommentExtractor
 
       it 'sets attributes to default value' do
         expect(subject.extractors).to eql ExtractorManager.default_extractors
+        expect(subject.default_extractor).to eql Extractor::Text
       end
     end
 
