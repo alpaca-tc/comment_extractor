@@ -1,6 +1,4 @@
-require 'comment_extractor/smart_string_scanner'
-
-using CommentExtractor::SmartStringScanner
+require 'comment_extractor/string_scanner'
 
 class CommentExtractor::Extractor
   module Concerns

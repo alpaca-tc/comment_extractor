@@ -3,24 +3,34 @@
 $:.unshift File.expand_path('../../lib', __FILE__)
 require 'comment_extractor'
 
-def debug(file_path)
-  puts "Open: #{file_path}"
+class CommentExtractor::Debugger
+  def initialize(file_path)
+    @files = if File.file?(file_path)
+               [file_path]
+             elsif File.directory?(file_path)
+               Dir["#{file_path}/**/*"].select { |f| File.file?(f) }
+             end
+    @debug = Hash.new { |h,k| h[k] = [] }
+  end
 
-  if parser = CommentExtractor::Parser.for(file_path)
-    puts "Use: #{parser.extractor.class}"
-    comments = parser.extract_comments
-
-    if comments.empty?
-      puts "Comment is nothing"
-    else
-      comments.each do |comment|
-        puts "#{comment.line}: #{comment.value}"
-      end
+  def parse_all_files
+    @files.each do |file|
+      parse_file(file)
     end
 
-    puts "\n"
-  else
-    puts '  Parser is not found'
+    puts "Parser is not found"
+    puts @debug[:parser_not_found].join("\n")
+  end
+
+  def parse_file(file_path)
+    puts "Open: #{file_path}"
+
+    if parser = CommentExtractor::Parser.for(file_path)
+      puts "Use: #{parser.extractor.class}"
+      comments = parser.extract_comments
+    else
+      @debug[:parser_not_found] << file_path
+    end
   end
 end
 
@@ -29,17 +39,7 @@ CommentExtractor.configure do |c|
 end
 
 file_path = ARGV.first
-unless file_path
-  puts <<-USAGE.gsub(/^\s{2}/, '')
-  comment_extractor_debug [file_path]
-  USAGE
-  exit
-end
+exit unless file_path
 
-if File.file?(file_path)
-  debug(file_path)
-elsif File.directory?(file_path)
-  Dir["#{file_path}/*"].each do |f|
-    debug(f) if File.file?(f)
-  end
-end
+debugger = CommentExtractor::Debugger.new(file_path)
+debugger.parse_all_files

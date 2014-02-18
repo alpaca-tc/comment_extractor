@@ -1,8 +1,6 @@
 require 'spec_helper'
 require 'comment_extractor/parser'
 
-using CommentExtractor::DetectableSchemeFile
-
 module CommentExtractor
   describe Parser do
     let(:expected_comments) { [] }

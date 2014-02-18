@@ -1,8 +1,6 @@
 require 'comment_extractor/file'
 require 'comment_extractor/extractor_manager'
 
-using CommentExtractor::DetectableSchemeFile
-
 module CommentExtractor
   class Parser
     attr_accessor :extractor

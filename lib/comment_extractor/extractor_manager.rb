@@ -2,8 +2,6 @@ require 'comment_extractor'
 require 'comment_extractor/extractor'
 require 'comment_extractor/file'
 
-using CommentExtractor::DetectableSchemeFile
-
 module CommentExtractor
   module ExtractorManager
     class << self
