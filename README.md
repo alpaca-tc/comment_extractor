@@ -1,4 +1,4 @@
-# strip\_comment
+# comment\_extractor
 
 [![Gem Version](https://badge.fury.io/rb/comment_extractor.png)](http://badge.fury.io/rb/comment\_extractor)
 [![Build Status](https://travis-ci.org/alpaca-tc/comment_extractor.png?branch=v1.0.0)](https://travis-ci.org/alpaca-tc/comment\_parser)
