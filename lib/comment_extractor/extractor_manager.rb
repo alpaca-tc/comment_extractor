@@ -18,11 +18,19 @@ module CommentExtractor
       end
 
       def regist_extractor(klass_or_symbol)
-        initialize_extractors! unless instance_variable_defined?(:@extractors)
-
         @extractor_definitions = nil
         extractor = klass_or_symbol.is_a?(Extractor) ? klass_or_symbol : nil
         extractors[:"#{klass_or_symbol}"] = extractor
+
+        unless extractor
+          filename = "#{klass_or_symbol}".gsub(/\W/, '').gsub(/::/, '/').
+            gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+            gsub(/([a-z\d])([A-Z])/,'\1_\2').
+            tr("-", "_").
+            downcase
+          file_path = "comment_extractor/extractor/#{filename}"
+          ::CommentExtractor::Extractor.autoload klass_or_symbol, file_path
+        end
       end
 
       def can_extract(file_path)
@@ -57,7 +65,6 @@ module CommentExtractor
       end
 
       def initialize_extractors!(new_extractors = default_extractors)
-        extractors # Initialize @extractors
         new_extractors.each do |extractor|
           self.regist_extractor(extractor)
         end
@@ -96,6 +103,8 @@ module CommentExtractor
           extractors.each do |name, value|
             extractor = extractors[name] = value || Extractor.const_get(name)
 
+            next if extractor.disabled?
+
             if schema = extractor.send(finder)
               # [review] - Maybe my optimization way is not better
               regexp_source = schema.is_a?(Regexp) ? schema.source : schema
@@ -124,7 +133,14 @@ module CommentExtractor
       end
 
       def extractors
-        @extractors ||= {}
+        return @extractors if @extractors
+        @extractors = {}
+        initialize_extractors!
+
+        @extractors
+      end
+
+      def get_extractor(name)
       end
     end
 

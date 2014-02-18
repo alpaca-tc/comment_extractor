@@ -6,7 +6,7 @@ class CommentExtractor::Extractor::JavaScript < CommentExtractor::Extractor
 
   filename /\.js$/
   filetype 'javascript'
-  shebang /.*(js|node)$/
+  shebang /.*(?:js|node)$/
 
   define_regexp_bracket
 end

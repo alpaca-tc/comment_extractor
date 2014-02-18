@@ -154,6 +154,7 @@ module CommentExtractor
 
         def build_extractor(name)
           double.tap do |e|
+            allow(e).to receive(:disabled?).and_return(false)
             allow(e).to receive(:shebang).and_return(/#{name}/)
             allow(e).to receive(:filetype).and_return(name)
             allow(e).to receive(:filename).and_return(/\.#{name}$/)

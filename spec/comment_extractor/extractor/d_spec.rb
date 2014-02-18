@@ -5,5 +5,6 @@ class CommentExtractor::Extractor
   describe D do
     it_behaves_like 'detecting shebang', '/usr/local/bin/dmd'
     it_behaves_like 'extracting comments from', 'd.d'
+    it_behaves_like 'detecting filename', 'file.d'
   end
 end

@@ -3,7 +3,7 @@ require 'comment_extractor/extractor'
 class CommentExtractor::Extractor::Ruby < CommentExtractor::Extractor
   include CommentExtractor::Extractor::Concerns::SimpleExtractor
 
-  filename /\.rb$/
+  filename /(?:Rakefile|Gemfile|\.rb|\.gemspec|Guardfile)$/
   filetype 'ruby'
   shebang /.*ruby$/
 
