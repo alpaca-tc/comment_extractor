@@ -7,7 +7,7 @@ rescue LoadError
 end
 
 $LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift File.expand_path('support', __FILE__)
+$LOAD_PATH.unshift File.expand_path('../support', __FILE__)
 require 'rspec/comment_extractor'
 
 RSpec.configure do |config|
