@@ -4,7 +4,7 @@ require 'comment_extractor/extractor'
 class CommentExtractor::Extractor::Ruby < CommentExtractor::Extractor
   include CommentExtractor::CodeObject::Comment::Type
 
-  filename /(?:Rakefile|Gemfile|\.rb|\.gemspec|Guardfile)$/
+  filename /(?:Rakefile|Gemfile|\.rb|\.gemspec|Guardfile|config.ru)$/
   filetype 'ruby'
   shebang /.*ruby$/
 
