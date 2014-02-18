@@ -7,7 +7,7 @@ def debug(file_path)
   puts "Open: #{file_path}"
 
   if parser = CommentExtractor::Parser.for(file_path)
-    puts "Use: #{parser.class}"
+    puts "Use: #{parser.extractor.class}"
     comments = parser.extract_comments
 
     if comments.empty?
@@ -20,8 +20,12 @@ def debug(file_path)
 
     puts "\n"
   else
-    raise 'Parser is not found'
+    puts '  Parser is not found'
   end
+end
+
+CommentExtractor.configure do |c|
+  c.use_default_extractor = false
 end
 
 file_path = ARGV.first
