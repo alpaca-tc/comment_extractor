@@ -1,0 +1,15 @@
+#[-1-] strip\_comment
+
+#[-3-] Description
+
+comment\_extractor extracts the comment out from a source code.
+
+#[-7-] Installation
+
+CommentExtractor has been tested with ruby 2.1.
+
+```sh
+git clone https://github.com/alpaca-tc/comment_extractor
+cd comment_extractor
+rake install
+```
