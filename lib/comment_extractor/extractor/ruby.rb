@@ -37,8 +37,4 @@ class CommentExtractor::Extractor::Ruby < CommentExtractor::Extractor
     comment_object = build_comment(line, comment, **metadata)
     code_objects << comment_object
   end
-
-  def line_is_comment_of_begin_keyword?(token)
-    File.readlines(self.file.path)[token.line_no] == /^=begin/
-  end
 end
