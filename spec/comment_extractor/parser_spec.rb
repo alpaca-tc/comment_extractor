@@ -40,16 +40,38 @@ module CommentExtractor
         subject { described_class.for(file_path) }
         let(:file_path) { __FILE__ }
 
-        before do
-          allow(ExtractorManager).to receive(:can_extract)
-            .and_return(stub_extractor)
+        context 'when extractor is not found' do
+          before do
+            allow(::CommentExtractor).to receive(:configuration).
+              and_return(stub_configuration)
+            allow(ExtractorManager).to receive(:can_extract).and_return(nil)
+          end
+
+          let(:stub_configuration) do
+            double.tap do |c|
+              allow(c).to receive(:default_extractor).and_return(default_extractor)
+            end
+          end
+          let(:default_extractor) { Extractor }
+
+          it 'uses default extractor as an alternative to specific scanner' do
+            expect(subject).to be_an_instance_of described_class
+            expect(subject.extractor.class).to eql default_extractor
+          end
         end
 
-        it 'finds extractor and initializes one' do
-          expect(subject).to be_an_instance_of described_class
-          extractor = subject.extractor
-          expect(extractor).to be_a Extractor
-          expect(extractor.code_objects.file).to eql file_path
+        context 'when extractor is found' do
+          before do
+            allow(ExtractorManager).to receive(:can_extract).
+              and_return(stub_extractor)
+          end
+
+          it 'initializes extractor' do
+            expect(subject).to be_an_instance_of described_class
+            extractor = subject.extractor
+            expect(extractor).to be_a Extractor
+            expect(extractor.code_objects.file).to eql file_path
+          end
         end
       end
 
