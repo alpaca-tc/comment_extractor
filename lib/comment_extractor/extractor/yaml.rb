@@ -3,7 +3,7 @@ require 'comment_extractor/extractor'
 class CommentExtractor::Extractor::Yaml < CommentExtractor::Extractor
   include CommentExtractor::Extractor::Concerns::SimpleExtractor
 
-  filename /\.yaml$/
+  filename /\.yml$/
   filetype 'yaml'
 
   define_ignore_patterns /^\s*[^#]+$/

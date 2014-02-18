@@ -14,7 +14,7 @@ module CommentExtractor
           Haskell Hpp Html Java JavaScript Lisp
           Lua M Markdown Mm Perl Php Python
           Ruby Sass Scala Scss Shell Sqf
-          Sql Sqs Tex
+          Sql Sqs Tex Yaml
         ]
       end
 
