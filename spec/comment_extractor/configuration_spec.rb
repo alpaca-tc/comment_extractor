@@ -42,9 +42,11 @@ module CommentExtractor
 
       context 'given predicate option' do
         let(:option_of_setting) { { predicate: true } }
+        let(:method) { :"#{name}?" }
 
         it 'defines predicate method(:name?)' do
-          expect(subject).to be_respond_to("#{name}?")
+          expect(subject).to be_respond_to(method)
+          expect(subject.send(method)).to be_falsy
         end
       end
 

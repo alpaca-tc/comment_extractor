@@ -15,17 +15,13 @@ module CommentExtractor
         raise "Unable to initialize #{key} without attribute" unless self.send(key)
       end
 
-      extractors = ExtractorManager.default_extractors
-      default_extractor = Extractor::Text
-      use_default_extractor = true
+      self.extractors = ExtractorManager.default_extractors
+      self.default_extractor = Extractor::Text
+      self.use_default_extractor = true
     end
 
     def self.add_setting(name, opts={})
       attr_accessor name
-
-      if value = opts.delete(:default)
-        @@default_values[name] = value
-      end
 
       define_predicate_for(name) if opts.delete(:predicate)
       define_required_attribute(name) if opts.delete(:required)
