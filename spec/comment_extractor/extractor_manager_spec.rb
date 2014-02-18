@@ -128,6 +128,39 @@ module CommentExtractor
             should eql 'JavaScript'
           end
         end
+
+        context 'when extractor is not found' do
+          before do
+            allow(::CommentExtractor).to receive(:configuration).
+              and_return(stub_configuration)
+            allow(ExtractorManager).to receive(:find_extractor_by_shebang).
+              and_return(nil)
+            allow(ExtractorManager).to receive(:find_extractor_by_filename).
+              and_return(nil)
+          end
+
+          let(:stub_configuration) do
+            double.tap do |c|
+              allow(c).to receive(:default_extractor).and_return(default_extractor)
+              allow(c).to receive(:use_default_extractor).and_return(use_default_extractor)
+            end
+          end
+          let(:default_extractor) { Extractor }
+
+          context 'when configuration.use_default_extractor is true' do
+            let(:use_default_extractor) { true }
+            it 'uses default extractor as an alternative to specific scanner' do
+              expect(subject).to eql default_extractor
+            end
+          end
+
+          context 'when configuration.use_default_extractor is true' do
+            let(:use_default_extractor) { false }
+            it 'does not uses default extractor as an alternative to specific scanner' do
+              expect(subject).to be_nil
+            end
+          end
+        end
       end
     end
 

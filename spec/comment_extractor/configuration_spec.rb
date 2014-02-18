@@ -10,15 +10,14 @@ module CommentExtractor
       it 'sets attributes to default value' do
         expect(subject.extractors).to eql ExtractorManager.default_extractors
         expect(subject.default_extractor).to eql Extractor::Text
+        expect(subject.use_default_extractor).to be_truthy
       end
     end
 
     describe '.add_setting' do
       before do
         # Initializes class variables
-        @default_values = Configuration.class_variable_get(:@@default_values)
         @required_attributes = Configuration.class_variable_set(:@@required_attributes, {})
-        Configuration.class_variable_set(:@@default_values, {})
         Configuration.class_variable_set(:@@required_attributes, {})
 
         Configuration.send(:add_setting, name, option_of_setting)
@@ -26,7 +25,6 @@ module CommentExtractor
 
       after do
         # Restores class variables
-        Configuration.class_variable_set(:@@default_values, @default_values)
         Configuration.class_variable_set(:@@required_attributes, @required_attributes)
       end
 
@@ -39,15 +37,6 @@ module CommentExtractor
         it 'defines accessor method' do
           should be_respond_to name
           should be_respond_to "#{name}="
-        end
-      end
-
-      context 'given default option' do
-        let(:default_value) { 'default value' }
-        let(:option_of_setting) { { default: default_value } }
-
-        it 'initializations value by defualt value' do
-          expect(subject.send(name)).to eql default_value
         end
       end
 

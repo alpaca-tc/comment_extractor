@@ -1,16 +1,11 @@
-require 'comment_extractor/extractor/text'
 require 'comment_extractor/extractor_manager'
+require 'comment_extractor/extractor/text'
 
 module CommentExtractor
   class Configuration
-    @@default_values = {}
     @@required_attributes = {}
 
     def initialize(attributes = {})
-      @@default_values.each do |key, value|
-        instance_variable_set("@#{key}", value)
-      end
-
       attributes.each do |key, value|
         method_name = "#{key}="
         send(method_name, value) if respond_to?(method_name)
@@ -19,6 +14,10 @@ module CommentExtractor
       @@required_attributes.each_key do |key|
         raise "Unable to initialize #{key} without attribute" unless self.send(key)
       end
+
+      extractors = ExtractorManager.default_extractors
+      default_extractor = Extractor::Text
+      use_default_extractor = true
     end
 
     def self.add_setting(name, opts={})
@@ -48,7 +47,8 @@ module CommentExtractor
       end
     end
 
-    add_setting :extractors, default: ExtractorManager.default_extractors
-    add_setting :default_extractor, default: Extractor::Text
+    add_setting :extractors
+    add_setting :default_extractor
+    add_setting :use_default_extractor
   end
 end

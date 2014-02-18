@@ -19,7 +19,7 @@ module CommentExtractor
 
     class << self
       def for(file_path)
-        if extractor = ExtractorManager.can_extract(file_path) || default_extractor
+        if extractor = ExtractorManager.can_extract(file_path)
           content = File.open(file_path, 'r') { |f| f.read_content }
 
           # Initialize parser
@@ -27,12 +27,6 @@ module CommentExtractor
           instance_of_extractor = extractor.new(content, code_objects)
           new(instance_of_extractor)
         end
-      end
-
-      private
-
-      def default_extractor
-        ::CommentExtractor.configuration.default_extractor
       end
     end
   end

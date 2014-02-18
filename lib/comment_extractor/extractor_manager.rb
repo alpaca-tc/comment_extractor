@@ -1,3 +1,4 @@
+require 'comment_extractor'
 require 'comment_extractor/extractor'
 require 'comment_extractor/file'
 
@@ -29,7 +30,7 @@ module CommentExtractor
             tr("-", "_").
             downcase
           file_path = "comment_extractor/extractor/#{filename}"
-          ::CommentExtractor::Extractor.autoload klass_or_symbol, file_path
+          Extractor.autoload klass_or_symbol, file_path
         end
       end
 
@@ -43,6 +44,10 @@ module CommentExtractor
 
         unless extractor
           extractor = find_extractor_by_filename(file_path)
+        end
+
+        if ::CommentExtractor.configuration.use_default_extractor
+          extractor = default_extractor unless extractor
         end
 
         extractor
@@ -140,7 +145,10 @@ module CommentExtractor
         @extractors
       end
 
-      def get_extractor(name)
+      private
+
+      def default_extractor
+        ::CommentExtractor.configuration.default_extractor
       end
     end
 
