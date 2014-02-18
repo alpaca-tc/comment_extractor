@@ -7,6 +7,6 @@ class CommentExtractor::Extractor::Lua < CommentExtractor::Extractor
   filetype 'lua'
 
   define_default_bracket
-  define_rule start: '--\[\[', stop: /\s*\]\]/, type: BLOCK_COMMENT
-  define_rule start: '--'
+  comment start_with: '--\[\[', end_with: /\s*\]\]/, type: BLOCK_COMMENT
+  comment start_with: '--'
 end

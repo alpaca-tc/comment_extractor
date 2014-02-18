@@ -7,6 +7,6 @@ class CommentExtractor::Extractor::Perl < CommentExtractor::Extractor
   filetype 'perl'
 
   define_default_bracket
-  define_rule start: /^=pod/, stop: /^=cut/, type: BLOCK_COMMENT
-  define_rule start: '#'
+  comment start_with: /^=pod/, end_with: /^=cut/, type: BLOCK_COMMENT
+  comment start_with: '#'
 end

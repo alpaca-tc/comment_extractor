@@ -7,5 +7,5 @@ class CommentExtractor::Extractor::Fortran < CommentExtractor::Extractor
   filetype 'fortran'
 
   define_default_bracket
-  define_rule start: '!'
+  comment start_with: '!'
 end

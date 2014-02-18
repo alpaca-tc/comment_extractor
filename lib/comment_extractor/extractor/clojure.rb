@@ -7,5 +7,5 @@ class CommentExtractor::Extractor::Clojure < CommentExtractor::Extractor
   filetype 'clojure'
 
   define_default_bracket
-  define_rule start: /;+/
+  comment start_with: /;+/
 end

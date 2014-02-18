@@ -9,6 +9,6 @@ class CommentExtractor::Extractor::Ruby < CommentExtractor::Extractor
 
   define_default_bracket
   define_regexp_bracket
-  define_rule start: "=begin\n", stop: '=end', type: BLOCK_COMMENT
-  define_rule start: '#'
+  comment start_with: "=begin\n", end_with: '=end', type: BLOCK_COMMENT
+  comment start_with: '#'
 end

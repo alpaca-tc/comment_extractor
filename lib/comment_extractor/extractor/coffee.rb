@@ -8,6 +8,6 @@ class CommentExtractor::Extractor::Coffee < CommentExtractor::Extractor
 
   define_default_bracket
   define_regexp_bracket
-  define_rule start: '###', stop: '###', type: BLOCK_COMMENT
-  define_rule start: '#'
+  comment start_with: '###', end_with: '###', type: BLOCK_COMMENT
+  comment start_with: '#'
 end

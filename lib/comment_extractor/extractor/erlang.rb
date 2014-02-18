@@ -8,5 +8,5 @@ class CommentExtractor::Extractor::Erlang < CommentExtractor::Extractor
   filetype 'erlang'
 
   define_default_bracket
-  define_rule start: /%+/
+  comment start_with: /%+/
 end

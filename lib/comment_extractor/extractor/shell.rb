@@ -7,5 +7,5 @@ class CommentExtractor::Extractor::Shell < CommentExtractor::Extractor
   filetype '(bash|sh)'
 
   define_default_bracket
-  define_rule start: '#'
+  comment start_with: '#'
 end

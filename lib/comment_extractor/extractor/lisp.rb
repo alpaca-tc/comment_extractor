@@ -7,5 +7,5 @@ class CommentExtractor::Extractor::Lisp < CommentExtractor::Extractor
   filetype 'lisp'
 
   define_bracket '"'
-  define_rule start: /;+/
+  comment start_with: /;+/
 end

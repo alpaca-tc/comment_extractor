@@ -126,7 +126,7 @@ class CommentExtractor::Extractor::FileType < CommentExtractor::Extractor
   # define_regexp_bracket #=> define_ignore_patterns(%r!/(?=[^/])!, /(?<!\\)\//)
 
   # define the rule of comment
-  define_rule start: /;+/
-  define_rule start: /;--/, stop: /--\|/, type: BLOCK_COMMENT
+  comment start_with: /;+/
+  comment start_with: /;--/, end_with: /--\|/, type: BLOCK_COMMENT
 end
 ```

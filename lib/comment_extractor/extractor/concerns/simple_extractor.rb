@@ -32,14 +32,14 @@ class CommentExtractor::Extractor
           end
         end
 
-        def define_rule(start: nil, stop: nil, type: ONE_LINER_COMMENT)
+        def comment(start_with: nil, end_with: nil, type: ONE_LINER_COMMENT)
           @comment_regexp ||= []
-          raise ArgumentError unless [type, start].all?
+          raise ArgumentError unless [type, start_with].all?
 
-          definition = { start: build_regexp(start), type: type, stop: stop }
+          definition = { start_with: build_regexp(start_with), type: type, end_with: end_with }
 
           if type == BLOCK_COMMENT
-            definition[:stop] = build_regexp(stop, Regexp::MULTILINE)
+            definition[:end_with] = build_regexp(end_with, Regexp::MULTILINE)
           end
           @comment_regexp << definition
         end
@@ -69,9 +69,9 @@ class CommentExtractor::Extractor
           define_bracket("'", Regexp::MULTILINE)
         end
 
-        def append_bracket(start, stop)
+        def append_bracket(start_with, end_with)
           @brackets ||= []
-          @brackets << { start: start, stop: stop }
+          @brackets << { start_with: start_with, end_with: end_with }
         end
 
         def define_complicate_condition(&proc_object)
@@ -125,10 +125,12 @@ class CommentExtractor::Extractor
 
       def scan_bracket
         brackets.each do |definition|
-          start = definition[:start]
-          stop = definition[:stop]
-          next unless scanner.scan(start)
-          return scanner.scan(Regexp.new(/.*?/.source + stop.source, stop.options))
+          start_with = definition[:start_with]
+          end_with = definition[:end_with]
+          next unless scanner.scan(start_with)
+
+          new_regexp = Regexp.new(/.*?/.source + end_with.source, end_with.options)
+          return scanner.scan(new_regexp)
         end
 
         nil
@@ -144,13 +146,13 @@ class CommentExtractor::Extractor
 
       def scan_comment
         comment_regexp.each do |definition|
-          next unless scanner.scan(definition[:start])
+          next unless scanner.scan(definition[:start_with])
 
           result = case definition[:type]
                    when ONE_LINER_COMMENT
                      identify_single_line_comment
                    when BLOCK_COMMENT
-                     identify_multi_line_comment(definition[:stop])
+                     identify_multi_line_comment(definition[:end_with])
                    else
                      raise_report
                    end

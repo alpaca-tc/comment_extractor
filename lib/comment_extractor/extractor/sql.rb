@@ -7,6 +7,6 @@ class CommentExtractor::Extractor::Sql < CommentExtractor::Extractor
   filetype 'sql'
 
   define_default_bracket
-  define_rule start: '--'
-  define_rule start: '/\*', stop: '\*/', type: BLOCK_COMMENT
+  comment start_with: '--'
+  comment start_with: '/\*', end_with: '\*/', type: BLOCK_COMMENT
 end

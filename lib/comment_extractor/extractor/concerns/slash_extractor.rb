@@ -8,8 +8,8 @@ module CommentExtractor
         include CommentExtractor::Extractor::Concerns::SimpleExtractor
 
         define_default_bracket
-        define_rule start: /\/\//
-        define_rule start: /\/\*/, stop: /\*\//, type: BLOCK_COMMENT
+        comment start_with: /\/\//
+        comment start_with: /\/\*/, end_with: /\*\//, type: BLOCK_COMMENT
       end
     end
   end

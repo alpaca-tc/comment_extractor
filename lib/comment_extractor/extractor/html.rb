@@ -9,5 +9,5 @@ class CommentExtractor::Extractor::Html < CommentExtractor::Extractor
   define_default_bracket
   define_ignore_patterns /<\s*script[^>]*>.*?<\/script\s*>/mi
 
-  define_rule start: '<!--', stop: '-->', type: BLOCK_COMMENT
+  comment start_with: '<!--', end_with: '-->', type: BLOCK_COMMENT
 end

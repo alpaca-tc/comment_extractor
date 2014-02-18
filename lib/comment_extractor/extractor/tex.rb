@@ -7,6 +7,6 @@ class CommentExtractor::Extractor::Tex < CommentExtractor::Extractor
   filetype 'tex'
 
   define_bracket '{'
-  define_rule start: /(?<!\\)%/
+  comment start_with: /(?<!\\)%/
   define_ignore_patterns /\\%/
 end

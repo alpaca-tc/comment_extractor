@@ -82,7 +82,7 @@ module CommentExtractor
 
       describe '#build_comment' do
         subject { scanner_object.send(:build_comment, 1, 'comment') }
-        it { expect(subject).to be_an_instance_of CodeObject::Comment }
+        it { should be_an_instance_of CodeObject::Comment }
       end
 
       describe '#content' do
