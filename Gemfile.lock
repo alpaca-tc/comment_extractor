@@ -1,8 +1,9 @@
 PATH
   remote: .
   specs:
-    comment_extractor (1.0.0)
+    comment_extractor (1.0.1)
       haml
+      rdoc
 
 GEM
   remote: https://rubygems.org/
@@ -87,5 +88,4 @@ DEPENDENCIES
   guard
   guard-rspec
   rake
-  rdoc
   rspec
