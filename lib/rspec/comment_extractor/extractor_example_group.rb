@@ -22,7 +22,7 @@ module RSpec::CommentExtractor::ExtractorExampleGroup
           raise 'file_names did not given' if file_names.empty?
 
           file_names.each do |file_name|
-            context "given a content of #{file_name}" do
+            context "given a content in #{file_name}" do
               let(:path) { source_code_path(file_name) }
               let(:content) { File.open(path) { |f| f.read } }
               let(:expected_comments) do
