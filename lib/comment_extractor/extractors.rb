@@ -3,7 +3,7 @@ require 'comment_extractor/extractor'
 require 'comment_extractor/file'
 
 module CommentExtractor
-  module ExtractorManager
+  module Extractors
     class << self
       def default_extractors
         %i[
@@ -37,11 +37,11 @@ module CommentExtractor
 
         extractor = nil
         if shebang = File.shebang(file_path)
-          extractor = find_extractor_by_shebang(shebang)
+          extractor = find_by_shebang(shebang)
         end
 
         unless extractor
-          extractor = find_extractor_by_filename(file_path)
+          extractor = find_by_filename(file_path)
         end
 
         if ::CommentExtractor.configuration.use_default_extractor
@@ -61,8 +61,8 @@ module CommentExtractor
         defined_extractor_finders.concat(keys)
 
         keys.each do |key|
-          define_singleton_method "find_extractor_by_#{key}" do |value|
-            find_extractor_by(key, value)
+          define_singleton_method "find_by_#{key}" do |value|
+            find_by(key, value)
           end
         end
       end
@@ -75,7 +75,7 @@ module CommentExtractor
         self
       end
 
-      def find_extractor_by(key, value)
+      def find_by(key, value)
         case key
         when :filename, :shebang
           # Regexp optimization which can find value O(1)
@@ -150,7 +150,7 @@ module CommentExtractor
       end
     end
 
-    # define :find_extractor_by_shebang, :find_extractor_by_filename
+    # define :find_by_shebang, :find_by_filename
     define_extractor_finder_by *Extractor::SCHAME_ACCESSOR_NAMES
   end
 end

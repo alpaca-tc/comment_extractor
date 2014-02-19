@@ -1,5 +1,5 @@
 require 'comment_extractor/file'
-require 'comment_extractor/extractor_manager'
+require 'comment_extractor/extractors'
 
 module CommentExtractor
   class Parser
@@ -17,7 +17,7 @@ module CommentExtractor
 
     class << self
       def for(file_path)
-        if extractor = ExtractorManager.can_extract(file_path)
+        if extractor = Extractors.can_extract(file_path)
           content = File.open(file_path, 'r') { |f| f.read_content }
 
           # Initialize parser

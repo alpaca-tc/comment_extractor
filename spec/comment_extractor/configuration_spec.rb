@@ -8,7 +8,7 @@ module CommentExtractor
       let(:options) { { root_path: File.dirname(__FILE__) } }
 
       it 'sets attributes to default value' do
-        expect(subject.extractors).to eql ExtractorManager.default_extractors
+        expect(subject.extractors).to eql Extractors.default_extractors
         expect(subject.default_extractor).to eql Extractor::Text
         expect(subject.use_default_extractor).to be_truthy
       end

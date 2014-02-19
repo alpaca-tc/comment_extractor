@@ -1,4 +1,4 @@
-require 'comment_extractor/extractor_manager'
+require 'comment_extractor/extractors'
 require 'comment_extractor/extractor/text'
 
 module CommentExtractor
@@ -15,7 +15,7 @@ module CommentExtractor
         raise "Unable to initialize #{key} without attribute" unless self.send(key)
       end
 
-      self.extractors = ExtractorManager.default_extractors
+      self.extractors = Extractors.default_extractors
       self.default_extractor = Extractor::Text
       self.use_default_extractor = true
     end

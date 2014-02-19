@@ -47,17 +47,17 @@ end
 require 'comment_extractor'
 
 file_path = 'path/to/file.rb'
-manager = CommentExtractor::ExtractorManager
-if extractor = manager.can_extract(file_path)
+manager =
+if extractor = CommentExtractor::Extractors.can_extract(file_path)
   content = File.read(file_path)
   comments = extractor.new(content).extract_comments
   comemnts.is_a?(CommentExtractor::CodeObjects)
 end
 
 # Other way to find extractor
-extractor = manager.find_extractor_by_shebang('#! /usr/local/bin/ruby')
-extractor = manager.find_extractor_by_filename('path/to/file.rb')
-extractor = manager.find_extractor_by_filetype('ruby')
+extractor = CommentExtractor::Extractors.find_by_shebang('#! /usr/local/bin/ruby')
+extractor = CommentExtractor::Extractors.find_by_filename('path/to/file.rb')
+extractor = CommentExtractor::Extractors.find_by_filetype('ruby')
 ```
 
 #### How to use extractor of specific filetype.

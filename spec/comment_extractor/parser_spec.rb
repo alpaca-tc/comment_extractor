@@ -40,7 +40,7 @@ module CommentExtractor
 
         context 'when extractor is found' do
           before do
-            allow(ExtractorManager).to receive(:can_extract).
+            allow(Extractors).to receive(:can_extract).
               and_return(stub_extractor)
           end
 

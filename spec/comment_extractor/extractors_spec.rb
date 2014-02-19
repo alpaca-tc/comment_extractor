@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'comment_extractor/extractor_manager'
+require 'comment_extractor/extractors'
 
 module CommentExtractor
-  describe ExtractorManager do
+  describe Extractors do
     after do
       if described_class.instance_variable_defined?(:@extractors)
         described_class.send(:remove_instance_variable, :@extractors)
@@ -74,22 +74,22 @@ module CommentExtractor
         end
       end
 
-      describe '.find_extractor_by_shebang' do
-        subject { described_class.find_extractor_by_shebang(test_value) }
+      describe '.find_by_shebang' do
+        subject { described_class.find_by_shebang(test_value) }
         let(:registed_value) { '#! /usr/local/ruby' }
 
         it_behaves_like 'trying to find extractor'
       end
 
-      describe '.find_extractor_by_filename' do
-        subject { described_class.find_extractor_by_filename(test_value) }
+      describe '.find_by_filename' do
+        subject { described_class.find_by_filename(test_value) }
         let(:registed_value) { 'path/to/file.rb' }
 
         it_behaves_like 'trying to find extractor'
       end
 
-      describe '.find_extractor_by_filetype' do
-        subject { described_class.find_extractor_by_filetype('key') }
+      describe '.find_by_filetype' do
+        subject { described_class.find_by_filetype('key') }
 
         it 'finds ExtractorKlass by matching file type' do
           should eql 'value'
@@ -133,9 +133,9 @@ module CommentExtractor
           before do
             allow(::CommentExtractor).to receive(:configuration).
               and_return(stub_configuration)
-            allow(ExtractorManager).to receive(:find_extractor_by_shebang).
+            allow(Extractors).to receive(:find_by_shebang).
               and_return(nil)
-            allow(ExtractorManager).to receive(:find_extractor_by_filename).
+            allow(Extractors).to receive(:find_by_filename).
               and_return(nil)
           end
 
@@ -169,7 +169,7 @@ module CommentExtractor
         subject { registered_extractors }
 
         let(:described_method) { described_class.send(:initialize_extractors!) }
-        let(:default_extractors) { ExtractorManager.default_extractors }
+        let(:default_extractors) { Extractors.default_extractors }
 
         it 'initializes extractors' do
           expect(subject).to be_nil
