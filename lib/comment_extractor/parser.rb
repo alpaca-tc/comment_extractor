@@ -15,17 +15,19 @@ module CommentExtractor
       raise TypeError, "#{@extractor} should be a instance of #{Extractor}"
     end
 
-    class << self
-      def for(file_path)
-        if extractor = Extractors.can_extract(file_path)
-          content = File.open(file_path, 'r') { |f| f.read_content }
-
-          # Initialize parser
-          code_objects = CodeObjects.new(file: file_path)
-          instance_of_extractor = extractor.new(content, code_objects)
-          new(instance_of_extractor)
-        end
+    def self.for(file_path)
+      if extractor = Extractors.can_extract(file_path)
+        self.initialize_with_extractor(file_path, extractor)
       end
+    end
+
+    def self.initialize_with_extractor(file_path, extractor)
+      content = File.open(file_path, 'r') { |f| f.read_content }
+
+      # Initialize parser
+      code_objects = CodeObjects.new(file: file_path)
+      instance_of_extractor = extractor.new(content, code_objects)
+      new(instance_of_extractor)
     end
   end
 end

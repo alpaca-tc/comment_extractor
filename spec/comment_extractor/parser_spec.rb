@@ -34,21 +34,33 @@ module CommentExtractor
     end
 
     describe 'ClassMethods' do
+      let(:file_path) { __FILE__ }
+
       describe '.for' do
         subject { described_class.for(file_path) }
-        let(:file_path) { __FILE__ }
+
+        before do
+          allow(Extractors).to receive(:can_extract).
+            and_return(stub_extractor)
+        end
 
         context 'when extractor is found' do
-          before do
-            allow(Extractors).to receive(:can_extract).
-              and_return(stub_extractor)
-          end
-
           it 'initializes extractor' do
             expect(subject).to be_an_instance_of described_class
             extractor = subject.extractor
             expect(extractor).to be_a Extractor
             expect(extractor.code_objects.file).to eql file_path
+          end
+        end
+      end
+
+      describe '.initialize_with_extractor' do
+        subject { described_class.initialize_with_extractor(file_path, stub_extractor) }
+
+        context 'when extractor is found' do
+          it 'initializes extractor' do
+            expect(subject).to be_an_instance_of described_class
+            expect(subject.extractor).to be_an_instance_of stub_extractor
           end
         end
       end
