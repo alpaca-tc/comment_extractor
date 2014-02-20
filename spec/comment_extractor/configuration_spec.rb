@@ -3,32 +3,48 @@ require 'comment_extractor/configuration'
 
 module CommentExtractor
   describe Configuration do
+    before do
+      # Initializes class variables
+      @required_attributes = described_class.instance_variable_set(:@required_attributes, {})
+
+      described_class.instance_variable_set(:@required_attributes, {})
+    end
+
+    after do
+      # Restores class variables
+      described_class.instance_variable_set(:@required_attributes, @required_attributes)
+    end
+
     describe '.new' do
       subject { CommentExtractor::Configuration.new(options) }
-      let(:options) { { root_path: File.dirname(__FILE__) } }
+      let(:options) { {} }
 
-      it 'sets attributes to default value' do
-        expect(subject.extractors).to eql Extractors.default_extractors
-        expect(subject.default_extractor).to eql Extractor::Text
-        expect(subject.use_default_extractor).to be_truthy
+      context 'given valid attributes' do
+        it 'sets attributes to default value' do
+          expect(subject.extractors).to eql Extractors.default_extractors
+          expect(subject.default_extractor).to eql Extractor::Text
+          expect(subject.use_default_extractor).to be_truthy
+        end
+      end
+
+      context 'given invalid attributes' do
+        before do
+          described_class.add_setting :required_attribute, required: true
+        end
+
+        it "raises 'Unable to initialize :key without attribute' as #{ArgumentError}" do
+          expect { subject }.to raise_error(ArgumentError)
+        end
       end
     end
 
     describe '.add_setting' do
+      subject { described_class.new(option_of_initialization) }
+
       before do
-        # Initializes class variables
-        @required_attributes = Configuration.class_variable_set(:@@required_attributes, {})
-        Configuration.class_variable_set(:@@required_attributes, {})
-
-        Configuration.send(:add_setting, name, option_of_setting)
+        described_class.send(:add_setting, name, option_of_setting)
       end
 
-      after do
-        # Restores class variables
-        Configuration.class_variable_set(:@@required_attributes, @required_attributes)
-      end
-
-      subject { Configuration.new(option_of_initialization) }
       let(:name) { :setting_name }
       let(:option_of_setting) { {} }
       let(:option_of_initialization) { {} }
@@ -53,12 +69,11 @@ module CommentExtractor
       context 'given required option' do
         let(:option_of_setting) { { required: true } }
 
-        context 'when initializations configuration without required attribute' do
-          let(:message) { "Unable to initialize #{name} without attribute" }
-          it { expect { subject }.to raise_error(message) }
+        context 'when to initialize configuration without required attribute' do
+          it { expect { subject }.to raise_error(ArgumentError) }
         end
 
-        context 'when initializations configuration with required attribute' do
+        context 'when to initialize configuration with required attribute' do
           let(:option_of_initialization) { { name => true } }
           it { expect { subject }.to_not raise_error }
         end
