@@ -32,6 +32,7 @@ class CommentExtractor::Extractor
 
         def comment(start_with: nil, end_with: nil, type: ONE_LINER_COMMENT)
           @comment_regexp ||= []
+          # Check required attributes
           raise ArgumentError unless [type, start_with].all?
 
           definition = { start_with: build_regexp(start_with), type: type, end_with: end_with }
@@ -39,6 +40,7 @@ class CommentExtractor::Extractor
           if type == BLOCK_COMMENT
             definition[:end_with] = build_regexp(end_with, Regexp::MULTILINE)
           end
+
           @comment_regexp << definition
         end
 
@@ -49,13 +51,13 @@ class CommentExtractor::Extractor
 
         def define_bracket(bracket, options = 0)
           start_regexp = build_regexp(bracket)
-          stop_regexp = if bracket.is_a?(Regexp)
+          end_regexp = if bracket.is_a?(Regexp)
                           join_regexp(/(?<!\\)/, bracket)
                         else
                           /(?<!\\)#{bracket}/
                         end
-          stop_regexp = Regexp.new(stop_regexp.source, options)
-          append_bracket(start_regexp, stop_regexp)
+          end_regexp = Regexp.new(end_regexp.source, options)
+          append_bracket(start_regexp, end_regexp)
         end
 
         def define_regexp_bracket
@@ -127,8 +129,9 @@ class CommentExtractor::Extractor
           end_with = definition[:end_with]
           next unless scanner.scan(start_with)
 
-          new_regexp = Regexp.new(/.*?/.source + end_with.source, end_with.options)
-          return scanner.scan(new_regexp)
+          end_with_source = /.*?/.source + end_with.source
+          end_with_regexp = Regexp.new(end_with_source, end_with.options)
+          return scanner.scan(end_with_regexp)
         end
 
         nil
@@ -165,18 +168,17 @@ class CommentExtractor::Extractor
         line_number = scanner.current_line
         comment = scanner.scan(/^.*$/)
         metadata = { type: ONE_LINER_COMMENT }
-        comment_object = build_comment(line_number, comment, **metadata)
 
-        code_objects << comment_object
+        code_objects << build_comment(line_number, comment, **metadata)
       end
 
       def identify_multi_line_comment(regexp)
         line_no = scanner.current_line
         stop_regexp = Regexp.new(/.*?/.source + regexp.source, regexp.options)
-        comment_block = scanner.scan(stop_regexp)
+        block_comment = scanner.scan(stop_regexp)
 
         remove_tail_regexp = Regexp.new(regexp.source + /$/.source)
-        comments = comment_block.sub(remove_tail_regexp, '').split("\n")
+        comments = block_comment.sub(remove_tail_regexp, '').split("\n")
         comments.each_with_index do |comment, index|
           metadata = { type: BLOCK_COMMENT }
           code_objects << build_comment(line_no + index, comment, metadata)
