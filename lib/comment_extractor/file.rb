@@ -33,7 +33,7 @@ module CommentExtractor
         self.gets # Remove shebang
       end
 
-      CommentExtractor::Encoding.encode(self.read)
+      CommentExtractor::Encoding.encode(self.read) || ''
     end
   end
 end

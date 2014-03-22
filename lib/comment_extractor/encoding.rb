@@ -28,6 +28,8 @@ module CommentExtractor
       end
 
       content
+    rescue ArgumentError
+      nil
     end
 
     private
