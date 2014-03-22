@@ -23,6 +23,7 @@ module CommentExtractor
 
     def self.initialize_with_extractor(file_path, extractor)
       content = File.open(file_path, 'r') { |f| f.read_content }
+      return unless content
 
       # Initialize parser
       code_objects = CodeObjects.new(file: file_path)

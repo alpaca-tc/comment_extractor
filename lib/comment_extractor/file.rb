@@ -8,11 +8,11 @@ module CommentExtractor
     attr_accessor :content, :shebang
 
     def self.shebang(path)
-      if File.extname(path).empty?
-        line = File.open(path) { |f| f.gets }
-        if /\A#!\s*(?<shebang_path>.+)/ =~ line
-          shebang_path
-        end
+      return if !File.extname(path).empty? || File.binary?(path)
+
+      line = File.open(path) { |f| f.gets }
+      if /\A#!\s*(?<shebang_path>.+)/ =~ line
+        shebang_path
       end
     end
 
@@ -34,13 +34,11 @@ module CommentExtractor
     end
 
     def read_content
-      return if File.binary?(self.path)
-
       if File.shebang(self.path)
         self.gets # Remove shebang
       end
 
-      CommentExtractor::Encoding.encode(self.read) || ''
+      CommentExtractor::Encoding.encode(self.read)
     end
   end
 end

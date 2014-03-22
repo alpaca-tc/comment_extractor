@@ -1,6 +1,5 @@
 # Copyright (c) 2006-2009 Hampton Catlin and Nathan Weizenbaum and @alpaca-tc
 
-require 'haml'
 require 'comment_extractor/extractor'
 
 class CommentExtractor::Extractor::Haml < CommentExtractor::Extractor
@@ -9,6 +8,7 @@ class CommentExtractor::Extractor::Haml < CommentExtractor::Extractor
 
   # [review] - incompleted method
   def scan
+    require 'haml'
     options = ::Haml::Options.new
     parser = ::Haml::Parser.new(self.content, options)
     parsered = parser.parse

@@ -36,16 +36,16 @@ module CommentExtractor
         return if File.binary?(file_path)
 
         extractor = nil
-        if shebang = File.shebang(file_path)
-          extractor = find_by_shebang(shebang)
-        end
+        extractor = find_by_filename(file_path)
 
         unless extractor
-          extractor = find_by_filename(file_path)
+          if shebang = File.shebang(file_path)
+            extractor = find_by_shebang(shebang)
+          end
         end
 
-        if ::CommentExtractor.configuration.use_default_extractor
-          extractor = default_extractor unless extractor
+        if !extractor && ::CommentExtractor.configuration.use_default_extractor
+          extractor = default_extractor
         end
 
         extractor

@@ -6,5 +6,16 @@ class CommentExtractor::Extractor::Text < CommentExtractor::Extractor
   filename /\.txt$/
   filetype 'text'
 
-  comment start_with: /#/
+  def scan
+    count = 0
+    until scanner.eos?
+      scanner.scan(/\n/)
+      line = scanner.scan(/^.*$/)
+      if /#(?<comment>.*)/ =~ line
+        code_objects << build_comment(count, comment, {})
+      end
+
+      count += 0
+    end
+  end
 end

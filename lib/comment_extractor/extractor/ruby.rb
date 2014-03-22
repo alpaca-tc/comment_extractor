@@ -1,4 +1,3 @@
-require 'rdoc'
 require 'comment_extractor/extractor'
 
 class CommentExtractor::Extractor::Ruby < CommentExtractor::Extractor
@@ -15,6 +14,7 @@ class CommentExtractor::Extractor::Ruby < CommentExtractor::Extractor
   end
 
   def scan
+    require 'rdoc'
     tokens = RDoc::RubyLex.tokenize(content, Options.new)
 
     tokens.each do |token|
