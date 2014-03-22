@@ -3,6 +3,7 @@ require 'comment_extractor/encoding'
 module CommentExtractor
   class File < ::File
     THRESHOLD_BINARY = 0.3
+    BINARY_EXTENSIONS = Hash[%w(.flv .swf .png .jpg .gif .asx .zip .rar .tar .7z .gz .jar .js .css .dtd .xsd .ico .raw .mp3 .mp4 .wav .wmv .ape .aac .ac3 .wma .aiff .mpg .mpeg .avi .mov .ogg .mkv .mka .asx .asf .mp2 .m1v .m3u .f4v .pdf .doc .xls .ppt .pps .bin .exe .rss .xml).zip]
 
     attr_accessor :content, :shebang
 
@@ -16,13 +17,19 @@ module CommentExtractor
     end
 
     def self.binary?(file_path)
-      header = File.read(file_path, File.stat(file_path).blksize) || nil
+      extname = File.extname(file_path)
 
-      if header.nil? || header.empty?
-        false
+      if extname.empty?
+        header = File.read(file_path, File.stat(file_path).blksize) || nil
+
+        if header.nil? || header.empty?
+          false
+        else
+          chars = header.chars
+          (chars.grep(' '..'~').size / chars.size.to_f) <= THRESHOLD_BINARY
+        end
       else
-        chars = header.chars
-        (chars.grep(' '..'~').size / chars.size.to_f) <= THRESHOLD_BINARY
+        BINARY_EXTENSIONS.has_key?(extname)
       end
     end
 
